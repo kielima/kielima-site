@@ -1,0 +1,10 @@
+{
+  // Worker só de assets estáticos: não há "main" nem "binding", porque não
+  // existe código de Worker — só arquivos servidos direto da borda.
+  // Requisições sem correspondência retornam 404, que é o comportamento padrão.
+  "name": "kielima-site",
+  "compatibility_date": "2026-08-18",
+  "assets": {
+    "directory": "./public"
+  }
+}

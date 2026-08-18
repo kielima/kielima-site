@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiê Lima — Papel semente</title>
+<meta name="description" content="O cartão físico é impresso em papel semente: celulose reciclada, sem plástico e sem laminação, com sementes prensadas na própria folha. Como plantar.">
+<meta name="theme-color" content="#f8f8f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d110e" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://kielima.com/cartao/papel-semente">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Plante este cartão.">
+<meta property="og:description" content="Papel semente: celulose reciclada, sem plástico, com sementes prensadas na folha.">
+<meta property="og:url" content="https://kielima.com/cartao/papel-semente">
+<meta name="twitter:card" content="summary">
+
+<!-- Mesmo tema escolhido no cartão -->
+<script>
+  try {
+    var t = localStorage.getItem('kl-theme');
+    if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;1,400;1,500&family=Geist:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/base.css">
+<link rel="stylesheet" href="/assets/papel-semente.css">
+</head>
+<body>
+
+<div class="shell seed-shell">
+
+  <div class="garden garden--left" id="garden-left" aria-hidden="true"></div>
+  <div class="garden garden--right" id="garden-right" aria-hidden="true"></div>
+
+  <header class="seed-topbar">
+    <a class="back-link" href="/cartao">← <span data-i18n="back"></span></a>
+    <select class="lang-select" id="lang-select" aria-label="Idioma / Language / 语言">
+      <option value="PT">PT</option>
+      <option value="EN">EN</option>
+      <option value="ZH">中文</option>
+    </select>
+  </header>
+
+  <main>
+    <div class="seed-intro">
+      <span class="kicker" data-i18n="kicker"></span>
+      <h1 data-i18n="title"></h1>
+      <p class="lead" data-i18n="lead"></p>
+    </div>
+
+    <div class="rule rule--seed"></div>
+
+    <section class="seed-section seed-section--steps">
+      <span class="section-label" data-i18n="stepsLabel"></span>
+      <ol class="steps" id="steps"></ol>
+    </section>
+
+    <section class="seed-section seed-section--specs">
+      <span class="section-label" data-i18n="specsLabel"></span>
+      <dl class="specs" id="specs"></dl>
+    </section>
+
+    <div class="seed-outro">
+      <p class="closing" data-i18n="closing"></p>
+      <a class="back-link" href="/cartao">← <span data-i18n="back"></span></a>
+    </div>
+  </main>
+
+</div>
+
+<script src="/assets/i18n.js"></script>
+<script src="/assets/papel-semente.js"></script>
+</body>
+</html>

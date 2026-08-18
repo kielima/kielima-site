@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiê Lima</title>
+<meta name="description" content="Kiê Lima — engenheira civil, mestranda em Sistemas de Infraestrutura Urbana (PUC-Campinas). Pesquisa em Avaliação de Ciclo de Vida de concreto reciclado e concreto de ultra alto desempenho (UHPC).">
+<meta name="theme-color" content="#f8f8f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d110e" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://kielima.com/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Kiê Lima">
+<meta property="og:description" content="Avaliação de ciclo de vida de materiais de construção e infraestrutura urbana sustentável.">
+<meta property="og:url" content="https://kielima.com/">
+<meta name="twitter:card" content="summary">
+
+<script>
+  try {
+    var t = localStorage.getItem('kl-theme');
+    if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;1,400;1,500&family=Geist:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/base.css">
+<link rel="stylesheet" href="/assets/home.css">
+</head>
+<body>
+
+<div class="shell home-shell">
+
+  <header class="home-topbar">
+    <a class="home-brand" href="#topo">Kiê Lima</a>
+    <nav class="home-nav">
+      <a href="#trajetoria" data-i18n="navAbout"></a>
+      <a href="#pesquisa" data-i18n="navResearch"></a>
+      <a href="#contato" data-i18n="navContact"></a>
+    </nav>
+    <div class="home-actions">
+      <button type="button" class="theme-toggle" id="theme-toggle">
+        <svg class="icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><line x1="12" y1="2.6" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="21.4"></line><line x1="2.6" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="21.4" y2="12"></line><line x1="5.6" y1="5.6" x2="7.3" y2="7.3"></line><line x1="16.7" y1="16.7" x2="18.4" y2="18.4"></line><line x1="5.6" y1="18.4" x2="7.3" y2="16.7"></line><line x1="16.7" y1="7.3" x2="18.4" y2="5.6"></line></svg>
+        <svg class="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.2 14.6A8.6 8.6 0 0 1 9.4 3.8a8.6 8.6 0 1 0 10.8 10.8z"></path></svg>
+      </button>
+      <select class="lang-select" id="lang-select" aria-label="Idioma / Language / 语言">
+        <option value="PT">PT</option>
+        <option value="EN">EN</option>
+        <option value="ZH">中文</option>
+      </select>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="home-hero" id="topo">
+      <span class="kicker" data-i18n="heroKicker"></span>
+      <h1 data-i18n="name">Kiê Lima</h1>
+      <p class="home-role" data-i18n="heroRole"></p>
+      <p class="home-lead" data-i18n="heroLead"></p>
+      <div class="cta-row">
+        <a class="btn btn--primary" href="/cartao" data-i18n="ctaCard"></a>
+        <a class="btn" href="mailto:kie@kielima.com">kie@kielima.com</a>
+      </div>
+    </section>
+
+    <div class="rule rule--home"></div>
+
+    <section class="section" id="trajetoria">
+      <span class="section-label" data-i18n="aboutLabel"></span>
+      <h2 data-i18n="aboutTitle"></h2>
+      <p data-i18n="aboutP1"></p>
+      <p data-i18n="aboutP2"></p>
+      <ul class="timeline" id="education"></ul>
+    </section>
+
+    <div class="rule rule--home"></div>
+
+    <section class="section" id="pesquisa">
+      <span class="section-label" data-i18n="researchLabel"></span>
+      <h2 data-i18n="researchTitle"></h2>
+      <p data-i18n="researchP1"></p>
+      <p data-i18n="researchP2"></p>
+      <span class="section-label" data-i18n="pubsLabel" style="margin-top:14px"></span>
+      <ul class="pubs" id="pubs"></ul>
+    </section>
+
+    <div class="rule rule--home"></div>
+
+    <section class="section" id="contato">
+      <span class="section-label" data-i18n="contactLabel"></span>
+      <h2 data-i18n="contactTitle"></h2>
+      <p data-i18n="contactP"></p>
+      <ul class="contacts" id="contacts"></ul>
+    </section>
+
+  </main>
+
+  <footer class="home-footer">
+    <span class="home-mission" data-i18n="mission"></span>
+    <span class="home-copyright">© 2026 Kiê Lima</span>
+  </footer>
+
+</div>
+
+<script src="/assets/i18n.js"></script>
+<script src="/assets/theme.js"></script>
+<script src="/assets/home.js"></script>
+</body>
+</html>

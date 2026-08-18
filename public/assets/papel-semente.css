@@ -1,0 +1,292 @@
+/* Papel semente — kielima.com/cartao/papel-semente */
+
+.seed-shell {
+  font-family: var(--sans);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Canteiros decorativos nas margens: só aparecem quando sobra espaço
+   fora da coluna de 1000px de conteúdo. */
+.garden {
+  position: fixed;
+  bottom: 0;
+  width: max(0px, calc((100vw - 1000px) / 2 - 12px));
+  max-width: 150px;
+  height: 72vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.garden--left {
+  left: 0;
+  animation: sway 6s ease-in-out infinite alternate;
+}
+
+.garden--right {
+  right: 0;
+  animation: sway 7s ease-in-out infinite alternate-reverse;
+}
+
+.stem {
+  position: absolute;
+  bottom: 0;
+  width: 1.5px;
+  background: linear-gradient(180deg, var(--green-soft), var(--green));
+  opacity: 0.45;
+  transform-origin: bottom center;
+  animation: stemGrow 2.6s cubic-bezier(0.22, 0.9, 0.28, 1) both;
+}
+
+.leaf-a,
+.leaf-b,
+.tip {
+  position: absolute;
+  animation: leafIn 0.9s cubic-bezier(0.22, 0.9, 0.28, 1) both;
+}
+
+.leaf-a {
+  left: 1px;
+  border-radius: 0 100% 0 100%;
+  background: var(--green);
+  opacity: 0.5;
+  transform-origin: left center;
+}
+
+.leaf-b {
+  right: 1px;
+  border-radius: 100% 0 100% 0;
+  background: var(--green-soft);
+  opacity: 0.45;
+  transform-origin: right center;
+}
+
+.tip {
+  left: -2px;
+  top: -3px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--green-soft);
+  opacity: 0.55;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-out;
+}
+
+@keyframes stemGrow {
+  from {
+    transform: scaleY(0) rotate(var(--tilt, 0deg));
+  }
+  to {
+    transform: scaleY(1) rotate(var(--tilt, 0deg));
+  }
+}
+
+@keyframes leafIn {
+  from {
+    transform: scale(0) rotate(var(--lrot, 0deg));
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(var(--lrot, 0deg));
+    opacity: 1;
+  }
+}
+
+@keyframes sway {
+  from {
+    transform: translateX(-1.5px);
+  }
+  to {
+    transform: translateX(1.5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .garden--left,
+  .garden--right,
+  .leaf-a,
+  .leaf-b,
+  .tip {
+    animation: none;
+  }
+
+  .stem {
+    animation: none;
+    transform: rotate(var(--tilt, 0deg));
+  }
+}
+
+/* ------------------------------------------------------------- conteúdo */
+
+.seed-topbar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 28px clamp(24px, 5vw, 64px);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.back-link {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: var(--green);
+}
+
+.seed-intro,
+.seed-section {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.seed-intro {
+  padding: clamp(24px, 5vw, 56px) clamp(24px, 5vw, 64px) clamp(48px, 6vw, 80px);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.seed-intro h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(38px, 6vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.lead {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(19px, 2.3vw, 26px);
+  line-height: 1.45;
+  color: var(--ink-65);
+  max-width: 660px;
+  margin: 0;
+}
+
+.rule--seed {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+}
+
+.seed-section--steps {
+  padding: clamp(44px, 6vw, 72px) clamp(24px, 5vw, 64px);
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  margin: 30px 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 18px;
+  align-items: baseline;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 22px;
+}
+
+.step-num {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--green-soft);
+}
+
+.step-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.step-title {
+  font-family: var(--serif);
+  font-size: clamp(19px, 2.2vw, 25px);
+  line-height: 1.3;
+}
+
+.step-text {
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--ink-78);
+  max-width: 600px;
+}
+
+.seed-section--specs {
+  padding: 0 clamp(24px, 5vw, 64px) clamp(48px, 6vw, 80px);
+}
+
+.specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 26px 40px;
+  margin: 26px 0 0;
+}
+
+.spec {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  margin: 0;
+}
+
+.spec-key {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+}
+
+.spec-value {
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.seed-outro {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 64px) clamp(56px, 7vw, 96px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.closing {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(18px, 2.1vw, 23px);
+  line-height: 1.5;
+  color: var(--green);
+  max-width: 620px;
+  margin: 0;
+}

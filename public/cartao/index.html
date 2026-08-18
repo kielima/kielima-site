@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiê Lima</title>
+<meta name="description" content="Engenheira civil (PUC-Campinas), MBA em Gestão de Projetos pela FGV e mestranda em Sistemas de Infraestrutura Urbana. Pesquisa em Avaliação de Ciclo de Vida de materiais cimentícios.">
+<meta name="theme-color" content="#f8f8f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d110e" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://kielima.com/cartao">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Kiê Lima">
+<meta property="og:description" content="Pesquisa e inovação em materiais sustentáveis para construção.">
+<meta property="og:url" content="https://kielima.com/cartao">
+<meta name="twitter:card" content="summary">
+
+<!-- Aplica o tema salvo antes da primeira pintura, para não piscar branco em modo escuro -->
+<script>
+  try {
+    var t = localStorage.getItem('kl-theme');
+    if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;1,400;1,500&family=Geist:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/base.css">
+<link rel="stylesheet" href="/assets/cartao.css">
+</head>
+<body>
+
+<div class="shell card-shell">
+
+  <div class="particles" id="particles" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <span class="brand" data-i18n="brand"></span>
+    <div class="topbar-actions">
+      <button type="button" class="theme-toggle" id="theme-toggle">
+        <svg class="icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><line x1="12" y1="2.6" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="21.4"></line><line x1="2.6" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="21.4" y2="12"></line><line x1="5.6" y1="5.6" x2="7.3" y2="7.3"></line><line x1="16.7" y1="16.7" x2="18.4" y2="18.4"></line><line x1="5.6" y1="18.4" x2="7.3" y2="16.7"></line><line x1="16.7" y1="7.3" x2="18.4" y2="5.6"></line></svg>
+        <svg class="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.2 14.6A8.6 8.6 0 0 1 9.4 3.8a8.6 8.6 0 1 0 10.8 10.8z"></path></svg>
+      </button>
+      <select class="lang-select" id="lang-select" aria-label="Idioma / Language / 语言">
+        <option value="PT">PT</option>
+        <option value="EN">EN</option>
+        <option value="ZH">中文</option>
+      </select>
+    </div>
+  </header>
+
+  <main class="hero">
+    <h1 data-i18n="name">Kiê Lima</h1>
+
+    <div class="links">
+      <a href="mailto:kie@kielima.com" id="email-link" title="kie@kielima.com" aria-label="kie@kielima.com">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><polyline points="2,5 12,13 22,5"></polyline></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/kielima/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="8.5" width="4" height="12.5"></rect><circle cx="4.5" cy="4.5" r="1.8"></circle><path d="M10.5 21V8.5h4v2C15.5 9 17 8.3 18.5 8.3c2.8 0 4 1.9 4 5.2V21h-4v-6.5c0-1.4-.5-2.4-1.9-2.4-1.4 0-2.1 1-2.1 2.4V21h-4z"></path></svg>
+      </a>
+      <a href="https://github.com/kielima" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.4c0-1 .1-1.5-.5-2.1 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C7.1 4.1 6 4.4 6 4.4a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4.6 10.9c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2.1V22"></path></svg>
+      </a>
+      <a href="https://orcid.org/0000-0003-0294-5676" target="_blank" rel="noopener" title="ORCID" aria-label="ORCID">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="8.2" cy="8" r="0.9" fill="currentColor" stroke="none"></circle><line x1="8.2" y1="10.6" x2="8.2" y2="16.5"></line><path d="M11 10.6h2.3c2 0 3.5 1.3 3.5 3s-1.5 3-3.5 3H11z"></path></svg>
+      </a>
+      <a href="https://wa.me/5519982666695" target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="translate(12 12) scale(1.2) translate(-12 -12)"><path d="M4 20l1.3-3.9A8 8 0 1 1 8.6 19L4 20z"></path><path d="M9 9.8c0 3 2.6 5.6 5.6 5.6.5 0 .9-.6.9-1.1s-.2-.6-.6-.8l-1.4-.7c-.3-.1-.6-.1-.8.2l-.3.5c-1-.6-1.9-1.5-2.5-2.5l.5-.3c.3-.2.3-.5.2-.8L10.1 8.5c-.2-.4-.4-.6-.8-.6-.5 0-1.1.4-1.1.9z" fill="currentColor" stroke="none"></path></g></svg>
+      </a>
+      <span class="copied" id="copied" data-i18n="copied" role="status" hidden></span>
+    </div>
+
+    <button type="button" class="add-contact" id="add-contact">
+      <span class="spec-ring" aria-hidden="true"></span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="3.2"></circle><path d="M2.5 21v-1.6a5 5 0 0 1 5-5h3a5 5 0 0 1 2.3.55"></path><line x1="17.5" y1="13.5" x2="17.5" y2="19.5"></line><line x1="14.5" y1="16.5" x2="20.5" y2="16.5"></line></svg>
+      <span data-i18n="addContact"></span>
+    </button>
+
+    <p class="role" data-i18n="role"></p>
+    <p class="bio" data-i18n="bio"></p>
+    <p class="seed-note">
+      <span data-i18n="seedNote"></span>
+      <a href="/cartao/papel-semente" data-i18n="seedLink"></a>
+    </p>
+  </main>
+
+  <div class="rule rule--card"></div>
+
+  <footer class="card-footer">
+    <span class="mission" data-i18n="mission"></span>
+    <span class="copyright">© 2026 Kiê Lima</span>
+  </footer>
+
+</div>
+
+<script src="/assets/i18n.js"></script>
+<script src="/assets/theme.js"></script>
+<script src="/assets/particles.js"></script>
+<script src="/assets/cartao.js"></script>
+</body>
+</html>
