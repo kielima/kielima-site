@@ -5,9 +5,13 @@
   "description": "Site pessoal de Kiê Lima — kielima.com",
   "scripts": {
     "deploy": "wrangler deploy",
-    "dev": "wrangler dev"
+    "dev": "wrangler dev",
+    "verificar": "node scripts/verificar.mjs",
+    "navegador": "node scripts/navegador.mjs",
+    "testar": "npm run verificar && npm run navegador"
   },
   "devDependencies": {
-    "wrangler": "^4.123.0"
+    "wrangler": "^4.123.0",
+    "playwright": "^1.62.1"
   }
 }
