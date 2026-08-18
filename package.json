@@ -1,0 +1,13 @@
+{
+  "name": "kielima-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site pessoal de Kiê Lima — kielima.com",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev"
+  },
+  "devDependencies": {
+    "wrangler": "^4.123.0"
+  }
+}
