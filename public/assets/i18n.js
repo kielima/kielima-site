@@ -40,7 +40,13 @@
       var nodes = document.querySelectorAll('[data-i18n]');
       for (var i = 0; i < nodes.length; i++) {
         var key = nodes[i].getAttribute('data-i18n');
+        // Faltando a chave no idioma pedido, cai para PT em vez de deixar na
+        // tela o texto do idioma anterior — que seria pior: em vez de uma
+        // frase reconhecidamente fora de lugar, o leitor veria a mistura sem
+        // perceber. O CI impede que isso aconteça, mas se acontecer, que
+        // aconteça de forma previsível.
         if (key in strings) nodes[i].textContent = strings[key];
+        else if (copy.PT && key in copy.PT) nodes[i].textContent = copy.PT[key];
       }
       document.documentElement.setAttribute('lang', HTML_LANG[lang]);
       if (select) select.value = lang;

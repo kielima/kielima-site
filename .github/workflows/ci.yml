@@ -1,0 +1,34 @@
+# Ensaio de recebimento: roda a cada PR e a cada push na main.
+# Nada vai ao ar sem passar por aqui.
+name: Verificar o site
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  verificar:
+    name: Ensaios
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+
+      # Rápidas: referências de arquivo, sintaxe, paridade de idiomas e a
+      # trava que impede o Pages de publicar mais que a pasta do site.
+      - name: Verificações estáticas
+        run: npm run verificar
+
+      - name: Instalar o Chromium
+        run: npx playwright install --with-deps chromium
+
+      # Abre as três páginas de verdade, nos três idiomas e nos dois temas.
+      - name: Verificações de navegador
+        run: npm run navegador
