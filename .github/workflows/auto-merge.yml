@@ -89,16 +89,20 @@ jobs:
       # Motivo deste step: merges feitos via API com o GITHUB_TOKEN (assim
       # como qualquer push feito por ele) NÃO disparam outros workflows que
       # escutam `push: branches: [main]` — é uma regra anti-loop do GitHub.
-      # Sem isto, "Publicar no GitHub Pages" e "Verificar o site" ficariam
-      # silenciosamente parados após cada auto-merge. NÃO REMOVER, mesmo que
-      # pareça redundante: workflow_dispatch é a exceção documentada que o
-      # GITHUB_TOKEN pode invocar para religar esses workflows manualmente.
+      # Sem isto, "Verificar o site" ficaria silenciosamente parado na main
+      # após cada auto-merge. NÃO REMOVER, mesmo que pareça redundante:
+      # workflow_dispatch é a exceção documentada que o GITHUB_TOKEN pode
+      # invocar para religar esses workflows manualmente.
+      #
+      # A publicação do site NÃO depende deste step: quem publica é o
+      # Cloudflare Workers Builds, que escuta o repositório direto e não
+      # passa pelo GitHub Actions.
       - name: Trigger downstream workflows
         if: steps.pr.outputs.found == 'true'
         uses: actions/github-script@v7
         with:
           script: |
-            const workflows = ['ci.yml', 'pages.yml'];
+            const workflows = ['ci.yml'];
 
             for (const workflow_id of workflows) {
               await github.rest.actions.createWorkflowDispatch({
