@@ -6,6 +6,11 @@ on:
   pull_request:
   push:
     branches: [main]
+  # Exceção documentada à regra de anti-loop do GITHUB_TOKEN: pushes feitos
+  # pelo GITHUB_TOKEN (incluindo o merge do auto-merge.yml) não disparam o
+  # gatilho `push`, então o auto-merge rechama este workflow via
+  # workflow_dispatch depois de mesclar na main.
+  workflow_dispatch:
 
 jobs:
   verificar:
