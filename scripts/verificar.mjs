@@ -124,6 +124,20 @@ for (const js of arquivos(PUBLICO, /\.js$/)) {
   }
 }
 
+/* 7 — O CI continua rodando as duas camadas --------------------------------
+   Um CI pode ser desativado sem que nada fique vermelho: basta apagar um
+   step. Foi o que aconteceu em 18/08/2026 — as verificações de navegador
+   sumiram do ci.yml num PR que dizia mexer só no gatilho, e por algumas
+   horas metade do ensaio deixou de existir em silêncio. Esta verificação
+   faz o CI conferir a própria integridade. */
+const ci = join(RAIZ, '.github/workflows/ci.yml');
+if (existsSync(ci)) {
+  const conteudo = readFileSync(ci, 'utf8');
+  for (const comando of ['npm run verificar', 'npm run navegador']) {
+    if (!conteudo.includes(comando)) erros.push(`ci.yml: não roda mais "${comando}"`);
+  }
+}
+
 if (erros.length) {
   console.error(`\n✗ ${erros.length} problema(s):\n`);
   for (const e of erros) console.error(`  · ${e}`);
