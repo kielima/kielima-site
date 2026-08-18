@@ -30,3 +30,13 @@ jobs:
       # trava que impede um workflow de publicar mais que a pasta do site.
       - name: Verificações estáticas
         run: npm run verificar
+
+      - name: Instalar o Chromium
+        run: npx playwright install --with-deps chromium
+
+      # Abre as três páginas de verdade, nos três idiomas e nos dois temas,
+      # em desktop e celular. É esta camada que pega erro de JavaScript,
+      # vCard que não é gerado e tradução que não aparece na tela — nada
+      # disso é visível para as verificações estáticas.
+      - name: Verificações de navegador
+        run: npm run navegador
