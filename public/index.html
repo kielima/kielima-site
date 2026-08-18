@@ -33,6 +33,8 @@
 
 <div class="shell home-shell">
 
+  <div class="particles" id="particles" aria-hidden="true"></div>
+
   <header class="home-topbar">
     <a class="home-brand" href="#topo">Kiê Lima</a>
     <nav class="home-nav">
@@ -61,8 +63,11 @@
       <p class="home-role" data-i18n="heroRole"></p>
       <p class="home-lead" data-i18n="heroLead"></p>
       <div class="cta-row">
-        <a class="btn btn--primary" href="/cartao" data-i18n="ctaCard"></a>
-        <a class="btn" href="mailto:kie@kielima.com">kie@kielima.com</a>
+        <a class="btn" href="mailto:kie@kielima.com" id="email-cta">
+          <span class="spec-ring" aria-hidden="true"></span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><polyline points="2,5 12,13 22,5"></polyline></svg>
+          <span>kie@kielima.com</span>
+        </a>
       </div>
     </section>
 
@@ -93,7 +98,24 @@
       <span class="section-label" data-i18n="contactLabel"></span>
       <h2 data-i18n="contactTitle"></h2>
       <p data-i18n="contactP"></p>
-      <ul class="contacts" id="contacts"></ul>
+      <div class="links">
+        <a href="mailto:kie@kielima.com" id="email-link" title="kie@kielima.com" aria-label="kie@kielima.com">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><polyline points="2,5 12,13 22,5"></polyline></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/kielima/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="8.5" width="4" height="12.5"></rect><circle cx="4.5" cy="4.5" r="1.8"></circle><path d="M10.5 21V8.5h4v2C15.5 9 17 8.3 18.5 8.3c2.8 0 4 1.9 4 5.2V21h-4v-6.5c0-1.4-.5-2.4-1.9-2.4-1.4 0-2.1 1-2.1 2.4V21h-4z"></path></svg>
+        </a>
+        <a href="https://github.com/kielima" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.4c0-1 .1-1.5-.5-2.1 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C7.1 4.1 6 4.4 6 4.4a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4.6 10.9c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2.1V22"></path></svg>
+        </a>
+        <a href="https://orcid.org/0000-0003-0294-5676" target="_blank" rel="noopener" title="ORCID 0000-0003-0294-5676" aria-label="ORCID 0000-0003-0294-5676">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="8.2" cy="8" r="0.9" fill="currentColor" stroke="none"></circle><line x1="8.2" y1="10.6" x2="8.2" y2="16.5"></line><path d="M11 10.6h2.3c2 0 3.5 1.3 3.5 3s-1.5 3-3.5 3H11z"></path></svg>
+        </a>
+        <a href="http://lattes.cnpq.br/8777364542894550" target="_blank" rel="noopener" title="Currículo Lattes" aria-label="Currículo Lattes">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.8h8.4L19 7.4V21a1.2 1.2 0 0 1-1.2 1.2H6A1.2 1.2 0 0 1 4.8 21V4A1.2 1.2 0 0 1 6 2.8z"></path><polyline points="14,2.8 14,8 19,8"></polyline><line x1="8.2" y1="12.4" x2="15" y2="12.4"></line><line x1="8.2" y1="16" x2="15" y2="16"></line></svg>
+        </a>
+        <span class="copied" id="copied" role="status" hidden></span>
+      </div>
     </section>
 
   </main>
@@ -107,6 +129,8 @@
 
 <script src="/assets/i18n.js"></script>
 <script src="/assets/theme.js"></script>
+<script src="/assets/specular.js"></script>
+<script src="/assets/particles.js"></script>
 <script src="/assets/home.js"></script>
 </body>
 </html>

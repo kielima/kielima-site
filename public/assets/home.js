@@ -7,10 +7,6 @@
   'use strict';
 
   var EMAIL = 'kie@kielima.com';
-  var LINKEDIN = 'https://www.linkedin.com/in/kielima/';
-  var GITHUB = 'https://github.com/kielima';
-  var ORCID = 'https://orcid.org/0000-0003-0294-5676';
-  var LATTES = 'http://lattes.cnpq.br/8777364542894550';
 
   var COPY = {
     PT: {
@@ -22,7 +18,6 @@
       heroKicker: 'ENGENHARIA CIVIL · PESQUISA · SUSTENTABILIDADE',
       heroRole: 'Avaliação de ciclo de vida de materiais de construção e infraestrutura urbana sustentável.',
       heroLead: 'Engenheira civil formada pela PUC-Campinas, com MBA em Gestão de Projetos pela FGV e mestrado em andamento em Sistemas de Infraestrutura Urbana. Pesquiso o custo ambiental do concreto — do berço ao túmulo.',
-      ctaCard: 'Cartão de visita',
 
       aboutLabel: 'TRAJETÓRIA',
       aboutTitle: 'Da obra para o ciclo de vida.',
@@ -44,7 +39,7 @@
           year: '2026',
           cite: 'JACINTHO, A. E. P. G. A.; LIMA, K. T.; SANTOS, L. G.; FORTI, N. C. S.; PIMENTEL, L. L. Comparison of CO₂ Emission of Concretes with Recycled Aggregates and UHPC.',
           venue: 'fib Congress 2026 — Lisboa, Portugal',
-          status: 'Aceito'
+          status: 'Publicado'
         },
         {
           year: '2022',
@@ -58,7 +53,8 @@
       contactLabel: 'CONTATO',
       contactTitle: 'Vamos conversar.',
       contactP: 'Aberta a colaborações de pesquisa, parcerias e oportunidades em ACV de materiais e infraestrutura urbana sustentável.',
-      contactKeys: { email: 'E-mail', linkedin: 'LinkedIn', github: 'GitHub', orcid: 'ORCID', lattes: 'Lattes' },
+
+      copied: 'kie@kielima.com copiado',
 
       mission: 'ES > G'
     },
@@ -72,7 +68,6 @@
       heroKicker: 'CIVIL ENGINEERING · RESEARCH · SUSTAINABILITY',
       heroRole: 'Life cycle assessment of construction materials and sustainable urban infrastructure.',
       heroLead: 'Civil engineer from PUC-Campinas, with an MBA in Project Management from FGV and an ongoing MSc in Urban Infrastructure Systems. My research is on the environmental cost of concrete — cradle to grave.',
-      ctaCard: 'Business card',
 
       aboutLabel: 'BACKGROUND',
       aboutTitle: 'From the building site to the life cycle.',
@@ -94,7 +89,7 @@
           year: '2026',
           cite: 'JACINTHO, A. E. P. G. A.; LIMA, K. T.; SANTOS, L. G.; FORTI, N. C. S.; PIMENTEL, L. L. Comparison of CO₂ Emission of Concretes with Recycled Aggregates and UHPC.',
           venue: 'fib Congress 2026 — Lisbon, Portugal',
-          status: 'Accepted'
+          status: 'Published'
         },
         {
           year: '2022',
@@ -108,7 +103,8 @@
       contactLabel: 'CONTACT',
       contactTitle: 'Let’s talk.',
       contactP: 'Open to research collaborations, partnerships and opportunities in materials LCA and sustainable urban infrastructure.',
-      contactKeys: { email: 'Email', linkedin: 'LinkedIn', github: 'GitHub', orcid: 'ORCID', lattes: 'Lattes' },
+
+      copied: 'kie@kielima.com copied',
 
       mission: 'Environmental and social impact, prioritized above all else.'
     },
@@ -122,7 +118,6 @@
       heroKicker: '土木工程 · 科研 · 可持续发展',
       heroRole: '建筑材料的生命周期评估与可持续城市基础设施。',
       heroLead: '毕业于坎皮纳斯天主教大学的土木工程师，持有FGV项目管理MBA学位，目前攻读城市基础设施系统硕士学位。研究方向是混凝土的环境代价——从摇篮到坟墓。',
-      ctaCard: '电子名片',
 
       aboutLabel: '经历',
       aboutTitle: '从工地走向生命周期。',
@@ -144,7 +139,7 @@
           year: '2026',
           cite: 'JACINTHO, A. E. P. G. A.; LIMA, K. T.; SANTOS, L. G.; FORTI, N. C. S.; PIMENTEL, L. L. Comparison of CO₂ Emission of Concretes with Recycled Aggregates and UHPC.',
           venue: 'fib Congress 2026 — 葡萄牙里斯本',
-          status: '已录用'
+          status: '已发表'
         },
         {
           year: '2022',
@@ -158,7 +153,8 @@
       contactLabel: '联系',
       contactTitle: '欢迎交流。',
       contactP: '欢迎在材料生命周期评估与可持续城市基础设施方向开展科研合作与各类合作。',
-      contactKeys: { email: '电子邮件', linkedin: '领英', github: 'GitHub', orcid: 'ORCID', lattes: 'Lattes' },
+
+      copied: 'kie@kielima.com 已复制',
 
       mission: '始终将环境与社会利益置于其他利益之上。'
     }
@@ -213,35 +209,39 @@
     host.appendChild(frag);
   }
 
-  function renderContacts(keys) {
-    var rows = [
-      { key: keys.email, label: EMAIL, href: 'mailto:' + EMAIL },
-      { key: keys.linkedin, label: 'linkedin.com/in/kielima', href: LINKEDIN },
-      { key: keys.github, label: 'github.com/kielima', href: GITHUB },
-      { key: keys.orcid, label: '0000-0003-0294-5676', href: ORCID },
-      { key: keys.lattes, label: 'lattes.cnpq.br', href: LATTES }
-    ];
+  var PALETTE = {
+    light: ['#1f5a3a', '#3ea568'],
+    dark: ['#eaeee8', '#a8dcbd']
+  };
 
-    var host = document.getElementById('contacts');
-    host.textContent = '';
-    var frag = document.createDocumentFragment();
+  var particles = window.KLParticles.init(document.getElementById('particles'), {
+    particleColors: PALETTE[window.KLTheme.isDark() ? 'dark' : 'light'],
+    particleCount: 200,
+    particleSpread: 10,
+    speed: 0.1,
+    particleBaseSize: 100,
+    moveParticlesOnHover: true,
+    alphaParticles: false,
+    disableRotation: false
+  });
 
-    for (var i = 0; i < rows.length; i++) {
-      var li = el('li');
-      li.appendChild(el('span', 'contact-key', rows[i].key));
+  window.KLSpecular.attach(document.getElementById('email-cta'));
 
-      var a = el('a', null, rows[i].label);
-      a.href = rows[i].href;
-      if (rows[i].href.indexOf('mailto:') !== 0) {
-        a.target = '_blank';
-        a.rel = 'noopener';
-      }
-      li.appendChild(a);
-      frag.appendChild(li);
-    }
-
-    host.appendChild(frag);
-  }
+  // Mesma conveniência do cartão: clicar no ícone de e-mail copia o endereço,
+  // para quem não tem cliente de e-mail configurado.
+  var copied = document.getElementById('copied');
+  var copyTimer;
+  document.getElementById('email-link').addEventListener('click', function () {
+    try {
+      if (navigator.clipboard) navigator.clipboard.writeText(EMAIL);
+    } catch (e) {}
+    copied.textContent = i18n ? i18n.strings().copied : EMAIL;
+    copied.hidden = false;
+    clearTimeout(copyTimer);
+    copyTimer = setTimeout(function () {
+      copied.hidden = true;
+    }, 2200);
+  });
 
   var themeCtl = null;
 
@@ -251,7 +251,6 @@
     onChange: function (lang, s) {
       renderEducation(s.education);
       renderPublications(s.publications);
-      renderContacts(s.contactKeys);
       if (themeCtl) themeCtl.sync();
     }
   });
@@ -259,6 +258,7 @@
   var toggle = document.getElementById('theme-toggle');
 
   themeCtl = window.KLTheme.attach(toggle, function (dark) {
+    if (particles) particles.setColors(PALETTE[dark ? 'dark' : 'light']);
     var lang = i18n ? i18n.current() : 'PT';
     var labels = {
       PT: { toDark: 'Modo escuro', toLight: 'Modo claro' },

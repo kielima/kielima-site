@@ -276,7 +276,9 @@
     }
 
     var mouse = { x: 0, y: 0 };
-    function onMouseMove(e) {
+    // pointermove, não mousemove: mousemove não existe em tela de toque, então
+    // no tablet o campo nunca reagia. pointermove cobre mouse, caneta e dedo.
+    function onPointerMove(e) {
       var rect = container.getBoundingClientRect();
       mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
@@ -336,7 +338,7 @@
     }
 
     window.addEventListener('resize', resize);
-    if (opts.moveParticlesOnHover && !reduceMotion) window.addEventListener('mousemove', onMouseMove);
+    if (opts.moveParticlesOnHover && !reduceMotion) window.addEventListener('pointermove', onPointerMove);
     document.addEventListener('visibilitychange', onVisibility);
 
     resize();
@@ -354,7 +356,7 @@
       destroy: function () {
         stop();
         window.removeEventListener('resize', resize);
-        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('pointermove', onPointerMove);
         document.removeEventListener('visibilitychange', onVisibility);
         if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
       }

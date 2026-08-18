@@ -157,6 +157,77 @@ a:hover {
   color: var(--ink-45);
 }
 
+/* Campo de partículas WebGL — fundo da home e do cartão */
+.particles {
+  position: fixed;
+  inset: 0;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Fila de ícones de contato */
+.links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+.links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.links a:hover,
+.links a:focus-visible {
+  color: var(--green-soft);
+}
+
+.links svg {
+  display: block;
+}
+
+.copied {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--green);
+}
+
+.copied[hidden] {
+  display: none;
+}
+
+/* Anel especular dos botões — ver assets/specular.js */
+.spec-ring {
+  position: absolute;
+  inset: -1px;
+  border-radius: 23px;
+  padding: 1px;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--spec-from, 121deg),
+    rgba(var(--spec-rgb), 0) 0deg,
+    rgba(var(--spec-rgb), var(--spec-a, 0.35)) 8deg,
+    rgba(var(--spec-rgb), 0) 30deg,
+    rgba(var(--spec-rgb), 0) 158deg,
+    rgba(var(--spec-rgb), var(--spec-a, 0.35)) 188deg,
+    rgba(var(--spec-rgb), 0) 210deg,
+    rgba(var(--spec-rgb), 0) 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: var(--spec-op, 0);
+  transition: opacity 0.3s ease;
+}
+
 .shell {
   background: var(--bg);
   color: var(--ink);

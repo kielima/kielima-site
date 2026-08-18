@@ -5,6 +5,7 @@
 }
 
 .home-topbar {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -57,6 +58,7 @@
 /* --------------------------------------------------------------- hero */
 
 .home-hero {
+  position: relative;
   max-width: 1180px;
   margin: 0 auto;
   padding: clamp(40px, 8vw, 104px) clamp(24px, 5vw, 64px) clamp(52px, 7vw, 96px);
@@ -100,6 +102,10 @@
 }
 
 .btn {
+  position: relative;
+  --spec-from: 121deg;
+  --spec-a: 0.35;
+  --spec-op: 0;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -121,17 +127,19 @@
   border-color: var(--green-soft);
 }
 
-.btn--primary {
-  border-color: var(--ink-20);
+.btn svg {
+  display: block;
 }
 
 /* ------------------------------------------------------------ seções */
 
 .rule--home {
+  position: relative;
   max-width: 1180px;
 }
 
 .section {
+  position: relative;
   max-width: 1180px;
   margin: 0 auto;
   padding: clamp(48px, 7vw, 88px) clamp(24px, 5vw, 64px);
@@ -269,46 +277,13 @@
 
 /* --------------------------------------------------------- contato */
 
-.contacts {
-  list-style: none;
-  margin: 12px 0 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 22px 44px;
-}
-
-.contacts li {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  border-top: 1px solid var(--line);
-  padding-top: 14px;
-}
-
-.contact-key {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-45);
-}
-
-.contacts a {
-  font-size: 16px;
-  color: var(--ink);
-  text-decoration: none;
-  border-bottom: 1px solid var(--ink-20);
-  width: fit-content;
-  word-break: break-word;
-}
-
-.contacts a:hover {
-  color: var(--green);
-  border-color: var(--green-soft);
+/* A seção de contato usa a fila de ícones .links, definida em base.css */
+.section .links {
+  margin-top: 8px;
 }
 
 .home-footer {
+  position: relative;
   max-width: 1180px;
   margin: 0 auto;
   padding: clamp(36px, 6vw, 64px) clamp(24px, 5vw, 64px);
