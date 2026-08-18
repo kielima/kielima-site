@@ -48,15 +48,22 @@ for (const html of arquivos(PUBLICO, /\.html$/)) {
   if (!/<html lang="/.test(conteudo)) erros.push(`${relativo(html)}: <html> sem atributo lang`);
 }
 
-/* 4 — O workflow do Pages publica SOMENTE a pasta do site -------------------
-   Esta é a verificação mais importante do arquivo. Se o caminho publicado
-   deixar de ser ./public, tudo o que estiver no repositório vai para a
-   internet. Falha barulhenta é melhor que vazamento silencioso. */
-const workflow = join(RAIZ, '.github/workflows/pages.yml');
-if (existsSync(workflow)) {
-  const caminhos = [...readFileSync(workflow, 'utf8').matchAll(/^\s*path:\s*(\S+)\s*$/gm)].map((m) => m[1]);
-  if (caminhos.length !== 1 || caminhos[0] !== './public') {
-    erros.push(`pages.yml: publica ${JSON.stringify(caminhos)} — só "./public" é permitido`);
+/* 4 — Nenhum workflow publica mais do que a pasta do site -------------------
+   Esta é a verificação mais importante do arquivo. Se algum dia voltar um
+   workflow de publicação e o caminho publicado não for ./public, tudo o que
+   estiver no repositório vai para a internet. Falha barulhenta é melhor que
+   vazamento silencioso — por isso a regra vale para qualquer workflow, não
+   só para o do Pages, que foi removido quando o site passou para o
+   Cloudflare. */
+const pastaWorkflows = join(RAIZ, '.github/workflows');
+if (existsSync(pastaWorkflows)) {
+  for (const wf of arquivos(pastaWorkflows, /\.ya?ml$/)) {
+    const conteudo = readFileSync(wf, 'utf8');
+    if (!/upload-pages-artifact/.test(conteudo)) continue;
+    const caminhos = [...conteudo.matchAll(/^\s*path:\s*(\S+)\s*$/gm)].map((m) => m[1]);
+    if (caminhos.length !== 1 || caminhos[0] !== './public') {
+      erros.push(`${relativo(wf)}: publica ${JSON.stringify(caminhos)} — só "./public" é permitido`);
+    }
   }
 }
 
