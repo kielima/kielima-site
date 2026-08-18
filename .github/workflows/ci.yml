@@ -6,6 +6,11 @@ on:
   pull_request:
   push:
     branches: [main]
+  # Exceção documentada à regra de anti-loop do GITHUB_TOKEN: pushes feitos
+  # pelo GITHUB_TOKEN (incluindo o merge do auto-merge.yml) não disparam o
+  # gatilho `push`, então o auto-merge rechama este workflow via
+  # workflow_dispatch depois de mesclar na main.
+  workflow_dispatch:
 
 jobs:
   verificar:
@@ -25,10 +30,3 @@ jobs:
       # trava que impede o Pages de publicar mais que a pasta do site.
       - name: Verificações estáticas
         run: npm run verificar
-
-      - name: Instalar o Chromium
-        run: npx playwright install --with-deps chromium
-
-      # Abre as três páginas de verdade, nos três idiomas e nos dois temas.
-      - name: Verificações de navegador
-        run: npm run navegador

@@ -1,0 +1,111 @@
+# Mescla automaticamente (squash) um Pull Request assim que o CI
+# ("Verificar o site") terminar com sucesso, sem exigir nenhuma interação
+# manual. Só age em PRs abertos e não-draft.
+name: Auto-merge de Pull Requests
+
+on:
+  workflow_run:
+    workflows: ["Verificar o site"]
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+  # Necessário para o step "Trigger downstream workflows" — sem isto o
+  # dispatch dos workflows de deploy falha com 403.
+  actions: write
+
+jobs:
+  auto-merge:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Find associated pull request
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const run = context.payload.workflow_run;
+
+            // O evento workflow_run já traz os PRs associados quando o CI
+            // rodou para um PR do mesmo repositório (não de um fork).
+            let pr = (run.pull_requests || [])[0];
+
+            if (!pr) {
+              const { data: prs } = await github.rest.pulls.list({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                head: `${context.repo.owner}:${run.head_branch}`,
+              });
+              pr = prs[0];
+            }
+
+            if (!pr) {
+              core.info('Nenhum PR aberto associado a este run de CI. Nada a fazer.');
+              core.setOutput('found', 'false');
+              return;
+            }
+
+            const { data: fullPr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+            });
+
+            if (fullPr.draft) {
+              core.info(`PR #${fullPr.number} é draft. Nada a fazer.`);
+              core.setOutput('found', 'false');
+              return;
+            }
+
+            if (fullPr.state !== 'open') {
+              core.info(`PR #${fullPr.number} não está aberto. Nada a fazer.`);
+              core.setOutput('found', 'false');
+              return;
+            }
+
+            core.setOutput('found', 'true');
+            core.setOutput('number', String(fullPr.number));
+            core.setOutput('title', fullPr.title);
+
+      - name: Squash-merge pull request
+        if: steps.pr.outputs.found == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = Number('${{ steps.pr.outputs.number }}');
+
+            await github.rest.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+              merge_method: 'squash',
+              commit_title: `${{ steps.pr.outputs.title }} (#${prNumber})`,
+            });
+
+            core.info(`PR #${prNumber} mesclado (squash).`);
+
+      # Motivo deste step: merges feitos via API com o GITHUB_TOKEN (assim
+      # como qualquer push feito por ele) NÃO disparam outros workflows que
+      # escutam `push: branches: [main]` — é uma regra anti-loop do GitHub.
+      # Sem isto, "Publicar no GitHub Pages" e "Verificar o site" ficariam
+      # silenciosamente parados após cada auto-merge. NÃO REMOVER, mesmo que
+      # pareça redundante: workflow_dispatch é a exceção documentada que o
+      # GITHUB_TOKEN pode invocar para religar esses workflows manualmente.
+      - name: Trigger downstream workflows
+        if: steps.pr.outputs.found == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const workflows = ['ci.yml', 'pages.yml'];
+
+            for (const workflow_id of workflows) {
+              await github.rest.actions.createWorkflowDispatch({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id,
+                ref: 'main',
+              });
+              core.info(`Disparado workflow_dispatch em ${workflow_id} (ref: main).`);
+            }
