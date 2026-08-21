@@ -113,6 +113,19 @@
 
   /* ------------------------------------------------------------ vCard (.vcf) */
 
+  // No Safari do iPhone/iPad, navegar o próprio separador para um recurso
+  // text/vcard (sem o atributo `download`) abre a prévia nativa de
+  // "Adicionar Contato" na hora, sem passar pela pasta Downloads. Esse
+  // comportamento é específico do WebKit/iOS -- nos demais navegadores
+  // (Android, desktop) não existe essa integração, então ali o download
+  // continua sendo o caminho mais previsível.
+  function isIOS() {
+    return (
+      /iP(hone|od|iPad)/.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+    );
+  }
+
   addButton.addEventListener('click', function () {
     var role = strings().role.replace(/[.。]$/, '');
     var vcard = [
@@ -131,6 +144,15 @@
 
     var blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
     var url = URL.createObjectURL(blob);
+
+    if (isIOS()) {
+      window.location.href = url;
+      setTimeout(function () {
+        URL.revokeObjectURL(url);
+      }, 3000);
+      return;
+    }
+
     var a = document.createElement('a');
     a.href = url;
     a.download = 'Kie-Lima.vcf';
