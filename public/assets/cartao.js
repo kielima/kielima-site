@@ -156,8 +156,8 @@
       'FN:Kiê Lima',
       'TITLE:' + role,
       'EMAIL;TYPE=INTERNET:' + EMAIL,
+      'URL:https://kielima.com',
       'URL:https://www.linkedin.com/in/kielima/',
-      'URL:https://github.com/kielima',
       'TEL;TYPE=CELL,VOICE:' + PHONE,
       'IMPP:whatsapp:' + PHONE,
       'END:VCARD'
