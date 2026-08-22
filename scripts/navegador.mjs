@@ -135,16 +135,6 @@ const navegador = await chromium.launch({
     problemas.push('/cartao/: o campo de partículas não foi criado');
   }
 
-  // O vCard precisa ser gerado ao clicar em "Adicionar contato".
-  const [baixado] = await Promise.all([
-    cartao.pagina.waitForEvent('download', { timeout: 5000 }).catch(() => null),
-    cartao.pagina.click('#add-contact'),
-  ]);
-  if (!baixado) problemas.push('/cartao/: o vCard não foi gerado');
-  else if (baixado.suggestedFilename() !== 'Kie-Lima.vcf') {
-    problemas.push(`/cartao/: vCard saiu como "${baixado.suggestedFilename()}"`);
-  }
-
   // A alternância de tema mostra um ícone por vez.
   await cartao.pagina.click('#theme-toggle');
   await cartao.pagina.waitForTimeout(400);
@@ -156,6 +146,27 @@ const navegador = await chromium.launch({
   if (icones.tema !== 'dark' || icones.sol !== 'block' || icones.lua !== 'none') {
     problemas.push(`/cartao/: alternância de tema errada — ${JSON.stringify(icones)}`);
   }
+
+  // O vCard precisa ser gerado ao clicar em "Adicionar contato". O botão usa
+  // um data: URI (sem nome de arquivo), então quem importa é o conteúdo, não
+  // o nome sugerido pelo navegador. Fica por último nesta página de propósito:
+  // o clique cria e clica um <a href="data:..."> na hora, que o Playwright
+  // entende como uma navegação que nunca "termina" de verdade (vira download)
+  // -- isso trava qualquer ação seguinte na mesma página, então nada roda
+  // depois dele aqui além de fechar o contexto.
+  const [baixado] = await Promise.all([
+    cartao.pagina.waitForEvent('download', { timeout: 5000 }).catch(() => null),
+    cartao.pagina.click('#add-contact', { noWaitAfter: true }),
+  ]);
+  if (!baixado) problemas.push('/cartao/: o vCard não foi gerado');
+  else {
+    const caminho = await baixado.path();
+    const conteudo = caminho ? await readFile(caminho, 'utf8') : '';
+    if (!conteudo.includes('BEGIN:VCARD') || !conteudo.includes('kie@kielima.com')) {
+      problemas.push(`/cartao/: vCard baixado com conteúdo inesperado: ${JSON.stringify(conteudo.slice(0, 80))}`);
+    }
+  }
+
   await cartao.ctx.close();
   await abrir(navegador, '/cartao/', { viewport: { width: 390, height: 844 } }).then((r) => r.ctx.close());
 }

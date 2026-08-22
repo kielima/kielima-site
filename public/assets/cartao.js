@@ -111,34 +111,18 @@
     }, 2200);
   });
 
-  /* ------------------------------------------------------------ vCard (.vcf) */
+  /* ------------------------------------------------------------------ vCard */
 
-  // Em navegadores móveis, navegar o próprio separador para um recurso
-  // real (não blob:) servido com Content-Type text/vcard -- sem
-  // Content-Disposition: attachment -- faz o sistema interceptar e abrir
-  // a tela nativa de "Adicionar Contato" na hora, sem passar pela pasta
-  // Downloads. Funciona tanto no Safari/iOS quanto no Chrome/Android,
-  // mas só de forma confiável com um arquivo real: um blob: não carrega
-  // os headers HTTP que o Android usa pra decidir abrir com o app de
-  // Contatos, e por isso baixa mesmo sem o atributo `download`. Sem TITLE
-  // no vCard, o conteúdo não varia mais por idioma -- um arquivo estático
-  // só (public/assets/kie-lima.vcf) serve pros três; o header continua
-  // em public/_headers.
-  var VCF = 'kie-lima.vcf';
-
-  function isIOS() {
-    return (
-      /iP(hone|od|iPad)/.test(navigator.userAgent) ||
-      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
-    );
-  }
-
-  function isAndroid() {
-    return /Android/.test(navigator.userAgent);
-  }
-
-  function montarVCard() {
-    return [
+  // vCard embutido direto num data: URI -- sem arquivo estático, sem
+  // download forçado -- foi o que funcionou melhor nos testes manuais em
+  // Android e iOS. Importante: `window.location.href = 'data:...'` é
+  // bloqueado silenciosamente pelo Chrome (política contra navegação de
+  // script para data: URLs) -- funciona só clicando um <a href="data:...">
+  // de verdade, por isso o elemento é criado na hora em vez de reatribuir
+  // location.href. Sem o atributo `download`: é a ausência dele que deixa
+  // iOS/Android tentar abrir com o app de Contatos em vez de forçar salvar.
+  addButton.addEventListener('click', function () {
+    var vcard = [
       'BEGIN:VCARD',
       'VERSION:3.0',
       'N:Lima;Kiê;;;',
@@ -149,32 +133,12 @@
       'IMPP:whatsapp:' + PHONE,
       'END:VCARD'
     ].join('\r\n');
-  }
-
-  addButton.addEventListener('click', function () {
-    if (isIOS() || isAndroid()) {
-      window.location.href = '/assets/' + VCF;
-      return;
-    }
-
-    // Desktop (e qualquer navegador não reconhecido acima): não existe
-    // integração nativa com um app de contatos, então baixar o arquivo
-    // continua sendo o caminho mais previsível.
-    var blob = new Blob([montarVCard()], { type: 'text/vcard;charset=utf-8' });
-    var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
-    a.href = url;
-    a.download = 'Kie-Lima.vcf';
+    a.href = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcard);
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    setTimeout(function () {
-      URL.revokeObjectURL(url);
-    }, 3000);
   });
 
   window.KLSpecular.attach(addButton);
-
-  // O botão de teste (data: URI) agora é todo em HTML, com onclick inline --
-  // ver o comentário dele em cartao/index.html. Não precisa de nada aqui.
 })();
