@@ -137,19 +137,9 @@
     return /Android/.test(navigator.userAgent);
   }
 
-  addButton.addEventListener('click', function () {
-    if (isIOS() || isAndroid()) {
-      var arquivo = VCF_POR_IDIOMA[i18n ? i18n.current() : 'PT'] || VCF_POR_IDIOMA.PT;
-      window.location.href = '/assets/' + arquivo;
-      return;
-    }
-
-    // Desktop (e qualquer navegador não reconhecido acima): não existe
-    // integração nativa com um app de contatos, então baixar o arquivo
-    // continua sendo o caminho mais previsível -- construído na hora,
-    // com o texto de TITLE do idioma atual, igual sempre foi.
+  function montarVCard() {
     var role = strings().role.replace(/[.。]$/, '');
-    var vcard = [
+    return [
       'BEGIN:VCARD',
       'VERSION:3.0',
       'N:Lima;Kiê;;;',
@@ -162,8 +152,20 @@
       'IMPP:whatsapp:' + PHONE,
       'END:VCARD'
     ].join('\r\n');
+  }
 
-    var blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
+  addButton.addEventListener('click', function () {
+    if (isIOS() || isAndroid()) {
+      var arquivo = VCF_POR_IDIOMA[i18n ? i18n.current() : 'PT'] || VCF_POR_IDIOMA.PT;
+      window.location.href = '/assets/' + arquivo;
+      return;
+    }
+
+    // Desktop (e qualquer navegador não reconhecido acima): não existe
+    // integração nativa com um app de contatos, então baixar o arquivo
+    // continua sendo o caminho mais previsível -- construído na hora,
+    // com o texto de TITLE do idioma atual, igual sempre foi.
+    var blob = new Blob([montarVCard()], { type: 'text/vcard;charset=utf-8' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url;
@@ -177,4 +179,19 @@
   });
 
   window.KLSpecular.attach(addButton);
+
+  /* ---- Botão de teste: vCard cru em data: URI, sem HTTP nenhum ------------
+     QR code e tag NFC carregam o vCard como texto puro dentro do próprio
+     código/chip -- não é um link pra buscar em servidor. Este botão testa
+     se navegar direto pra um data: URI (mesma ideia: o conteúdo já vem
+     embutido, sem round-trip de rede) muda o comportamento no Android/iOS
+     em relação ao arquivo estático servido por HTTP. Remover depois do
+     teste, junto com o botão em cartao/index.html. */
+  var testButton = document.getElementById('test-vcard-datauri');
+  if (testButton) {
+    testButton.addEventListener('click', function () {
+      var dataUri = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(montarVCard());
+      window.location.href = dataUri;
+    });
+  }
 })();
