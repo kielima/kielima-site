@@ -1,9 +1,0 @@
-# Content-Type correto para os .vcf estáticos do cartão de visita.
-# Sem isto, o servidor de assets do Cloudflare Workers não reconhece a
-# extensão .vcf e serve como application/octet-stream -- o que faz todo
-# navegador tratar o arquivo como download genérico, em vez de abrir a
-# tela nativa de "Adicionar Contato" (Android/iOS). Não setar
-# Content-Disposition aqui de propósito: é a ausência de "attachment"
-# que deixa o navegador decidir com base no Content-Type.
-/assets/*.vcf
-  Content-Type: text/vcard; charset=utf-8
