@@ -180,18 +180,6 @@
 
   window.KLSpecular.attach(addButton);
 
-  /* ---- Botão de teste: vCard cru em data: URI, sem HTTP nenhum ------------
-     QR code e tag NFC carregam o vCard como texto puro dentro do próprio
-     código/chip -- não é um link pra buscar em servidor. Este botão testa
-     se navegar direto pra um data: URI (mesma ideia: o conteúdo já vem
-     embutido, sem round-trip de rede) muda o comportamento no Android/iOS
-     em relação ao arquivo estático servido por HTTP. Remover depois do
-     teste, junto com o botão em cartao/index.html. */
-  var testButton = document.getElementById('test-vcard-datauri');
-  if (testButton) {
-    testButton.addEventListener('click', function () {
-      var dataUri = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(montarVCard());
-      window.location.href = dataUri;
-    });
-  }
+  // O botão de teste (data: URI) agora é todo em HTML, com onclick inline --
+  // ver o comentário dele em cartao/index.html. Não precisa de nada aqui.
 })();
