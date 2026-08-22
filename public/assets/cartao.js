@@ -120,11 +120,11 @@
   // Downloads. Funciona tanto no Safari/iOS quanto no Chrome/Android,
   // mas só de forma confiável com um arquivo real: um blob: não carrega
   // os headers HTTP que o Android usa pra decidir abrir com o app de
-  // Contatos, e por isso baixa mesmo sem o atributo `download`. Os três
-  // arquivos estáticos (um por idioma) ficam em public/assets/ e os
-  // headers em public/_headers -- se o texto de TITLE mudar em algum
-  // idioma aqui embaixo, atualizar os .vcf também.
-  var VCF_POR_IDIOMA = { PT: 'kie-lima-pt.vcf', EN: 'kie-lima-en.vcf', ZH: 'kie-lima-zh.vcf' };
+  // Contatos, e por isso baixa mesmo sem o atributo `download`. Sem TITLE
+  // no vCard, o conteúdo não varia mais por idioma -- um arquivo estático
+  // só (public/assets/kie-lima.vcf) serve pros três; o header continua
+  // em public/_headers.
+  var VCF = 'kie-lima.vcf';
 
   function isIOS() {
     return (
@@ -138,16 +138,13 @@
   }
 
   function montarVCard() {
-    var role = strings().role.replace(/[.。]$/, '');
     return [
       'BEGIN:VCARD',
       'VERSION:3.0',
       'N:Lima;Kiê;;;',
       'FN:Kiê Lima',
-      'TITLE:' + role,
-      'EMAIL;TYPE=INTERNET:' + EMAIL,
+      'EMAIL:' + EMAIL,
       'URL:https://kielima.com',
-      'URL:https://www.linkedin.com/in/kielima/',
       'TEL;TYPE=CELL,VOICE:' + PHONE,
       'IMPP:whatsapp:' + PHONE,
       'END:VCARD'
@@ -156,15 +153,13 @@
 
   addButton.addEventListener('click', function () {
     if (isIOS() || isAndroid()) {
-      var arquivo = VCF_POR_IDIOMA[i18n ? i18n.current() : 'PT'] || VCF_POR_IDIOMA.PT;
-      window.location.href = '/assets/' + arquivo;
+      window.location.href = '/assets/' + VCF;
       return;
     }
 
     // Desktop (e qualquer navegador não reconhecido acima): não existe
     // integração nativa com um app de contatos, então baixar o arquivo
-    // continua sendo o caminho mais previsível -- construído na hora,
-    // com o texto de TITLE do idioma atual, igual sempre foi.
+    // continua sendo o caminho mais previsível.
     var blob = new Blob([montarVCard()], { type: 'text/vcard;charset=utf-8' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
