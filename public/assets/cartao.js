@@ -113,12 +113,19 @@
 
   /* ------------------------------------------------------------ vCard (.vcf) */
 
-  // No Safari do iPhone/iPad, navegar o próprio separador para um recurso
-  // text/vcard (sem o atributo `download`) abre a prévia nativa de
-  // "Adicionar Contato" na hora, sem passar pela pasta Downloads. Esse
-  // comportamento é específico do WebKit/iOS -- nos demais navegadores
-  // (Android, desktop) não existe essa integração, então ali o download
-  // continua sendo o caminho mais previsível.
+  // Em navegadores móveis, navegar o próprio separador para um recurso
+  // real (não blob:) servido com Content-Type text/vcard -- sem
+  // Content-Disposition: attachment -- faz o sistema interceptar e abrir
+  // a tela nativa de "Adicionar Contato" na hora, sem passar pela pasta
+  // Downloads. Funciona tanto no Safari/iOS quanto no Chrome/Android,
+  // mas só de forma confiável com um arquivo real: um blob: não carrega
+  // os headers HTTP que o Android usa pra decidir abrir com o app de
+  // Contatos, e por isso baixa mesmo sem o atributo `download`. Os três
+  // arquivos estáticos (um por idioma) ficam em public/assets/ e os
+  // headers em public/_headers -- se o texto de TITLE mudar em algum
+  // idioma aqui embaixo, atualizar os .vcf também.
+  var VCF_POR_IDIOMA = { PT: 'kie-lima-pt.vcf', EN: 'kie-lima-en.vcf', ZH: 'kie-lima-zh.vcf' };
+
   function isIOS() {
     return (
       /iP(hone|od|iPad)/.test(navigator.userAgent) ||
@@ -126,7 +133,21 @@
     );
   }
 
+  function isAndroid() {
+    return /Android/.test(navigator.userAgent);
+  }
+
   addButton.addEventListener('click', function () {
+    if (isIOS() || isAndroid()) {
+      var arquivo = VCF_POR_IDIOMA[i18n ? i18n.current() : 'PT'] || VCF_POR_IDIOMA.PT;
+      window.location.href = '/assets/' + arquivo;
+      return;
+    }
+
+    // Desktop (e qualquer navegador não reconhecido acima): não existe
+    // integração nativa com um app de contatos, então baixar o arquivo
+    // continua sendo o caminho mais previsível -- construído na hora,
+    // com o texto de TITLE do idioma atual, igual sempre foi.
     var role = strings().role.replace(/[.。]$/, '');
     var vcard = [
       'BEGIN:VCARD',
@@ -144,15 +165,6 @@
 
     var blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
     var url = URL.createObjectURL(blob);
-
-    if (isIOS()) {
-      window.location.href = url;
-      setTimeout(function () {
-        URL.revokeObjectURL(url);
-      }, 3000);
-      return;
-    }
-
     var a = document.createElement('a');
     a.href = url;
     a.download = 'Kie-Lima.vcf';

@@ -18,6 +18,7 @@ const TIPOS = {
   '.css': 'text/css; charset=utf-8',
   '.js': 'application/javascript; charset=utf-8',
   '.svg': 'image/svg+xml',
+  '.vcf': 'text/vcard; charset=utf-8',
 };
 
 /* Servidor estático mínimo, com o mesmo comportamento de índice de pasta
