@@ -106,7 +106,7 @@ const navegador = await chromium.launch({
   await conferirIdiomas(home, {
     '#education li': 3,
     '#pubs li': 2,
-    '.section .links a': 5,
+    '.section .links a': 6,
   });
 
   const canvas = await home.pagina.evaluate(() => !!document.querySelector('#particles canvas'));
