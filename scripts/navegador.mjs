@@ -1,5 +1,5 @@
-/* Verificações de navegador: abre as três páginas de verdade, nos três
-   idiomas e nos dois temas, e confere que nada quebrou em tempo de execução.
+/* Verificações de navegador: abre as páginas de verdade, nos três idiomas
+   e nos dois temas, e confere que nada quebrou em tempo de execução.
 
    É o tipo de falha que a leitura do código não pega: uma função chamada
    antes de existir, um elemento que voltou nulo, uma chave de tradução
@@ -177,6 +177,21 @@ const navegador = await chromium.launch({
   await conferirIdiomas(semente, { '.step': 4, '.spec': 6 });
   await semente.ctx.close();
 }
+
+/* ---- Apresentações ------------------------------------------------------- */
+{
+  const ppt = await abrir(navegador, '/ppt/');
+  await conferirIdiomas(ppt, { '.deck-card': 1 });
+  await ppt.ctx.close();
+  await abrir(navegador, '/ppt/', { tema: 'dark' }).then((r) => r.ctx.close());
+  await abrir(navegador, '/ppt/', { viewport: { width: 390, height: 844 } }).then((r) => r.ctx.close());
+}
+
+/* As apresentações em si (/ppt/dissertacao/ e as páginas soltas ao lado dela)
+   ficam de fora deste ensaio de propósito. Elas carregam React, Babel, Plotly
+   e 3Dmol de CDNs externos: no CI essas requisições vão para fora ou falham,
+   e o `console.error` resultante reprovaria o site por um problema que não é
+   dele. O índice em /ppt/ — que é código nosso — está coberto acima. */
 
 /* ---- Navegação entre páginas --------------------------------------------- */
 {

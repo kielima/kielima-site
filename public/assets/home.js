@@ -13,6 +13,7 @@
       name: 'Kiê Lima',
       navAbout: 'Trajetória',
       navResearch: 'Pesquisa',
+      navPpt: 'Apresentações',
       navContact: 'Contato',
 
       heroKicker: 'ENGENHARIA CIVIL · PESQUISA · SUSTENTABILIDADE',
@@ -63,6 +64,7 @@
       name: 'Kiê Lima',
       navAbout: 'Background',
       navResearch: 'Research',
+      navPpt: 'Presentations',
       navContact: 'Contact',
 
       heroKicker: 'CIVIL ENGINEERING · RESEARCH · SUSTAINABILITY',
@@ -113,6 +115,7 @@
       name: '霆宇',
       navAbout: '经历',
       navResearch: '研究',
+      navPpt: '演示文稿',
       navContact: '联系',
 
       heroKicker: '土木工程 · 科研 · 可持续发展',
