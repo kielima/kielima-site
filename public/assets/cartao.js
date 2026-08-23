@@ -114,13 +114,8 @@
   /* ------------------------------------------------------------------ vCard */
 
   // vCard embutido direto num data: URI -- sem arquivo estático, sem
-  // download forçado -- é o mesmo código do botão de teste que funcionava.
-  // Importante: `window.location.href = 'data:...'` é bloqueado
-  // silenciosamente pelo Chrome (política contra navegação de script para
-  // data: URLs) -- funciona só clicando um <a href="data:..."> de verdade,
-  // por isso o elemento é criado na hora em vez de reatribuir location.href.
-  // Sem o atributo `download`: é a ausência dele que deixa o navegador
-  // tentar abrir com o app de Contatos em vez de forçar salvar.
+  // download forçado -- é o mesmo código do botão de teste que funcionava
+  // (window.location.href = 'data:...', não um <a> criado na hora).
   addButton.addEventListener('click', function () {
     var vcard = [
       'BEGIN:VCARD',
@@ -133,11 +128,7 @@
       'IMPP:whatsapp:' + PHONE,
       'END:VCARD'
     ].join('\r\n');
-    var a = document.createElement('a');
-    a.href = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcard);
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    window.location.href = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcard);
   });
 
   window.KLSpecular.attach(addButton);
