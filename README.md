@@ -4,11 +4,12 @@ Site pessoal de [Kiê Lima](https://kielima.com) — engenheira civil, mestranda
 Sistemas de Infraestrutura Urbana na PUC-Campinas, pesquisando Avaliação de Ciclo de
 Vida de materiais cimentícios.
 
-Quatro páginas, todas trilíngues (PT / EN / 中文) e com tema claro e escuro:
+Cinco páginas, todas trilíngues (PT / EN / 中文) e com tema claro e escuro:
 
 | Página | URL |
 |---|---|
 | Home — trajetória, pesquisa, publicações, contato | [`kielima.com`](https://kielima.com) |
+| Hub de links (formato linktree) | [`kielima.com/tree`](https://kielima.com/tree) |
 | Índice de apresentações | [`kielima.com/ppt`](https://kielima.com/ppt) |
 | Cartão de visita digital, com vCard | [`kielima.com/cartao`](https://kielima.com/cartao) |
 | Instruções de plantio do cartão em papel semente | [`kielima.com/cartao/papel-semente`](https://kielima.com/cartao/papel-semente) |
@@ -33,6 +34,8 @@ Mono.
 ├── wrangler.jsonc          configuração do Worker (assets estáticos)
 └── public/
     ├── index.html          → /
+    ├── tree/
+    │   └── index.html      → /tree         (hub de links, para bio de rede social)
     ├── ppt/
     │   ├── index.html      → /ppt          (índice, no sistema de design do site)
     │   └── dissertacao/    → /ppt/dissertacao   (a apresentação, autocontida)
@@ -43,6 +46,7 @@ Mono.
     └── assets/
         ├── base.css            tokens de design, tema claro/escuro, elementos comuns
         ├── home.css            layout da home
+        ├── tree.css            layout do hub de links
         ├── ppt.css             layout do índice de apresentações
         ├── cartao.css          layout do cartão
         ├── papel-semente.css   layout da página de plantio e animação dos canteiros
@@ -51,11 +55,31 @@ Mono.
         │                       antes da primeira pintura para não piscar
         ├── particles.js        campo de partículas WebGL do cartão
         ├── home.js             conteúdo da home nos três idiomas
+        ├── tree.js             links e cards do hub, nos três idiomas
         ├── ppt.js              lista de apresentações nos três idiomas
         ├── cartao.js           conteúdo do cartão, vCard, cópia de e-mail
         ├── papel-semente.js    conteúdo e geração dos canteiros
+        ├── perfil.jpg          foto de perfil do /tree (ver aviso abaixo)
         └── favicon.svg
 ```
+
+## Hub de links — `/tree`
+
+`kielima.com/tree` é o endereço curto para colocar na bio de rede social: foto,
+nome, os mesmos ícones de contato do cartão e uma lista de cards. Hoje há um
+card só, o das apresentações.
+
+⚠️ **A foto (`public/assets/perfil.jpg`) é provisória e tem só 100×100.** É a
+foto do perfil do LinkedIn, e essa é a única resolução que a API entrega — as
+outras dimensões da CDN respondem 403 e o perfil público responde 999. Por isso
+o avatar é renderizado a 96px, quase 1:1, em vez dos 120–140px que o formato
+pediria. Quando houver uma foto quadrada de 1024px, trocar o arquivo e subir
+`.tree-avatar` para 128px em `public/assets/tree.css`, onde o aviso se repete.
+
+Acrescentar um card é acrescentar um item ao array `CARDS` em
+`public/assets/tree.js`, com o texto correspondente nos três idiomas. Se o card
+novo precisar de um ícone diferente, ele entra no `<template id="icons">` do
+`public/tree/index.html`.
 
 ## Apresentações
 
