@@ -19,6 +19,7 @@ const TIPOS = {
   '.js': 'application/javascript; charset=utf-8',
   '.svg': 'image/svg+xml',
   '.vcf': 'text/vcard; charset=utf-8',
+  '.jpg': 'image/jpeg',
 };
 
 /* Servidor estático mínimo, com o mesmo comportamento de índice de pasta
@@ -176,6 +177,24 @@ const navegador = await chromium.launch({
   const semente = await abrir(navegador, '/cartao/papel-semente/');
   await conferirIdiomas(semente, { '.step': 4, '.spec': 6 });
   await semente.ctx.close();
+}
+
+/* ---- Hub de links -------------------------------------------------------- */
+{
+  const tree = await abrir(navegador, '/tree/');
+  await conferirIdiomas(tree, { '.tree-links a': 5, '.tree-link': 1 });
+
+  // O avatar é a única imagem do site: se o arquivo sumir num rename, a página
+  // continua "funcionando" e ninguém vê — daí conferir que ela de fato carregou.
+  const avatar = await tree.pagina.evaluate(() => {
+    const img = document.querySelector('.tree-avatar');
+    return img && img.complete && img.naturalWidth > 0;
+  });
+  if (!avatar) problemas.push('/tree/: a foto de perfil não carregou');
+
+  await tree.ctx.close();
+  await abrir(navegador, '/tree/', { tema: 'dark' }).then((r) => r.ctx.close());
+  await abrir(navegador, '/tree/', { viewport: { width: 390, height: 844 } }).then((r) => r.ctx.close());
 }
 
 /* ---- Apresentações ------------------------------------------------------- */
