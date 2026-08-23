@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiê Lima — Apresentações</title>
+<meta name="description" content="Apresentações interativas de Kiê Lima, escritas em HTML, CSS e JavaScript. Abrem no navegador, em tela cheia, de qualquer dispositivo.">
+<meta name="theme-color" content="#f8f8f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d110e" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://kielima.com/ppt">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kiê Lima — Apresentações">
+<meta property="og:description" content="Apresentações interativas em HTML, abertas no navegador de qualquer dispositivo.">
+<meta property="og:url" content="https://kielima.com/ppt">
+<meta name="twitter:card" content="summary">
+
+<!-- Mesmo tema escolhido nas outras páginas, aplicado antes da primeira pintura -->
+<script>
+  try {
+    var t = localStorage.getItem('kl-theme');
+    if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;1,400;1,500&family=Geist:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/base.css">
+<link rel="stylesheet" href="/assets/ppt.css">
+</head>
+<body>
+
+<div class="shell ppt-shell">
+
+  <header class="ppt-topbar">
+    <a class="back-link" href="/">← <span data-i18n="back"></span></a>
+    <div class="ppt-actions">
+      <button type="button" class="theme-toggle" id="theme-toggle">
+        <svg class="icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><line x1="12" y1="2.6" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="21.4"></line><line x1="2.6" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="21.4" y2="12"></line><line x1="5.6" y1="5.6" x2="7.3" y2="7.3"></line><line x1="16.7" y1="16.7" x2="18.4" y2="18.4"></line><line x1="5.6" y1="18.4" x2="7.3" y2="16.7"></line><line x1="16.7" y1="7.3" x2="18.4" y2="5.6"></line></svg>
+        <svg class="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.2 14.6A8.6 8.6 0 0 1 9.4 3.8a8.6 8.6 0 1 0 10.8 10.8z"></path></svg>
+      </button>
+      <select class="lang-select" id="lang-select" aria-label="Idioma / Language / 语言">
+        <option value="PT">PT</option>
+        <option value="EN">EN</option>
+        <option value="ZH">中文</option>
+      </select>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="ppt-intro">
+      <span class="kicker" data-i18n="kicker"></span>
+      <h1 data-i18n="title"></h1>
+      <p class="lead" data-i18n="lead"></p>
+    </div>
+
+    <div class="rule rule--ppt"></div>
+
+    <section class="ppt-section">
+      <span class="section-label" data-i18n="decksLabel"></span>
+      <ul class="decks" id="decks"></ul>
+    </section>
+
+    <div class="ppt-outro">
+      <p class="note" data-i18n="note"></p>
+    </div>
+
+  </main>
+
+  <footer class="ppt-footer">
+    <span>kielima.com/ppt</span>
+    <span>© 2026 Kiê Lima</span>
+  </footer>
+
+</div>
+
+<script src="/assets/i18n.js"></script>
+<script src="/assets/theme.js"></script>
+<script src="/assets/ppt.js"></script>
+</body>
+</html>
