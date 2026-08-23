@@ -113,21 +113,14 @@
 
   /* ------------------------------------------------------------------ vCard */
 
-  // vCard embutido direto num data: URI, sem arquivo estático. Importante:
-  // `window.location.href = 'data:...'` é bloqueado silenciosamente pelo
-  // Chrome (política contra navegação de script para data: URLs) -- funciona
-  // só clicando um <a href="data:...."> de verdade, por isso o elemento é
-  // criado na hora em vez de reatribuir location.href.
-  //
-  // O atributo `download` precisa variar por plataforma:
-  // - iOS Safari: SEM `download`, o clique abre direto a tela nativa de
-  //   Adicionar Contato -- é a ausência do atributo que permite isso.
-  // - Android Chrome: SEM `download`, o clique não faz nada (nem baixa, nem
-  //   abre nada -- diferente do Chromium desktop, que baixa o data: URI de
-  //   qualquer forma mesmo sem o atributo). Com `download`, o Android salva
-  //   o vCard normalmente e o usuário abre pela notificação/Downloads.
-  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-
+  // vCard embutido direto num data: URI -- sem arquivo estático, sem
+  // download forçado -- é o mesmo código do botão de teste que funcionava.
+  // Importante: `window.location.href = 'data:...'` é bloqueado
+  // silenciosamente pelo Chrome (política contra navegação de script para
+  // data: URLs) -- funciona só clicando um <a href="data:..."> de verdade,
+  // por isso o elemento é criado na hora em vez de reatribuir location.href.
+  // Sem o atributo `download`: é a ausência dele que deixa o navegador
+  // tentar abrir com o app de Contatos em vez de forçar salvar.
   addButton.addEventListener('click', function () {
     var vcard = [
       'BEGIN:VCARD',
@@ -142,7 +135,6 @@
     ].join('\r\n');
     var a = document.createElement('a');
     a.href = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcard);
-    if (!isIOS) a.download = 'Kie-Lima.vcf';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
