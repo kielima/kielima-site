@@ -18,11 +18,11 @@
 
       heroKicker: 'ENGENHARIA CIVIL · PESQUISA · SUSTENTABILIDADE',
       heroRole: 'Avaliação de ciclo de vida de materiais de construção e infraestrutura urbana sustentável.',
-      heroLead: 'Engenheira civil formada pela PUC-Campinas, com MBA em Gestão de Projetos pela FGV e mestrado em andamento em Sistemas de Infraestrutura Urbana. Pesquiso o custo ambiental do concreto — do berço ao túmulo.',
+      heroLead: 'Formação em engenharia civil pela PUC-Campinas, com MBA em Gestão de Projetos pela FGV e mestrado em andamento em Sistemas de Infraestrutura Urbana. Pesquiso o custo ambiental do concreto — do berço ao túmulo.',
 
       aboutLabel: 'TRAJETÓRIA',
       aboutTitle: 'Da obra para o ciclo de vida.',
-      aboutP1: 'Sou Kiê Lima, engenheira civil formada pela PUC-Campinas (bolsa ProUni), com MBA em Gestão de Projetos pela FGV e mestrado em andamento em Sistemas de Infraestrutura Urbana pela PUC-Campinas (bolsa CAPES). Antes da pesquisa, atuei em projetos estruturais e arquitetônicos na NA Engenharia e em laboratório técnico na 3M.',
+      aboutP1: 'Sou Kiê Lima. Fiz engenharia civil na PUC-Campinas (bolsa ProUni), MBA em Gestão de Projetos na FGV, e hoje curso o mestrado em Sistemas de Infraestrutura Urbana, também na PUC-Campinas (bolsa CAPES). Antes da pesquisa, atuei em projetos estruturais e arquitetônicos na NA Engenharia e em laboratório técnico na 3M.',
       aboutP2: 'Trabalho na fronteira entre engenharia, sustentabilidade ambiental e gestão de projetos, priorizando sempre o ambiental e o social acima de qualquer outro interesse. Meu horizonte de longo prazo é um doutorado em infraestrutura urbana sustentável, hoje em preparação para candidaturas na China.',
       education: [
         { period: '2025 – 2027', title: 'Mestrado em Sistemas de Infraestrutura Urbana', org: 'PUC-Campinas', note: 'Bolsa CAPES · Área de concentração: Sustentabilidade dos Sistemas de Infraestrutura Urbana' },
@@ -53,7 +53,7 @@
 
       contactLabel: 'CONTATO',
       contactTitle: 'Vamos conversar.',
-      contactP: 'Aberta a colaborações de pesquisa, parcerias e oportunidades em ACV de materiais e infraestrutura urbana sustentável.',
+      contactP: 'Disponível para colaborações de pesquisa, parcerias e oportunidades em ACV de materiais e infraestrutura urbana sustentável.',
 
       copied: 'kie@kielima.com copiado',
 

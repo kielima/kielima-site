@@ -10,7 +10,7 @@
       brand: 'ENGENHARIA CIVIL · PROJETOS · SUSTENTABILIDADE',
       name: 'Kiê Lima',
       role: 'Pesquisa e inovação em materiais sustentáveis para construção.',
-      bio: 'Engenheira civil (PUC-Campinas, bolsa ProUni), com MBA em Gestão de Projetos pela FGV e mestranda em Sistemas de Infraestrutura Urbana (PUC-Campinas, bolsa CAPES). Pesquiso Avaliação de Ciclo de Vida de materiais cimentícios (concreto reciclado e UHPC) com artigo publicado no fib Congress 2026, em Lisboa.',
+      bio: 'Formação em engenharia civil (PUC-Campinas, bolsa ProUni), com MBA em Gestão de Projetos pela FGV e mestrado em andamento em Sistemas de Infraestrutura Urbana (PUC-Campinas, bolsa CAPES). Pesquiso Avaliação de Ciclo de Vida de materiais cimentícios (concreto reciclado e UHPC) com artigo publicado no fib Congress 2026, em Lisboa.',
       mission: 'ES > G',
       addContact: 'Adicionar contato',
       seedNote: 'O cartão físico é impresso em papel semente.',
