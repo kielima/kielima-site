@@ -885,6 +885,86 @@
       break-after: avoid;
     }
   }
+
+  /* ── Slide 12 · Agenda institucional ────────────────────────────────
+     Grade das seis entidades: logotipo, documento principal e meta.
+     Sem tabela comparativa nem descrição por entidade — isso é conteúdo
+     da dissertação, não da apresentação.
+
+     Sem @media de propósito: o deck escala a slide inteira por transform
+     (deck-stage.js, _fit()), então o layout já acompanha telas menores. */
+  .ent-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 52px 56px;
+    align-content: start;
+  }
+
+  .ent {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 0;
+  }
+
+  /* Altura fixa alinha as marcas entre si apesar das proporções díspares. */
+  .ent-mark {
+    height: 92px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .ent-mark img {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* Marca branca precisa de placa escura para existir sobre o creme. */
+  .ent-mark--dark {
+    align-self: flex-start;
+    height: auto;
+    background: #0f1410;
+    border-radius: 4px;
+    padding: 20px 24px;
+  }
+
+  .ent-mark--dark img { max-height: 52px; }
+
+  /* Espaço reservado enquanto o logotipo oficial não chega. */
+  .ent-mark--vazia {
+    align-self: flex-start;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px;
+    letter-spacing: 0.14em;
+    color: var(--ink-mute);
+    border: 1px dashed var(--rule);
+    border-radius: 4px;
+    padding: 0 26px;
+  }
+
+  .ent-doc {
+    font-family: 'Newsreader', serif;
+    font-size: 28px;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+
+  .ent-target {
+    font-size: 24px;
+    line-height: 1.4;
+    color: var(--green);
+  }
+
+  .ent-target--none { color: var(--ink-mute); }
+
 </style>
 </head>
 <body>
@@ -1223,200 +1303,52 @@
 
 
 <!-- =========================== 11d · INSTITUCIONAL · INTERATIVO =========================== -->
-<section data-label="11d Institucional — interativo" data-chrome="on" data-chap="02 · Agenda institucional" data-foot="Clique numa sigla ou use ← → para explorar · Esc retorna a navegação de slides">
+<section data-label="11d Institucional — logotipos" data-chrome="on" data-chap="02 · Agenda institucional" data-foot="Documento principal e meta declarada de cada entidade">
   <div class="slide">
-    <div class="slide-header" style="margin-bottom: 24px;">
+    <div class="slide-header" style="margin-bottom: 40px;">
       <div class="h1 anim-in d1">O que cada entidade defende.</div>
     </div>
-    <div id="inst-widget" class="anim-in d2" tabindex="0" style="flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 0; outline: none;"></div>
+
+    <!-- Grade de entidades: logotipo + documento principal + meta.
+         O comparativo detalhado (escopo, abordagem, análise de cada entidade) é
+         da dissertação, não desta apresentação — aqui entra só o essencial. -->
+    <ul class="ent-grid anim-in d2">
+      <li class="ent">
+        <div class="ent-mark"><img src="assets/logo-fib.png" alt="Fédération Internationale du Béton"></div>
+        <div class="ent-doc">FIB Carbon Reduction Roadmap to 2050 (2024)</div>
+        <div class="ent-target">−50% CO₂ até 2035 · neutralidade em 2050</div>
+      </li>
+      <li class="ent">
+        <div class="ent-mark"><img src="assets/logo-aci.png" alt="American Concrete Institute"></div>
+        <div class="ent-doc">ACI 323-24 (2024)</div>
+        <div class="ent-target ent-target--none">Sem meta numérica global</div>
+      </li>
+      <li class="ent">
+        <div class="ent-mark"><img src="assets/logo-rilem.png" alt="Réunion Internationale des Laboratoires et Experts des Matériaux"></div>
+        <div class="ent-doc">TC CUC · TC MBB · TC QPA · TC RCC</div>
+        <div class="ent-target ent-target--none">Sem metas numéricas próprias</div>
+      </li>
+      <li class="ent">
+        <div class="ent-mark"><img src="assets/logo-ibracon.png" alt="Instituto Brasileiro do Concreto"></div>
+        <div class="ent-doc">Boletim CT-101 (2024)</div>
+        <div class="ent-target">Alinha-se à neutralidade brasileira em 2050</div>
+      </li>
+      <li class="ent">
+        <!-- A marca da ABCIC é branca sobre fundo escuro; sobre o creme deste
+             slide ela sumiria. Daí a placa escura — que é a apresentação
+             prevista pela própria identidade da entidade. -->
+        <div class="ent-mark ent-mark--dark"><img src="assets/logo-abcic.png" alt="Associação Brasileira da Construção Industrializada de Concreto"></div>
+      </li>
+      <li class="ent">
+        <div class="ent-mark ent-mark--vazia" role="img" aria-label="Federal Highway Administration — logotipo a incluir">FHWA</div>
+        <div class="ent-doc">Concrete Pavement Road Map (2012) · FHWA-HRT-13-079</div>
+        <div class="ent-target ent-target--none">Sem meta federal obrigatória</div>
+      </li>
+    </ul>
   </div>
   <div class="slide-progress"><div class="fill" style="--p: 39.05%;"></div></div>
-  <div class="slide-pagenum">13·b</div>
+  <div class="slide-pagenum">12</div>
 </section>
-<script>
-(function () {
-  var INST = [
-    {
-      code: 'ACI',
-      name: 'American Concrete Institute',
-      scope: 'Estados Unidos · associação técnica para normas de concreto',
-      approach: 'Código e guia técnico',
-      target: 'Sem meta numérica global',
-      tc: 'neutral',
-      doc: 'ACI 323-24 (2024)',
-      detail: 'Primeiro modelo de código construtivo a permitir limitar o potencial de aquecimento global (GWP) projetado do concreto armado. Estratégia: substituição de clínquer por SCMs (cinza volante, escória, argilas calcinadas), cimentos alternativos e otimização estrutural. A conformidade depende de adoção voluntária por jurisdições estaduais — apontado pelo próprio ACI como o principal gargalo.',
-    },
-    {
-      code: 'fib',
-      name: 'Fédération Internationale du Béton',
-      scope: 'Internacional · federação para o concreto estrutural',
-      approach: 'Roadmap + Model Code',
-      target: '−50% CO₂ até 2035 · neutralidade em 2050',
-      tc: 'yes',
-      doc: 'FIB Carbon Reduction Roadmap to 2050 (2024)',
-      detail: 'Meta mais ambiciosa entre as seis entidades. Organizado conforme as fases EN 15978 (A, B, C, D): na produção, recomenda SCMs, combustíveis alternativos e CCUS; na mistura, aditivos otimizados e agregados reciclados. O monitoramento ficará a cargo de congressos dedicados a partir de 2030, com engajamento voluntário dos membros.',
-    },
-    {
-      code: 'RILEM',
-      name: 'Réunion Internationale des Laboratoires et Experts des Matériaux',
-      scope: 'Internacional · união de laboratórios em materiais de construção',
-      approach: 'Comitês científicos e declarações',
-      target: 'Sem metas numéricas próprias',
-      tc: 'neutral',
-      doc: 'TC CUC · TC MBB · TC QPA · TC RCC',
-      detail: 'Atua por comitês, não por normas próprias. TC CUC: carbonatação como sumidouro de CO₂ e harmonização de EPDs. TC MBB: ligantes alternativos de menor pegada. TC QPA: agregados de menor impacto ambiental. TC RCC: pavimentos de concreto compactado com rolo como alternativa menos intensiva ao asfalto. Referência metodológica: ISO 14040, ISO 14044 e ISO 14025.',
-    },
-    {
-      code: 'IBRACON',
-      name: 'Instituto Brasileiro do Concreto',
-      scope: 'Brasil · instituto técnico de referência para o concreto',
-      approach: 'Inventário e boletim técnico',
-      target: 'Alinha-se à neutralidade brasileira em 2050',
-      tc: 'partial',
-      doc: 'Boletim CT-101 (2024)',
-      detail: 'Boletim CT-101, elaborado com a ABECE e a ABCIC, propõe metodologias de inventário alinhadas ao protocolo GHG (WBCSD) e à ISO 14064. Ênfase em adições disponíveis no Brasil: escória de alto-forno, cinza volante e fíler calcário, somadas ao coprocessamento. Lacuna reconhecida: escassez de EPDs nacionais e ausência de base pública de fatores de emissão atualizada.',
-    },
-    {
-      code: 'ABCIC',
-      name: 'Associação Brasileira da Indústria de Cimento',
-      scope: 'Brasil · representação da indústria cimenteira nacional',
-      approach: 'Roadmap e inventário setorial',
-      target: 'Neutralidade em 2050 · −33% de intensidade',
-      tc: 'yes',
-      doc: 'Roadmap Net Zero da Indústria do Cimento Brasileira (2025)',
-      detail: 'Brasil em 2024: 580 kgCO₂/t de cimento, abaixo da média mundial de 610 kgCO₂/t. Entre 1990 e 2014, a produção cresceu 273% mas as emissões apenas 223% (−18% de intensidade). Cinco estratégias: coprocessamento, substituição mineral do clínquer, eficiência energética, biomassa (acima de 30% da matriz) e CCUS. Roadmap Net Zero lançado na COP30 em novembro de 2025.',
-    },
-    {
-      code: 'FHWA',
-      name: 'Federal Highway Administration',
-      scope: 'Estados Unidos · agência federal de infraestrutura rodoviária',
-      approach: 'Programas e especificações técnicas',
-      target: 'Sem meta federal obrigatória',
-      tc: 'neutral',
-      doc: 'Concrete Pavement Road Map (2012) · FHWA-HRT-13-079',
-      detail: 'Foco em infraestrutura rodoviária (aprox. 29% das emissões dos EUA). O UHPC é indicado para sobreposições de tabuleiros de pontes, reparos e juntas de expansão, reduzindo a frequência de intervenções ao longo do ciclo de vida. ACV berço-ao-portão como método padrão. Exige EPDs verificadas por terceira parte nas licitações estaduais (política Buy Clean).',
-    },
-  ];
-
-  var TC_COLORS = { yes: 'rgb(31,90,58)', partial: 'rgb(240,160,75)', neutral: 'rgba(15,20,16,0.38)' };
-  var current = 0;
-
-  function init() {
-    var w = document.getElementById('inst-widget');
-    if (!w) return;
-
-    w.innerHTML = '<div id="inst-tabs" style="display:flex;border-bottom:2px solid rgba(15,20,16,0.12);">'
-      + INST.map(function (inst, i) {
-          return '<button data-ii="' + i + '" style="flex:1;padding:13px 6px 15px;background:none;border:none;'
-            + 'border-bottom:3px solid transparent;margin-bottom:-2px;cursor:pointer;text-align:center;'
-            + 'transition:color 120ms,border-color 120ms,font-weight 120ms;'
-            + 'font-family:\'JetBrains Mono\',monospace;font-size:24px;letter-spacing:0.06em;'
-            + 'color:rgba(15,20,16,0.4);line-height:1.25;">'
-            + inst.code.replace(' · ', '<br>') + '</button>';
-        }).join('')
-      + '</div>'
-      + '<div id="inst-panel" style="flex:1;min-height:0;overflow:hidden;padding-top:28px;'
-      + 'display:grid;grid-template-columns:5fr 3fr 3fr;gap:48px;align-content:start;"></div>';
-
-    refresh();
-
-    document.getElementById('inst-tabs').addEventListener('click', function (e) {
-      var btn = e.target.closest('[data-ii]');
-      if (!btn) return;
-      current = +btn.dataset.ii;
-      refresh();
-      w.focus();
-    });
-
-    w.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowRight') {
-        e.stopPropagation(); e.preventDefault();
-        current = (current + 1) % INST.length;
-        refresh();
-      } else if (e.key === 'ArrowLeft') {
-        e.stopPropagation(); e.preventDefault();
-        current = (current - 1 + INST.length) % INST.length;
-        refresh();
-      } else if (e.key === 'Escape') {
-        w.blur();
-      }
-    });
-
-    // ── Integração com a navegação do deck ────────────────────────────
-    // Enquanto não estivermos na última aba (FHWA), cada avanço do deck
-    // (clique na tela, seta ou espaço) percorre as abas dentro do próprio
-    // slide. Só depois da última aba é que o próximo avanço passa para o
-    // slide seguinte; o recuo funciona de forma simétrica.
-    var section = w.closest('section');
-    if (section) {
-      section.addEventListener('deck:advance', function (e) {
-        var dir = e.detail && e.detail.dir;
-        if (dir > 0 && current < INST.length - 1) {
-          current++;
-          refresh();
-          e.preventDefault();
-        } else if (dir < 0 && current > 0) {
-          current--;
-          refresh();
-          e.preventDefault();
-        }
-      });
-
-      var deck = document.querySelector('deck-stage');
-      if (deck) {
-        deck.addEventListener('slidechange', function (e) {
-          if (!e.detail || e.detail.slide !== section) return;
-          // Entrando vindo de trás: começa na primeira aba (ACI). Voltando
-          // de um slide seguinte: começa na última (FHWA), para percorrer
-          // as abas em ordem inversa antes de sair do slide.
-          current = e.detail.previousIndex > e.detail.index ? INST.length - 1 : 0;
-          refresh();
-        });
-      }
-    }
-  }
-
-  function refresh() {
-    var inst = INST[current];
-    var tc = TC_COLORS[inst.tc];
-
-    document.querySelectorAll('#inst-tabs [data-ii]').forEach(function (btn, i) {
-      var on = i === current;
-      btn.style.color = on ? '#0f1410' : 'rgba(15,20,16,0.4)';
-      btn.style.borderBottomColor = on ? '#0f1410' : 'transparent';
-      btn.style.fontWeight = on ? '600' : '400';
-    });
-
-    document.getElementById('inst-panel').innerHTML =
-      '<div style="display:flex;flex-direction:column;gap:12px;">'
-      + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:24px;letter-spacing:0.14em;color:rgba(15,20,16,0.42);text-transform:uppercase;">Instituição</div>'
-      + '<div style="font-family:\'Newsreader\',serif;font-size:34px;line-height:1.15;color:#0f1410;">' + inst.name + '</div>'
-      + '<div style="font-family:\'Geist\',sans-serif;font-size:26px;color:rgba(15,20,16,0.52);">' + inst.scope + '</div>'
-      + '<div style="font-family:\'Geist\',sans-serif;font-size:26px;line-height:1.5;color:rgba(15,20,16,0.72);margin-top:6px;">' + inst.detail + '</div>'
-      + '</div>'
-      + '<div style="display:flex;flex-direction:column;gap:28px;">'
-      + '<div>'
-      +   '<div style="font-family:\'JetBrains Mono\',monospace;font-size:24px;letter-spacing:0.12em;color:rgba(15,20,16,0.42);text-transform:uppercase;margin-bottom:10px;">Abordagem</div>'
-      +   '<div style="font-family:\'Newsreader\',serif;font-size:30px;line-height:1.25;color:#0f1410;">' + inst.approach + '</div>'
-      + '</div>'
-      + '<div>'
-      +   '<div style="font-family:\'JetBrains Mono\',monospace;font-size:24px;letter-spacing:0.12em;color:rgba(15,20,16,0.42);text-transform:uppercase;margin-bottom:10px;">Meta numérica</div>'
-      +   '<div style="font-family:\'Newsreader\',serif;font-size:30px;line-height:1.25;color:' + tc + ';">' + inst.target + '</div>'
-      + '</div>'
-      + '</div>'
-      + '<div style="display:flex;flex-direction:column;gap:12px;">'
-      + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:24px;letter-spacing:0.12em;color:rgba(15,20,16,0.42);text-transform:uppercase;">Documento principal</div>'
-      + '<div style="font-family:\'Newsreader\',serif;font-size:30px;line-height:1.35;color:#0f1410;border-left:3px solid ' + tc + ';padding-left:18px;">' + inst.doc + '</div>'
-      + '</div>';
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-})();
-</script>
 
 <!-- =========================== 14 · FABRICAÇÃO CIMENTO =========================== -->
 <section data-label="14 Cimento — forno" data-chrome="on" data-chap="02 · Processo de fabricação" data-foot="MARCEAU; NISBET; VANGEEEM — PCA SN2095b, 2006 · ABCP — Roadmap Net Zero, 2025" data-om-id="a0d9d662:326" data-screen-label="13 14 Cimento — forno" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="12">
