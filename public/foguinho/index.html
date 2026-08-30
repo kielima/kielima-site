@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>foguinho</title>
+  <meta name="description" content="Um toque simbólico pra dizer 'pensei em você' — sem mensagem, só o fogo aceso." />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <meta name="theme-color" content="#1a1210" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="app" class="app">
+    <p class="loading">carregando…</p>
+  </main>
+
+  <template id="tpl-onboarding">
+    <div class="screen">
+      <div class="flame-hero">🔥</div>
+      <h1>foguinho</h1>
+      <p class="lead">Um jeito simples de dizer "pensei em você" — sem precisar puxar assunto.</p>
+      <form id="form-name" class="stack">
+        <label for="name">Como você quer aparecer pros seus amigos?</label>
+        <input id="name" name="name" type="text" autocomplete="given-name" required maxlength="40" placeholder="seu nome" />
+        <button type="submit">Começar</button>
+      </form>
+    </div>
+  </template>
+
+  <template id="tpl-home">
+    <div class="screen">
+      <header class="home-header">
+        <h1>🔥 foguinho</h1>
+        <button id="btn-invite" class="btn-ghost" type="button">+ convidar</button>
+      </header>
+
+      <ul id="list-connections" class="connections"></ul>
+
+      <p id="empty-state" class="empty" hidden>
+        Ninguém por aqui ainda. Toque em <strong>+ convidar</strong> e mande o link
+        pra alguém da sua rede de apoio — quando essa pessoa abrir, vocês já ficam conectados.
+      </p>
+    </div>
+  </template>
+
+  <template id="tpl-connection">
+    <li class="connection">
+      <span class="connection-name"></span>
+      <span class="streak" hidden></span>
+      <button class="btn-fire" type="button" aria-label="pensei em você">🔥</button>
+    </li>
+  </template>
+
+  <template id="tpl-invite">
+    <div class="screen">
+      <button class="btn-back" type="button">← voltar</button>
+      <h1>Convidar alguém</h1>
+      <p class="lead">Manda esse link pra pessoa. Quando ela abrir e entrar, vocês já podem trocar foguinhos — sem precisar de mais nada.</p>
+      <div class="invite-link-box">
+        <input id="invite-link" type="text" readonly />
+        <button id="btn-copy" type="button">copiar</button>
+      </div>
+      <button id="btn-share" type="button" class="btn-primary" hidden>compartilhar</button>
+    </div>
+  </template>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
