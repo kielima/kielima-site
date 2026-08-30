@@ -2,7 +2,7 @@
   "name": "foguinho",
   "short_name": "foguinho",
   "description": "Um toque simbólico pra dizer \"pensei em você\" — sem mensagem, só o fogo aceso.",
-  "start_url": "./index.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#1a1210",
