@@ -110,16 +110,29 @@ function render(templateId) {
 
 async function showOnboarding(inviteToken) {
   render("tpl-onboarding");
-  document.getElementById("form-name").addEventListener("submit", async (e) => {
+  const form = document.getElementById("form-name");
+  let emViagem = false;
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    if (emViagem) return; // trava contra duplo clique/duplo submit
     const name = document.getElementById("name").value.trim();
     if (!name) return;
-    const person = await createPerson(name);
-    setMe(person);
-    await registerServiceWorker();
-    await subscribeToPush(person.id);
-    if (inviteToken) await redeemInvite(inviteToken, person);
-    await showHome();
+    emViagem = true;
+    const botao = form.querySelector("button[type=submit]");
+    botao.disabled = true;
+    try {
+      const person = await createPerson(name);
+      setMe(person);
+      await registerServiceWorker();
+      await subscribeToPush(person.id);
+      if (inviteToken) await redeemInvite(inviteToken, person);
+      await showHome();
+    } catch (err) {
+      console.error(err);
+      toast("Não deu pra criar seu perfil agora, tenta de novo.");
+      emViagem = false;
+      botao.disabled = false;
+    }
   });
 }
 
