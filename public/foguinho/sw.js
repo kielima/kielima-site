@@ -1,5 +1,8 @@
-const CACHE = "foguinho-v1";
-const ASSETS = ["./", "index.html", "style.css", "app.js", "manifest.json"];
+const CACHE = "foguinho-v2";
+// "index.html" fica de fora de propósito: o Cloudflare Workers redireciona
+// (307) essa URL literal para "./", e o Chrome recusa (ERR_FAILED) uma
+// navegação respondida por um service worker com uma resposta redirecionada.
+const ASSETS = ["./", "style.css", "app.js", "manifest.json"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS)));
@@ -18,7 +21,16 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   event.respondWith(
-    caches.match(event.request).then((cached) => cached || fetch(event.request))
+    caches.match(event.request).then(async (cached) => {
+      if (cached) return cached;
+      const response = await fetch(event.request);
+      // Navegação nunca pode ser respondida com uma resposta redirecionada
+      // (o Chrome recusa com ERR_FAILED) — segue o redirect manualmente.
+      if (event.request.mode === "navigate" && response.redirected) {
+        return fetch(response.url);
+      }
+      return response;
+    })
   );
 });
 
