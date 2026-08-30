@@ -89,13 +89,22 @@ a:hover { color: var(--green-soft); }
 }
 
 .flame-hero {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(48px, 16vw, 64px);
-  line-height: 1;
+  display: flex;
+  justify-content: center;
   margin-top: 8vh;
-  text-align: center;
+  color: var(--green-soft);
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--green-soft) 55%, transparent));
+}
+
+.flame-hero svg {
+  width: clamp(48px, 16vw, 64px);
+  height: clamp(48px, 16vw, 64px);
+}
+
+.icon-flame {
+  width: 0.72em;
+  height: 0.72em;
+  flex: none;
 }
 
 h1 {
@@ -176,6 +185,17 @@ button {
   font-size: clamp(26px, 7vw, 30px);
 }
 
+.home-title {
+  display: flex;
+  align-items: center;
+  gap: 0.24em;
+}
+
+.home-title .icon-flame {
+  color: var(--green-soft);
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--green-soft) 55%, transparent));
+}
+
 .btn-ghost {
   font-family: var(--mono);
   font-size: 11px;
@@ -237,14 +257,19 @@ button {
 
 .btn-fire {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   border: 1px solid var(--ink-16);
-  font-size: 1.3rem;
+  color: var(--ink-45);
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  transition: border-color 0.2s ease, transform 0.15s ease;
+  transition: border-color 0.2s ease, color 0.2s ease, filter 0.2s ease, transform 0.15s ease;
 }
+
+.btn-fire svg { width: 22px; height: 22px; }
 
 .btn-fire:active { transform: scale(0.92); }
 .btn-fire:hover { border-color: var(--ink-20); }
@@ -252,9 +277,11 @@ button {
 .btn-fire.lit {
   border-color: var(--flame);
   background: color-mix(in srgb, var(--flame) 14%, transparent);
+  color: var(--flame);
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--flame) 55%, transparent));
 }
 
-.btn-fire:disabled { opacity: 0.6; cursor: default; }
+.btn-fire:disabled { opacity: 0.85; cursor: default; }
 
 .empty {
   font-family: var(--serif);

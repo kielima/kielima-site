@@ -22,10 +22,13 @@
 
   <template id="tpl-onboarding">
     <div class="screen">
-      <div class="flame-hero">🔥</div>
+      <div class="flame-hero">
+        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M12.395 2.553a1 1 0 0 0-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.4 31.4 0 0 0-.613 3.58 2.64 2.64 0 0 1-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 0 0 5.05 6.05 6.981 6.981 0 0 0 3 11a7 7 0 1 0 11.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 0 1 7 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A3 3 0 0 1 12.12 15.12z" />
+        </svg>
+      </div>
       <p class="kicker" style="text-align: center">Foguinho</p>
       <h1>pensei em você</h1>
-      <p class="lead">Um jeito simples de dizer isso — sem mensagem, só o fogo aceso.</p>
       <form id="form-name" class="stack">
         <label for="name">Como você quer aparecer pros seus amigos?</label>
         <input id="name" name="name" type="text" autocomplete="given-name" required maxlength="40" placeholder="seu nome" />
@@ -39,7 +42,12 @@
       <header class="home-header">
         <div>
           <p class="kicker">Foguinho</p>
-          <h1>🔥 pensei em você</h1>
+          <h1 class="home-title">
+            <svg class="icon-flame" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12.395 2.553a1 1 0 0 0-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.4 31.4 0 0 0-.613 3.58 2.64 2.64 0 0 1-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 0 0 5.05 6.05 6.981 6.981 0 0 0 3 11a7 7 0 1 0 11.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 0 1 7 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A3 3 0 0 1 12.12 15.12z" />
+            </svg>
+            pensei em você
+          </h1>
         </div>
         <button id="btn-invite" class="btn-ghost" type="button">+ convidar</button>
       </header>
@@ -58,7 +66,11 @@
     <li class="connection">
       <span class="connection-name"></span>
       <span class="streak" hidden></span>
-      <button class="btn-fire" type="button" aria-label="pensei em você">🔥</button>
+      <button class="btn-fire" type="button" aria-label="pensei em você">
+        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M12.395 2.553a1 1 0 0 0-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.4 31.4 0 0 0-.613 3.58 2.64 2.64 0 0 1-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 0 0 5.05 6.05 6.981 6.981 0 0 0 3 11a7 7 0 1 0 11.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 0 1 7 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A3 3 0 0 1 12.12 15.12z" />
+        </svg>
+      </button>
     </li>
   </template>
 
