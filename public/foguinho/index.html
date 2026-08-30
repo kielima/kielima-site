@@ -8,7 +8,11 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icons/icon-192.png" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
-  <meta name="theme-color" content="#1a1210" />
+  <meta name="theme-color" content="#f8f8f8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0d110e" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;1,400&family=Geist:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -19,8 +23,9 @@
   <template id="tpl-onboarding">
     <div class="screen">
       <div class="flame-hero">🔥</div>
-      <h1>foguinho</h1>
-      <p class="lead">Um jeito simples de dizer "pensei em você".</p>
+      <p class="kicker" style="text-align: center">Foguinho</p>
+      <h1>pensei em você</h1>
+      <p class="lead">Um jeito simples de dizer isso — sem mensagem, só o fogo aceso.</p>
       <form id="form-name" class="stack">
         <label for="name">Como você quer aparecer pros seus amigos?</label>
         <input id="name" name="name" type="text" autocomplete="given-name" required maxlength="40" placeholder="seu nome" />
@@ -32,9 +37,13 @@
   <template id="tpl-home">
     <div class="screen">
       <header class="home-header">
-        <h1>🔥 foguinho</h1>
+        <div>
+          <p class="kicker">Foguinho</p>
+          <h1>🔥 pensei em você</h1>
+        </div>
         <button id="btn-invite" class="btn-ghost" type="button">+ convidar</button>
       </header>
+      <hr class="rule" />
 
       <ul id="list-connections" class="connections"></ul>
 
@@ -56,6 +65,7 @@
   <template id="tpl-invite">
     <div class="screen">
       <button class="btn-back" type="button">← voltar</button>
+      <p class="kicker">Foguinho</p>
       <h1>Convidar alguém</h1>
       <p class="lead">Manda esse link pra pessoa. Quando ela abrir e entrar, vocês já podem trocar foguinhos — sem precisar de mais nada.</p>
       <div class="invite-link-box">
