@@ -27,6 +27,15 @@ próprios, são só em português e carregam bibliotecas de CDNs externos. Não
 uniformizar com o resto do site, não traduzir, não refatorar sem motivo: uma
 apresentação já apresentada não se reescreve.
 
+`public/foguinho/` é a mesma categoria de exceção, por outro motivo: não é
+documento, é um app (PWA "pensei em você" com amigos, back-end em Supabase,
+repositório-fonte `kielima/foguinho`). Não segue o sistema de design nem o
+i18n do site, tem manifest/service worker e config.js próprios, e não entra
+em `npm run navegador` — mesma lógica do `/ppt/<apresentacao>/`: código
+externo ao site não deve reprovar o CI do site por um problema que não é
+dele. Fica fora da navegação (home/tree) de propósito: é uso pessoal, não
+conteúdo do portfólio.
+
 ## Antes de abrir um PR
 
 `npm run testar` (verificações estáticas + navegador). Todo PR que passa no CI é
