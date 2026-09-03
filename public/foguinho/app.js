@@ -94,6 +94,26 @@ async function listConnections(me) {
   return data ?? [];
 }
 
+const MESES = [
+  "janeiro", "fevereiro", "março", "abril", "maio", "junho",
+  "julho", "agosto", "setembro", "outubro", "novembro", "dezembro",
+];
+
+async function listPingDates(me, connection, year, month) {
+  // month é 0-indexado (Date.getMonth())
+  const inicio = new Date(Date.UTC(year, month, 1)).toISOString().slice(0, 10);
+  const fim = new Date(Date.UTC(year, month + 1, 0)).toISOString().slice(0, 10);
+  const { data, error } = await supabase
+    .from("pings")
+    .select("ping_date")
+    .eq("from_id", me.id)
+    .eq("to_id", connection.person_b)
+    .gte("ping_date", inicio)
+    .lte("ping_date", fim);
+  if (error) throw error;
+  return new Set((data ?? []).map((p) => p.ping_date));
+}
+
 async function sendPing(me, connection) {
   const { data, error } = await supabase.functions.invoke("foguinho-send-ping", {
     body: { fromId: me.id, toId: connection.person_b, fromName: me.name },
@@ -148,7 +168,9 @@ async function showHome() {
   const connTpl = document.getElementById("tpl-connection");
   for (const conn of connections) {
     const node = connTpl.content.cloneNode(true);
-    node.querySelector(".connection-name").textContent = conn.friend_name;
+    const nameBtn = node.querySelector(".connection-name");
+    nameBtn.textContent = conn.friend_name;
+    nameBtn.addEventListener("click", () => showHistory(me, conn));
     const fireBtn = node.querySelector(".btn-fire");
     const streakEl = node.querySelector(".streak");
 
@@ -208,6 +230,67 @@ async function showInvite(me) {
   }
 
   document.querySelector(".btn-back").addEventListener("click", showHome);
+}
+
+async function showHistory(me, connection) {
+  render("tpl-history");
+  document.getElementById("history-name").textContent = connection.friend_name;
+  document.querySelector(".btn-back").addEventListener("click", showHome);
+
+  const hoje = new Date();
+  let ano = hoje.getFullYear();
+  let mes = hoje.getMonth(); // 0-indexado
+
+  const grid = document.getElementById("cal-grid");
+  const monthLabel = document.getElementById("cal-month");
+  const dayTpl = document.getElementById("tpl-cal-day");
+
+  async function renderMonth() {
+    monthLabel.textContent = `${MESES[mes]} de ${ano}`;
+    grid.innerHTML = "";
+
+    let diasComFoguinho;
+    try {
+      diasComFoguinho = await listPingDates(me, connection, ano, mes);
+    } catch (err) {
+      console.error(err);
+      toast("Não deu pra carregar o calendário agora.");
+      diasComFoguinho = new Set();
+    }
+
+    const primeiroDiaSemana = new Date(ano, mes, 1).getDay(); // 0 = domingo
+    const totalDias = new Date(ano, mes + 1, 0).getDate();
+    const hojeStr = todayStr();
+
+    for (let i = 0; i < primeiroDiaSemana; i++) {
+      grid.appendChild(document.createElement("div"));
+    }
+
+    for (let dia = 1; dia <= totalDias; dia++) {
+      const node = dayTpl.content.cloneNode(true);
+      const cell = node.querySelector(".cal-day");
+      const dataStr = `${ano}-${String(mes + 1).padStart(2, "0")}-${String(dia).padStart(2, "0")}`;
+      cell.querySelector(".cal-day-number").textContent = dia;
+      if (diasComFoguinho.has(dataStr)) {
+        cell.classList.add("lit");
+      }
+      if (dataStr === hojeStr) cell.classList.add("today");
+      grid.appendChild(node);
+    }
+  }
+
+  document.getElementById("cal-prev").addEventListener("click", () => {
+    mes -= 1;
+    if (mes < 0) { mes = 11; ano -= 1; }
+    renderMonth();
+  });
+  document.getElementById("cal-next").addEventListener("click", () => {
+    mes += 1;
+    if (mes > 11) { mes = 0; ano += 1; }
+    renderMonth();
+  });
+
+  await renderMonth();
 }
 
 async function main() {
