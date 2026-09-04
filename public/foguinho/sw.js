@@ -1,4 +1,8 @@
-const CACHE = "foguinho-v2";
+// Estratégia cache-first: bump este número sempre que style.css/app.js/
+// index.html mudarem, senão o navegador nunca detecta um SW novo pra
+// instalar (o arquivo sw.js fica byte-a-byte igual) e o app instalado
+// continua servindo os arquivos antigos do cache pra sempre.
+const CACHE = "foguinho-v3";
 // "index.html" fica de fora de propósito: o Cloudflare Workers redireciona
 // (307) essa URL literal para "./", e o Chrome recusa (ERR_FAILED) uma
 // navegação respondida por um service worker com uma resposta redirecionada.
