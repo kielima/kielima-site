@@ -176,6 +176,28 @@
     return node;
   }
 
+  var heroName = document.getElementById('hero-name');
+
+  /* Nome em duas partes, como no wordmark impresso: o primeiro nome reto e
+     o resto em itálico verde-floresta (span .accent, ver home.css). Nomes
+     sem espaço (ex.: o nome em chinês) ficam sem o realce — não há um ponto
+     de corte "sobrenome" natural pra inventar. */
+  function renderName(lang) {
+    if (!heroName) return;
+    var full = COPY[lang].name;
+    var space = full.indexOf(' ');
+    if (space === -1) {
+      heroName.textContent = full;
+      return;
+    }
+    heroName.textContent = '';
+    heroName.appendChild(document.createTextNode(full.slice(0, space + 1)));
+    var accent = document.createElement('span');
+    accent.className = 'accent';
+    accent.textContent = full.slice(space + 1);
+    heroName.appendChild(accent);
+  }
+
   function renderEducation(items) {
     var host = document.getElementById('education');
     host.textContent = '';
@@ -258,6 +280,7 @@
     copy: COPY,
     select: document.getElementById('lang-select'),
     onChange: function (lang, s) {
+      renderName(lang);
       renderEducation(s.education);
       renderPublications(s.publications);
       if (themeCtl) themeCtl.sync();
