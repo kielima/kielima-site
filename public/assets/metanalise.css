@@ -220,6 +220,28 @@
   fill: var(--ink-65);
 }
 
+.progress-value-marco {
+  fill: var(--ink);
+  font-weight: 600;
+}
+
+.progress-wrap {
+  position: relative;
+}
+
+.progress-marco-line {
+  stroke: var(--ink-40);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.progress-dot-marco {
+  fill: var(--bg);
+  stroke: var(--ink);
+  stroke-width: 2;
+  cursor: pointer;
+}
+
 /* ------------------------------------------------------------ dispersão */
 
 .scatter-layout {
@@ -472,6 +494,101 @@
 
   .forest-name {
     font-size: 12px;
+  }
+}
+
+/* ---------------------------------------------------- unidades de CO2 */
+
+.unit-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.unit-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--ink-65);
+}
+
+.unit-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex: none;
+}
+
+.unit-swatch-nativo,
+.unit-bar-nativo {
+  background: var(--green);
+}
+
+.unit-swatch-derivado,
+.unit-bar-derivado {
+  background: var(--green-soft);
+}
+
+.unit-swatch-pendente,
+.unit-bar-pendente {
+  background: var(--ink-40);
+}
+
+.unit-chart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.unit-row {
+  display: grid;
+  grid-template-columns: 210px 1fr 44px;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 0;
+  border-top: 1px solid var(--line);
+}
+
+.unit-row:first-child {
+  border-top: none;
+}
+
+.unit-name {
+  font-size: 13px;
+  color: var(--ink-78);
+}
+
+.unit-track {
+  height: 10px;
+  border-radius: 4px;
+  background: var(--ink-16);
+  overflow: hidden;
+}
+
+.unit-bar {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.unit-value {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  text-align: right;
+  color: var(--ink-65);
+}
+
+@media (max-width: 620px) {
+  .unit-row {
+    grid-template-columns: 128px 1fr 36px;
+    gap: 8px;
+  }
+
+  .unit-name {
+    font-size: 11.5px;
   }
 }
 
