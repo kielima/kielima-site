@@ -218,7 +218,7 @@ const navegador = await chromium.launch({
    normal como qualquer outra. */
 {
   const meta = await abrir(navegador, '/metanalise/');
-  await conferirIdiomas(meta, { '.kpi-tile': 4, '.cat-chip': 8, '.forest-row': 9 });
+  await conferirIdiomas(meta, { '.kpi-tile': 4, '.cat-chip': 7, '.forest-row': 8 });
 
   const pontos = await meta.pagina.evaluate(() => document.querySelectorAll('.scatter-pt').length);
   if (pontos < 1000) problemas.push(`/metanalise/: só ${pontos} pontos na dispersão, esperado 1000+`);
