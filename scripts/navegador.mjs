@@ -212,6 +212,28 @@ const navegador = await chromium.launch({
    e o `console.error` resultante reprovaria o site por um problema que não é
    dele. O índice em /ppt/ — que é código nosso — está coberto acima. */
 
+/* ---- Metanálise ao vivo ---------------------------------------------------
+   Os gráficos (SVG) são montados em JS puro, sem biblioteca externa — nada
+   de rede além das fontes do Google, então esta página entra no ensaio
+   normal como qualquer outra. */
+{
+  const meta = await abrir(navegador, '/metanalise/');
+  await conferirIdiomas(meta, { '.kpi-tile': 4, '.cat-chip': 6, '.forest-row': 7 });
+
+  const pontos = await meta.pagina.evaluate(() => document.querySelectorAll('.scatter-pt').length);
+  if (pontos < 1000) problemas.push(`/metanalise/: só ${pontos} pontos na dispersão, esperado 1000+`);
+
+  // Clicar num chip de categoria precisa esmaecer os pontos das outras.
+  await meta.pagina.click('.cat-chip');
+  await meta.pagina.waitForTimeout(150);
+  const esmaecidos = await meta.pagina.evaluate(() => document.querySelectorAll('.scatter-pt.is-dim').length);
+  if (esmaecidos < 1) problemas.push('/metanalise/: clicar num chip de categoria não esmaeceu os outros pontos');
+
+  await meta.ctx.close();
+  await abrir(navegador, '/metanalise/', { tema: 'dark' }).then((r) => r.ctx.close());
+  await abrir(navegador, '/metanalise/', { viewport: { width: 390, height: 844 } }).then((r) => r.ctx.close());
+}
+
 /* ---- Navegação entre páginas --------------------------------------------- */
 {
   const { pagina, ctx } = await abrir(navegador, '/cartao/');
