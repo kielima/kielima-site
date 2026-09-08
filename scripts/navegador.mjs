@@ -228,6 +228,26 @@ const navegador = await chromium.launch({
   await meta.pagina.waitForTimeout(150);
   const esmaecidos = await meta.pagina.evaluate(() => document.querySelectorAll('.scatter-pt.is-dim').length);
   if (esmaecidos < 1) problemas.push('/metanalise/: clicar num chip de categoria não esmaeceu os outros pontos');
+  await meta.pagina.click('.cat-chip'); // desliga o filtro de categoria antes do proximo teste
+
+  // Desligar o estrato "sensibilidade" tem de reduzir os pontos e o KPI de pares.
+  const paresAntes = await meta.pagina.evaluate(() => document.getElementById('kpi-pares').textContent);
+  await meta.pagina.click('#tier-check-s');
+  await meta.pagina.waitForTimeout(150);
+  const pontosSoPrincipal = await meta.pagina.evaluate(() => document.querySelectorAll('.scatter-pt').length);
+  const paresDepois = await meta.pagina.evaluate(() => document.getElementById('kpi-pares').textContent);
+  if (pontosSoPrincipal >= pontos) {
+    problemas.push(`/metanalise/: desligar o terço "sensibilidade" não reduziu os pontos (${pontos} -> ${pontosSoPrincipal})`);
+  }
+  if (paresDepois === paresAntes) {
+    problemas.push(`/metanalise/: KPI de pares não mudou ao desligar um estrato (ficou em ${paresDepois})`);
+  }
+
+  // Não pode ser possível desligar os dois estratos ao mesmo tempo.
+  await meta.pagina.click('#tier-check-p');
+  await meta.pagina.waitForTimeout(150);
+  const pCheckedAinda = await meta.pagina.evaluate(() => document.getElementById('tier-check-p').checked);
+  if (!pCheckedAinda) problemas.push('/metanalise/: foi possível desligar os dois estratos ao mesmo tempo');
 
   await meta.ctx.close();
   await abrir(navegador, '/metanalise/', { tema: 'dark' }).then((r) => r.ctx.close());
