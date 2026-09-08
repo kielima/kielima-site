@@ -69,11 +69,18 @@
 
 .home-hero h1 {
   font-family: var(--serif);
-  font-weight: 400;
+  font-weight: 300;
   font-size: clamp(46px, 8vw, 96px);
   line-height: 0.98;
   letter-spacing: -0.02em;
   margin: 0;
+}
+
+/* Sobrenome no mesmo tratamento do wordmark impresso: itálico, verde-floresta
+   (ver 02_BRANDING PESSOAL/logotipo.md no vault-carreira, Conceito 01). */
+.home-hero h1 .accent {
+  font-style: italic;
+  color: var(--green-soft);
 }
 
 .home-role {
