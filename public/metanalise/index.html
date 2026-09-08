@@ -80,6 +80,26 @@
     </section>
 
     <section class="meta-section">
+      <span class="section-label" data-i18n="tierLabel"></span>
+      <h2 data-i18n="tierTitle"></h2>
+      <p data-i18n="tierP"></p>
+      <div class="tier-filter" id="tier-filter">
+        <label class="tier-chip">
+          <input type="checkbox" checked data-tier="p" id="tier-check-p">
+          <span class="tier-swatch tier-swatch-p"></span>
+          <span data-i18n="tierPrincipal"></span>
+          <span class="tier-n" id="tier-n-p">—</span>
+        </label>
+        <label class="tier-chip">
+          <input type="checkbox" checked data-tier="s" id="tier-check-s">
+          <span class="tier-swatch tier-swatch-s"></span>
+          <span data-i18n="tierSensibilidade"></span>
+          <span class="tier-n" id="tier-n-s">—</span>
+        </label>
+      </div>
+    </section>
+
+    <section class="meta-section">
       <h2 data-i18n="progressTitle"></h2>
       <p data-i18n="progressP"></p>
       <div class="meta-card">
@@ -89,7 +109,7 @@
 
     <section class="meta-section">
       <h2 data-i18n="scatterTitle"></h2>
-      <p data-i18n="scatterP"></p>
+      <p data-i18n="scatterP" id="scatter-desc"></p>
       <div class="meta-card scatter-wrap" id="scatter-wrap">
         <div class="scatter-layout">
           <svg class="scatter-chart" id="scatter-svg" role="img" aria-label="Gráfico de dispersão"></svg>
@@ -101,7 +121,7 @@
 
     <section class="meta-section">
       <h2 data-i18n="forestTitle"></h2>
-      <p data-i18n="forestP"></p>
+      <p data-i18n="forestP" id="forest-desc"></p>
       <div class="meta-card">
         <div class="forest-list" id="forest-list"></div>
       </div>
