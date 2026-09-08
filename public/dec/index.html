@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1a2332">
+  <title>CED Map — Declarações de Emergência Climática</title>
+  <meta name="description" content="Mapa interativo de declarações de emergência climática, atribuição científica (WWA) e tentativas rejeitadas. Dados CEDAMIA + World Weather Attribution.">
+
+  <!-- Open Graph / Twitter — preview em redes sociais -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="CED Map — Declarações de Emergência Climática">
+  <meta property="og:description" content="Mapa interativo global: 1.973 declarações de emergência climática, atribuição científica e tentativas rejeitadas.">
+  <meta property="og:url" content="https://kielima.com/dec/">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CED Map — Declarações de Emergência Climática">
+  <meta name="twitter:description" content="Mapa interativo global de declarações de emergência climática (CEDAMIA + WWA).">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌍</text></svg>">
+
+  <link href="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.css" rel="stylesheet">
+  <link href="style.css?v=24" rel="stylesheet">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ── Painel de filtros (lateral esquerda) ─────────────────────────── -->
+  <aside id="sidebar">
+
+    <header id="sidebar-header">
+      <h1>🌍 CED Map</h1>
+      <p class="subtitle" data-i18n="subtitle">Emergências Climáticas Globais</p>
+      <div class="header-controls">
+        <button id="dark-toggle" class="header-ctrl-btn" aria-label="Modo escuro">🌙</button>
+        <button id="lang-toggle" class="header-ctrl-btn" aria-label="Idioma">EN</button>
+      </div>
+      <button id="sidebar-toggle" aria-label="Recolher painel" title="Recolher">‹</button>
+    </header>
+
+    <div id="filters">
+
+      <!-- Camadas de dados -->
+      <section class="filter-group">
+        <h2 data-i18n="sec-layers">Camadas</h2>
+        <div class="layer-toggles">
+          <label class="layer-item" data-color="vermelho">
+            <input type="checkbox" name="fonte" value="ced-formal" checked>
+            <span class="swatch"></span>
+            <span class="layer-label">
+              <span data-i18n="layer-ced">Declaração formal (CED)</span>
+              <small id="count-ced-formal">–</small>
+            </span>
+          </label>
+          <label class="layer-item" data-color="azul">
+            <input type="checkbox" name="fonte" value="wwa" checked>
+            <span class="swatch"></span>
+            <span class="layer-label">
+              <span data-i18n="layer-wwa">Atribuição científica (WWA)</span>
+              <small id="count-wwa">–</small>
+            </span>
+          </label>
+          <label class="layer-item" data-color="roxo">
+            <input type="checkbox" name="fonte" value="almost-ced" checked>
+            <span class="swatch"></span>
+            <span class="layer-label">
+              <span data-i18n="layer-almost">Tentativa rejeitada / quase-CED</span>
+              <small id="count-almost">–</small>
+            </span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Nível administrativo -->
+      <section class="filter-group">
+        <h2 data-i18n="sec-nivel">Nível</h2>
+        <div class="pill-group" id="filter-nivel" role="group" aria-labelledby="sec-nivel-label">
+          <button class="pill active" data-value="nacional" data-i18n="pill-nacional" aria-pressed="true">Nacional</button>
+          <button class="pill active" data-value="estadual" data-i18n="pill-estadual" aria-pressed="true">Estadual</button>
+          <button class="pill active" data-value="municipal" data-i18n="pill-municipal" aria-pressed="true">Municipal</button>
+        </div>
+      </section>
+
+      <!-- Projeção do mapa -->
+      <section class="filter-group">
+        <h2 data-i18n="sec-projecao">Projeção</h2>
+        <div class="pill-group" id="filter-projection" role="group" aria-labelledby="sec-projecao-label">
+          <button class="pill active" type="button" data-mode="globe" data-i18n="proj-mode-globe" aria-pressed="true">🌐 Globo</button>
+          <button class="pill" type="button" data-mode="robinson" data-i18n="proj-mode-robinson" aria-pressed="false">🗺️ Robinson</button>
+          <button class="pill" type="button" data-mode="mercator" data-i18n="proj-mode-mercator" aria-pressed="false">🧭 Mercator</button>
+        </div>
+      </section>
+
+      <!-- Exibição (rótulos de nome, nos 3 modos de projeção) -->
+      <section class="filter-group">
+        <h2 data-i18n="sec-exibicao">Exibição</h2>
+        <div class="pill-group" id="filter-labels" role="group" aria-labelledby="sec-exibicao-label">
+          <button class="pill active" id="toggle-labels" type="button" data-i18n="pill-labels" aria-pressed="true">🏷️ Nomes</button>
+        </div>
+      </section>
+
+      <!-- Período -->
+      <section class="filter-group">
+        <h2 data-i18n="sec-periodo">Período</h2>
+        <div class="range-row">
+          <span id="ano-min-label">1990</span>
+          <input type="range" id="ano-min" min="1990" max="2026" value="1990" step="1">
+          <input type="range" id="ano-max" min="1990" max="2026" value="2026" step="1">
+          <span id="ano-max-label">2026</span>
+        </div>
+        <p class="range-hint" data-i18n="range-hint">Arraste para filtrar por ano de declaração</p>
+      </section>
+
+      <!-- Busca por país -->
+      <section class="filter-group">
+        <h2 data-i18n="sec-busca">Busca</h2>
+        <input type="search" id="pais-search" data-i18n-placeholder="search-placeholder" placeholder="País, jurisdição…" autocomplete="off">
+        <ul id="search-results"></ul>
+      </section>
+
+    </div><!-- /filters -->
+
+    <!-- Rodapé com contagem e ações (a legenda de cores mora no rodapé do mapa, ver #map-legend) -->
+    <footer id="sidebar-footer">
+      <div class="footer-actions">
+        <button id="stats-btn" type="button" data-i18n="btn-stats">📊 Estatísticas</button>
+        <button id="copy-link" type="button" data-i18n="btn-copy" title="Copiar link da vista actual">🔗 Copiar link</button>
+        <button id="export-csv" type="button">
+          <span data-i18n="btn-csv">↓ CSV</span> (<span id="export-count">–</span>)
+        </button>
+      </div>
+      <p class="sources">
+        <span data-i18n="sources">Fontes:</span>
+        <a href="https://cedamia.org" target="_blank" rel="noopener">CEDAMIA</a> ·
+        <a href="https://worldweatherattribution.org" target="_blank" rel="noopener">WWA</a> ·
+        <a href="https://naturalearthdata.com" target="_blank" rel="noopener">Natural Earth</a>
+      </p>
+    </footer>
+
+  </aside><!-- /sidebar -->
+
+  <!-- ── Mapa principal ────────────────────────────────────────────────── -->
+  <main id="map-wrap">
+    <div id="map"></div>
+    <div id="map-robinson" class="hidden"></div>
+
+    <!-- Contador flutuante -->
+    <div id="map-stats" aria-live="polite" aria-atomic="true">
+      <span id="stat-jurisdictions">–</span> <span data-i18n="stat-label">jurisdições visíveis</span> ·
+      <span id="stat-countries">–</span> <span data-i18n="stat-countries-label">países</span>
+      <span class="empty-hint" data-i18n="empty-hint">— ajuste os filtros para ver dados</span>
+    </div>
+
+    <!-- Botão para abrir sidebar quando recolhida -->
+    <button id="sidebar-open" aria-label="Abrir filtros" title="Filtros" hidden>☰</button>
+
+    <!-- Legenda do mapa (rodapé, vale para os 3 modos de projeção) -->
+    <div id="map-legend" aria-label="Legenda do mapa">
+      <div class="legend-group">
+        <span class="legend-group-title" data-i18n="legend-group-countries">Países</span>
+        <div class="legend-item" tabindex="0" data-i18n-tooltip="legend-tip-ced">
+          <span class="legend-swatch legend-swatch--rect" data-color="ced"></span>
+          <span data-i18n="legend-ced">CED</span>
+        </div>
+        <div class="legend-item" tabindex="0" data-i18n-tooltip="legend-tip-quase">
+          <span class="legend-swatch legend-swatch--rect" data-color="quase"></span>
+          <span data-i18n="legend-quase">Quase-CED</span>
+        </div>
+        <div class="legend-item" tabindex="0" data-i18n-tooltip="legend-tip-wwa">
+          <span class="legend-swatch legend-swatch--rect" data-color="wwa"></span>
+          <span data-i18n="legend-wwa">WWA</span>
+        </div>
+        <div class="legend-item" tabindex="0" data-i18n-tooltip="legend-tip-cinza">
+          <span class="legend-swatch legend-swatch--rect" data-color="cinza"></span>
+          <span data-i18n="legend-cinza">Sem registro</span>
+        </div>
+      </div>
+      <div class="legend-group">
+        <span class="legend-group-title" data-i18n="legend-group-states">Estados</span>
+        <div class="legend-item" tabindex="0" data-i18n-tooltip="legend-tip-ced">
+          <span class="legend-swatch legend-swatch--rect legend-swatch--hatch" data-color="ced"></span>
+          <span data-i18n="legend-ced">CED</span>
+        </div>
+        <div class="legend-item" tabindex="0" data-i18n-tooltip="legend-tip-quase">
+          <span class="legend-swatch legend-swatch--rect legend-swatch--hatch" data-color="quase"></span>
+          <span data-i18n="legend-quase">Quase-CED</span>
+        </div>
+        <div class="legend-item" tabindex="0" data-i18n-tooltip="legend-tip-wwa">
+          <span class="legend-swatch legend-swatch--rect legend-swatch--hatch" data-color="wwa"></span>
+          <span data-i18n="legend-wwa">WWA</span>
+        </div>
+      </div>
+      <div class="legend-group">
+        <span class="legend-group-title" data-i18n="legend-group-points">Municípios</span>
+        <div class="legend-item" tabindex="0" data-i18n-tooltip="legend-tip-ced">
+          <span class="legend-swatch legend-swatch--circle" data-color="ced"></span>
+          <span data-i18n="legend-ced">CED</span>
+        </div>
+        <div class="legend-item" tabindex="0" data-i18n-tooltip="legend-tip-quase">
+          <span class="legend-swatch legend-swatch--circle" data-color="quase"></span>
+          <span data-i18n="legend-quase">Quase-CED</span>
+        </div>
+        <div class="legend-item" tabindex="0" data-i18n-tooltip="legend-tip-wwa">
+          <span class="legend-swatch legend-swatch--circle" data-color="wwa"></span>
+          <span data-i18n="legend-wwa">WWA</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ── Painel de informação (clique no mapa) ────────────────────────── -->
+  <div id="info-panel" class="hidden">
+    <div id="info-drag-handle" aria-hidden="true"><span></span></div>
+    <div id="info-header">
+      <h3 id="info-title">—</h3>
+      <button id="info-close" aria-label="Fechar">✕</button>
+    </div>
+    <div id="info-content">
+      <details class="info-section" data-section="declaracoes" open>
+        <summary>
+          <span class="section-label" data-i18n="info-declaracoes">Declarações</span>
+          <span class="section-count" data-count-for="declaracoes">0</span>
+        </summary>
+        <ul class="section-list" data-list-for="declaracoes"></ul>
+      </details>
+      <details class="info-section" data-section="atribuicao">
+        <summary>
+          <span class="section-label" data-i18n="info-atribuicao">Atribuição WWA</span>
+          <span class="section-count" data-count-for="atribuicao">0</span>
+        </summary>
+        <ul class="section-list" data-list-for="atribuicao"></ul>
+      </details>
+      <details class="info-section" data-section="quase">
+        <summary>
+          <span class="section-label" data-i18n="info-quase">Quase-CED</span>
+          <span class="section-count" data-count-for="quase">0</span>
+        </summary>
+        <ul class="section-list" data-list-for="quase"></ul>
+      </details>
+    </div>
+  </div>
+
+  <!-- ── Painel de estatísticas (modal) ───────────────────────────────── -->
+  <div id="stats-panel" class="hidden" role="dialog" aria-modal="true" aria-labelledby="stats-title">
+    <div id="stats-backdrop"></div>
+    <div id="stats-content">
+      <header id="stats-header">
+        <div>
+          <h2 id="stats-title" data-i18n="stats-title">Estatísticas</h2>
+          <p id="stats-summary" class="stats-summary">– entradas · – países</p>
+        </div>
+        <button id="stats-close" aria-label="Fechar">✕</button>
+      </header>
+      <p class="stats-hint" data-i18n="stats-hint">
+        Reflete os filtros ativos. Ajuste camadas, níveis ou faixa de anos no painel
+        à esquerda para atualizar os gráficos.
+      </p>
+      <section class="chart-row">
+        <h3 data-i18n="chart-timeline-title">Declarações por ano</h3>
+        <div class="chart-wrap"><canvas id="chart-timeline"></canvas></div>
+      </section>
+      <section class="chart-row">
+        <h3 data-i18n="chart-countries-title">Top 10 países (por número de entradas)</h3>
+        <div class="chart-wrap chart-wrap--tall"><canvas id="chart-countries"></canvas></div>
+      </section>
+      <section class="chart-row">
+        <h3 data-i18n="chart-nivel-title">Distribuição por nível</h3>
+        <div class="chart-wrap chart-wrap--small"><canvas id="chart-nivel"></canvas></div>
+      </section>
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<!-- Loading overlay -->
+<div id="loading">
+  <div class="spinner"></div>
+  <p data-i18n="loading">Carregando dados…</p>
+</div>
+
+<script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://unpkg.com/d3@7"></script>
+<script src="https://unpkg.com/d3-geo-projection@4"></script>
+<script type="module" src="js/app.js?v=33"></script>
+</body>
+</html>

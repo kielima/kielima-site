@@ -38,6 +38,32 @@ próprios, e não entra em `npm run navegador` — mesma lógica do
 site por um problema que não é dele. Fica fora da navegação (home/tree) de
 propósito: é uso pessoal, não conteúdo do portfólio.
 
+`public/dec/` é a mesma categoria de exceção, mas por sincronização automática:
+é o CED Map, mapa interativo de declarações de emergência climática (CEDAMIA +
+World Weather Attribution), publicado em `kielima.com/dec`. **A fonte de
+verdade é o repositório `kielima/ced-map`** — pipeline Python de dados
+(`build/`), `index.html`, `style.css`, `js/app.js` e os `data/*.json`/
+`*.geojson` gerados. Um workflow em `kielima/ced-map`
+(`.github/workflows/sync-to-site.yml`) copia esses arquivos para cá a cada
+push validado em `main`, abrindo um PR neste repositório — que passa pelo
+`npm run testar` normal e é auto-mesclado como qualquer outro. **Nunca editar
+`public/dec/` diretamente aqui**: a próxima sincronização sobrescreve sem
+aviso. Qualquer alteração de conteúdo, filtro, cor ou dado do mapa entra pelo
+`kielima/ced-map`.
+
+Duas diferenças em relação à cópia publicada em `kielima.github.io/ced-map/`
+(GitHub Pages do repositório original, que **continua no ar deliberadamente**
+como espelho paralelo por decisão do usuário — não desativar nem redirecionar
+sem pedido explícito): a versão aqui **não tem a camada PWA** (sem
+`manifest.json`, sem `sw.js` — é só a página web) e os metadados
+Open Graph/`<title>`/URL apontam para `kielima.com/dec`. Fora isso, HTML/CSS/JS
+e dados são idênticos aos publicados no GitHub Pages. Segue a mesma lógica do
+`/ppt/<apresentacao>/` e do `/foguinho/`: código externo ao site não deve
+reprovar o CI do site por um problema que não é dele, e por isso `/dec` também
+fica fora do `npm run navegador` (só `npm run verificar` cobre — referências
+de arquivo, sintaxe JS, `<title>`/`lang` — o que já é suficiente porque o
+conteúdo real é validado no CI do `ced-map` antes de chegar aqui).
+
 **Ícone do app (`public/foguinho/icons/`): monograma "KL".** Especificação
 completa em `vault-carreira/02_BRANDING PESSOAL/logotipo.md` (repositório
 separado, fora deste). Resumo: Newsreader peso 300, K reto + L itálico
