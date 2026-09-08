@@ -14,6 +14,7 @@
       navAbout: 'Trajetória',
       navResearch: 'Pesquisa',
       navPpt: 'Apresentações',
+      navMetanalise: 'Metanálise',
       navContact: 'Contato',
 
       heroKicker: 'ENGENHARIA CIVIL · PESQUISA · SUSTENTABILIDADE',
@@ -34,6 +35,7 @@
       researchTitle: 'Quanto custa, em carbono, o concreto que a gente escolhe.',
       researchP1: 'A dissertação em desenvolvimento aplica Avaliação de Ciclo de Vida (ACV) ao concreto de ultra alto desempenho (UHPC), comparando seu impacto ambiental ao de concretos com agregado reciclado. O trabalho está vinculado ao projeto de pesquisa "Avaliação Ambiental de Materiais Estruturais para Grandes Obras", na linha que cruza infraestrutura urbana, dados e sustentabilidade.',
       researchP2: 'A entrada no tema veio da iniciação científica, sobre o efeito de altas temperaturas nas propriedades mecânicas do concreto com agregado reciclado — a pergunta de fundo já era a mesma: o que acontece com um material depois que ele deixa de ser novo.',
+      researchMetaLink: 'Acompanhar a metanálise ao vivo →',
       pubsLabel: 'PUBLICAÇÕES',
       publications: [
         {
@@ -65,6 +67,7 @@
       navAbout: 'Background',
       navResearch: 'Research',
       navPpt: 'Presentations',
+      navMetanalise: 'Meta-analysis',
       navContact: 'Contact',
 
       heroKicker: 'CIVIL ENGINEERING · RESEARCH · SUSTAINABILITY',
@@ -85,6 +88,7 @@
       researchTitle: 'What the concrete we choose costs, in carbon.',
       researchP1: 'My ongoing dissertation applies Life Cycle Assessment (LCA) to ultra high performance concrete (UHPC), comparing its environmental impact with that of recycled aggregate concretes. The work sits within the research project "Environmental Assessment of Structural Materials for Large Infrastructure", on the line where urban infrastructure, data and sustainability meet.',
       researchP2: 'The way in was undergraduate research on how high temperatures affect the mechanical properties of recycled aggregate concrete — the underlying question was already the same one: what happens to a material once it stops being new.',
+      researchMetaLink: 'Follow the live meta-analysis →',
       pubsLabel: 'PUBLICATIONS',
       publications: [
         {
@@ -116,6 +120,7 @@
       navAbout: '经历',
       navResearch: '研究',
       navPpt: '演示文稿',
+      navMetanalise: '荟萃分析',
       navContact: '联系',
 
       heroKicker: '土木工程 · 科研 · 可持续发展',
@@ -136,6 +141,7 @@
       researchTitle: '我们选择的混凝土，用碳来算是多少。',
       researchP1: '在研的硕士论文将生命周期评估（LCA）应用于超高性能混凝土（UHPC），并将其环境影响与再生骨料混凝土进行比较。该研究隶属于“大型工程结构材料环境评估”项目，处在城市基础设施、数据与可持续性交汇的研究方向上。',
       researchP2: '这一课题始于本科阶段的科研：高温对再生骨料混凝土力学性能的影响。当时的核心问题其实已经相同——一种材料在不再是新的之后，会发生什么。',
+      researchMetaLink: '查看实时荟萃分析 →',
       pubsLabel: '论文',
       publications: [
         {
