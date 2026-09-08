@@ -102,8 +102,9 @@
     <section class="meta-section">
       <h2 data-i18n="progressTitle"></h2>
       <p data-i18n="progressP"></p>
-      <div class="meta-card">
+      <div class="meta-card progress-wrap" id="progress-wrap">
         <svg class="progress-chart" id="progress-svg" role="img" aria-label="Gráfico de progresso"></svg>
+        <div class="scatter-tooltip" id="progress-tooltip"></div>
       </div>
     </section>
 
@@ -124,6 +125,15 @@
       <p data-i18n="forestP" id="forest-desc"></p>
       <div class="meta-card">
         <div class="forest-list" id="forest-list"></div>
+      </div>
+    </section>
+
+    <section class="meta-section">
+      <h2 data-i18n="unitChartTitle"></h2>
+      <p data-i18n="unitChartP"></p>
+      <div class="meta-card">
+        <div class="unit-legend" id="unit-legend"></div>
+        <div class="unit-chart-list" id="unit-chart-list"></div>
       </div>
     </section>
 
