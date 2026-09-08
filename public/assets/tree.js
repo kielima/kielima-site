@@ -65,6 +65,43 @@
 
   var lista = document.getElementById('cards');
   var moldes = document.getElementById('icons');
+  var heroName = document.getElementById('hero-name');
+
+  /* Nome em duas partes, como no wordmark impresso: o primeiro nome reto e
+     o resto em itálico verde-floresta (span .accent, ver tree.css). Nomes
+     sem espaço (ex.: o nome em chinês) ficam sem o realce — não há um ponto
+     de corte "sobrenome" natural pra inventar. */
+  function renderName(lang) {
+    if (!heroName) return;
+    var full = COPY[lang].name;
+    var space = full.indexOf(' ');
+    if (space === -1) {
+      heroName.textContent = full;
+      return;
+    }
+    heroName.textContent = '';
+    heroName.appendChild(document.createTextNode(full.slice(0, space + 1)));
+    var accent = document.createElement('span');
+    accent.className = 'accent';
+    accent.textContent = full.slice(space + 1);
+    heroName.appendChild(accent);
+  }
+
+  var PALETTE = {
+    light: ['#1f5a3a', '#3ea568'],
+    dark: ['#eaeee8', '#a8dcbd']
+  };
+
+  var particles = window.KLParticles.init(document.getElementById('particles'), {
+    particleColors: PALETTE[window.KLTheme.isDark() ? 'dark' : 'light'],
+    particleCount: 200,
+    particleSpread: 10,
+    speed: 0.1,
+    particleBaseSize: 100,
+    moveParticlesOnHover: true,
+    alphaParticles: false,
+    disableRotation: false
+  });
 
   function renderCards(strings) {
     lista.textContent = '';
@@ -118,6 +155,7 @@
     copy: COPY,
     select: document.getElementById('lang-select'),
     onChange: function (lang, s) {
+      renderName(lang);
       renderCards(s);
       if (themeCtl) themeCtl.sync();
     }
@@ -142,6 +180,7 @@
   var toggle = document.getElementById('theme-toggle');
 
   themeCtl = window.KLTheme.attach(toggle, function (dark) {
+    if (particles) particles.setColors(PALETTE[dark ? 'dark' : 'light']);
     var lang = i18n ? i18n.current() : 'PT';
     var labels = {
       PT: { toDark: 'Modo escuro', toLight: 'Modo claro' },
