@@ -11,7 +11,9 @@
   --cat-scm: #2f7a4e;
   --cat-reciclado: #4a9d6c;
   --cat-opc: #7fc79b;
-  --cat-outros: var(--ink-40);
+  --cat-ligantes: #0d2e1e;
+  --cat-alvenaria: #5db47f;
+  --cat-biobase: #a3dab8;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,7 +24,9 @@
     --cat-scm: #7fc79b;
     --cat-reciclado: #4f9e70;
     --cat-opc: #336b47;
-    --cat-outros: var(--ink-40);
+    --cat-ligantes: #dff5e8;
+    --cat-alvenaria: #6bc48f;
+    --cat-biobase: #2a5b3c;
   }
 }
 
@@ -32,7 +36,9 @@
   --cat-scm: #7fc79b;
   --cat-reciclado: #4f9e70;
   --cat-opc: #336b47;
-  --cat-outros: var(--ink-40);
+  --cat-ligantes: #dff5e8;
+  --cat-alvenaria: #6bc48f;
+  --cat-biobase: #2a5b3c;
 }
 
 .meta-topbar {
