@@ -15,7 +15,10 @@ function setMe(me) {
   localStorage.setItem(ME_KEY, JSON.stringify(me));
 }
 function todayStr() {
-  return new Date().toISOString().slice(0, 10);
+  // "Hoje" é sempre o dia em América/São_Paulo, não em UTC — perto da
+  // virada (ex.: 21h-23h BRT já é o dia seguinte em UTC), toISOString()
+  // contaria o ping errado.
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo" }).format(new Date());
 }
 function toast(msg) {
   const el = document.createElement("div");
