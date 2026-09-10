@@ -13,6 +13,7 @@
   --cat-opc: #7fc79b;
   --cat-ligantes: #0d2e1e;
   --cat-biobase: #a3dab8;
+  --cat-concreto_armado: #5f7a68;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -25,6 +26,7 @@
     --cat-opc: #336b47;
     --cat-ligantes: #dff5e8;
     --cat-biobase: #2a5b3c;
+    --cat-concreto_armado: #b9c9bd;
   }
 }
 
@@ -36,6 +38,7 @@
   --cat-opc: #336b47;
   --cat-ligantes: #dff5e8;
   --cat-biobase: #2a5b3c;
+  --cat-concreto_armado: #b9c9bd;
 }
 
 .meta-topbar {
