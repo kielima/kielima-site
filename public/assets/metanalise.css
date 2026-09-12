@@ -507,6 +507,11 @@
   color: var(--ink-78);
 }
 
+.has-desc {
+  cursor: help;
+  border-bottom: 1px dotted var(--ink-40);
+}
+
 .forest-chevron {
   flex: none;
   color: var(--ink-40);

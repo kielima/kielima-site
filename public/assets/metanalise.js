@@ -235,6 +235,16 @@
         biobase: 'Bio-base',
         concreto_armado: 'Concreto armado (inclui aço)'
       },
+      catsDesc: {
+        geopolimero: 'Ligante 100% álcali-ativado — sem cimento Portland; um precursor (cinza volante, escória etc.) reage com um ativador alcalino para formar toda a matriz.',
+        uhpc: 'Concreto de ultra-alto desempenho — matriz muito densa, baixa relação água/ligante, fibras e agregados finos selecionados.',
+        scm: 'Cimento Portland com substituição parcial por cinza volante, escória ou sílica ativa — o ligante principal continua a ser o cimento.',
+        reciclado: 'Concreto convencional com agregado graúdo e/ou miúdo substituído, total ou parcialmente, por material reciclado (ex. resíduo de construção e demolição).',
+        opc: 'Concreto de cimento Portland convencional, sem substituições relevantes — a referência-base de comparação.',
+        ligantes: 'Ligantes não convencionais que não se encaixam nas outras famílias (ex. cimentos à base de enxofre, magnésio ou sulfoaluminato).',
+        biobase: 'Materiais com componente de origem biológica/vegetal como parte estrutural relevante (ex. fibra natural, biochar).',
+        concreto_armado: 'Elemento de concreto armado — o valor inclui a contribuição do aço de reforço, não só do concreto.'
+      },
       tooltipCi: 'ci',
       unitChartTitle: 'Unidades de CO₂ relatadas',
       unitChartP: 'Como cada estudo reporta a pegada de carbono — nem sempre em kg CO₂-eq por m³. "Nativo" é o valor já publicado assim pelo autor; "convertido por nós" é calculado a partir de outra grandeza que o próprio artigo imprime (ex. um total dividido pelo volume do elemento). As demais barras ainda estão na unidade original do estudo e ficam fora do gráfico de dispersão acima até serem confirmadas artigo a artigo.',
@@ -336,6 +346,16 @@
         biobase: 'Bio-based',
         concreto_armado: 'Reinforced concrete (includes steel)'
       },
+      catsDesc: {
+        geopolimero: '100% alkali-activated binder — no Portland cement; a precursor (fly ash, slag, etc.) reacts with an alkaline activator to form the entire matrix.',
+        uhpc: 'Ultra-high-performance concrete — very dense matrix, low water/binder ratio, fibers and selected fine aggregates.',
+        scm: 'Portland cement partially replaced by fly ash, slag or silica fume — the main binder is still cement.',
+        reciclado: 'Conventional concrete with coarse and/or fine aggregate fully or partially replaced by recycled material (e.g. construction and demolition waste).',
+        opc: 'Conventional Portland cement concrete, with no relevant substitutions — the baseline for comparison.',
+        ligantes: "Non-conventional binders that don't fit the other families (e.g. sulfur, magnesium or sulfoaluminate-based cements).",
+        biobase: 'Materials with a biological/plant-based component as a relevant structural part (e.g. natural fiber, biochar).',
+        concreto_armado: 'Reinforced concrete element — the value includes the contribution of reinforcing steel, not just the concrete.'
+      },
       tooltipCi: 'ci',
       unitChartTitle: 'Reported CO₂ units',
       unitChartP: "How each study reports its carbon footprint — not always in kg CO₂-eq per m³. \"Native\" is the value as the author already published it; \"converted by us\" is computed from a different quantity the article itself prints (e.g. a total divided by the element's volume). The other bars are still in the study's original unit and stay out of the scatter chart above until confirmed article by article.",
@@ -436,6 +456,16 @@
         ligantes: '替代胶凝材料',
         biobase: '生物基材料',
         concreto_armado: '钢筋混凝土（含钢材）'
+      },
+      catsDesc: {
+        geopolimero: '100%碱激发胶凝材料——不含硅酸盐水泥；前驱体（粉煤灰、矿渣等）与碱性激发剂反应，形成全部基体。',
+        uhpc: '超高性能混凝土——基体致密、水胶比低，含纤维和精选细骨料。',
+        scm: '硅酸盐水泥部分替代为粉煤灰、矿渣或硅灰——主要胶凝材料仍是水泥。',
+        reciclado: '常规混凝土，粗骨料和/或细骨料部分或全部替换为再生材料（如建筑废料）。',
+        opc: '常规硅酸盐水泥混凝土，无明显替代材料——作为比较基准。',
+        ligantes: '不属于其他类别的非常规胶凝材料（如硫基、镁基或硫铝酸盐基水泥）。',
+        biobase: '含有生物/植物来源成分作为重要结构部分的材料（如天然纤维、生物炭）。',
+        concreto_armado: '钢筋混凝土构件——数值包含钢筋的贡献，不仅是混凝土本身。'
       },
       tooltipCi: 'ci',
       unitChartTitle: '报告的CO₂单位',
@@ -977,6 +1007,10 @@
 
       var label = document.createElement('span');
       label.textContent = strings.cats[cat];
+      if (strings.catsDesc && strings.catsDesc[cat]) {
+        label.title = strings.catsDesc[cat];
+        label.classList.add('has-desc');
+      }
       btn.appendChild(label);
 
       var n = document.createElement('span');
@@ -1068,6 +1102,13 @@
     name.appendChild(chevron);
     var nameText = document.createElement('span');
     nameText.textContent = label;
+    if (key.indexOf('cat:') === 0) {
+      var descCat = key.slice(4);
+      if (strings.catsDesc && strings.catsDesc[descCat]) {
+        nameText.title = strings.catsDesc[descCat];
+        nameText.classList.add('has-desc');
+      }
+    }
     name.appendChild(nameText);
     head.appendChild(name);
 
