@@ -64,6 +64,17 @@ fica fora do `npm run navegador` (só `npm run verificar` cobre — referências
 de arquivo, sintaxe JS, `<title>`/`lang` — o que já é suficiente porque o
 conteúdo real é validado no CI do `ced-map` antes de chegar aqui).
 
+`public/ibovespa/` é a mesma categoria de exceção que `/foguinho/`: um dashboard
+estático (tabelas ordenáveis/filtráveis + gráfico de barras, sem biblioteca
+externa) com o recorte de acionistas e pulverização das empresas do Ibovespa,
+publicado em `kielima.com/ibovespa`. Fonte dos dados: `data.json` gerado a
+partir do banco de dados em `vault-carreira/04_FINANCEIRO/INVESTIMENTOS/`
+(vault separado deste repositório) — atualizar o dashboard é regenerar esse
+arquivo e commitar de novo, não há sincronização automática. Só em português,
+sem i18n, fora do `npm run navegador` (não porque carregue algo externo — não
+carrega — mas por ser uso pessoal, não conteúdo de portfólio, mesma lógica do
+`/foguinho/`) e fora da navegação (home/tree) de propósito.
+
 **Ícone do app (`public/foguinho/icons/`): monograma "KL".** Especificação
 completa em `vault-carreira/02_BRANDING PESSOAL/logotipo.md` (repositório
 separado, fora deste). Resumo: Newsreader peso 300, K reto + L itálico
