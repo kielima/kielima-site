@@ -98,7 +98,13 @@
         "Outros"/tesouraria de cada empresa, que fica fora desta aba). Para os 15 maiores
         por essa métrica, o nome vem com sublinhado tracejado — passe o mouse para ver a
         estrutura societária de quem controla esse próprio acionista (pesquisa aberta, não
-        é dado da CVM).
+        é dado da CVM). Quando essa estrutura tem um sócio específico e quantificado (ex.:
+        Vanguard Group dentro da BlackRock), esse sócio também ganha linha própria nesta
+        aba — a coluna <strong>Empresas</strong> mostra, nesse caso, o acionista do qual ele
+        é sócio (não um ticker), com o mesmo popover; a <strong>% do Ibovespa</strong> dele
+        já vem multiplicada pela cadeia (participação dentro do acionista-pai × % do
+        Ibovespa do acionista-pai). Quando esse sócio já tem linha própria com dado real da
+        CVM (ex.: Itaúsa, sócia da IUPAR), ele não é duplicado aqui.
       </p>
       <input type="search" class="search" data-table="acionistas" placeholder="Buscar por nome ou empresa…" />
       <div class="table-wrap">
@@ -165,10 +171,13 @@
           ambíguos — nomes claramente diferentes mesmo que relacionados (ex.: "Governo
           Federal" vs. "União Federal") não são unificados, por segurança.</li>
         <li><strong>Estrutura societária dos 15 maiores acionistas</strong> (sublinhado
-          tracejado na aba Acionistas): vem de pesquisa aberta (relatórios públicos,
-          imprensa financeira), não da CVM — a CVM só cobre companhias abertas
-          brasileiras, e esses acionistas em geral não são. Dado sujeito a ficar
-          desatualizado sem aviso; ver as fontes citadas em cada popover.</li>
+          tracejado na aba Acionistas), e das linhas de "acionistas de acionistas" geradas
+          a partir dela: vem de pesquisa aberta (relatórios públicos, imprensa financeira),
+          não da CVM — a CVM só cobre companhias abertas brasileiras, e esses acionistas em
+          geral não são. Em alguns casos só uma fração do capital foi individualizada pela
+          pesquisa (ex.: só um herdeiro nomeado numa holding familiar) — o restante fica de
+          fora, sem virar linha própria. Dado sujeito a ficar desatualizado sem aviso; ver
+          as fontes citadas em cada popover.</li>
         <li>Recorte de uso pessoal, dados públicos, sem garantia de atualização
           contínua. Não é recomendação de investimento.</li>
       </ul>
