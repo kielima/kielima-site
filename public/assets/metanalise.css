@@ -514,14 +514,70 @@
   gap: 6px;
 }
 
+.funnel-hint {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-40);
+}
+
+/* .funnel-head é um <button> (foco/teclado de graça), estilizado para
+   continuar lendo-se como a legenda de texto simples que era antes. */
 .funnel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  border: none;
+  background: none;
+  padding: 4px 0;
+  margin: 0;
+  font: inherit;
   font-size: 13px;
   color: var(--ink-78);
+  text-align: left;
+  cursor: pointer;
+}
+
+.funnel-head:hover {
+  color: var(--ink);
+}
+
+.funnel-head:hover .funnel-chevron {
+  color: var(--green);
 }
 
 .funnel-head b {
   color: var(--ink);
   font-weight: 500;
+}
+
+.funnel-chevron {
+  flex: none;
+  color: var(--ink-40);
+  font-size: 16px;
+  line-height: 1;
+  transition: transform 0.15s ease;
+}
+
+.funnel-row.is-open .funnel-chevron {
+  transform: rotate(90deg);
+}
+
+.funnel-detail {
+  display: none;
+  margin: 8px 0 0;
+  padding: 10px 14px;
+  border-radius: 3px;
+  background: var(--ink-16);
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--ink-65);
+}
+
+.funnel-row.is-open .funnel-detail {
+  display: block;
 }
 
 /* Preenchimento tinto + borda sólida, como as caixas do fluxograma PRISMA
