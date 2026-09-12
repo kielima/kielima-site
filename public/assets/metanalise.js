@@ -88,6 +88,24 @@
     { key: 'e4', n: 594, principal: 462, sensibilidade: 132 }
   ];
 
+  /* Registos por base de dados, antes da remoção de duplicatas -- mesmos
+     números do slide 22 de /ppt/dissertacao/ (nomes das bases são próprios,
+     não traduzidos por idioma). Soma = 5.093 = FUNNEL[0].n. Snapshot manual
+     das buscas originais, não recalculado a cada corrida (não vive em
+     articles_final.xlsx com uma coluna própria) -- atualizar à mão só se as
+     buscas forem refeitas. Exibido dentro do detalhe da etapa "universo",
+     ordenado do maior para o menor (pedido da Kie, 2026-09-12) -- o slide
+     mostra a ordem inversa (menor para maior). */
+  var DB_SOURCES = [
+    { label: 'Web of Science', n: 1917 },
+    { label: 'Scopus', n: 1427 },
+    { label: 'Engineering Village', n: 763 },
+    { label: 'MDPI', n: 475 },
+    { label: 'Science Direct', n: 411 },
+    { label: 'BDTD', n: 72 },
+    { label: 'SciELO', n: 28 }
+  ];
+
   var COPY = {
     PT: {
       kicker: 'PESQUISA · PAINEL AO VIVO',
@@ -110,6 +128,7 @@
       },
       funnelRevisaoNote: 'Mais 57 artigos são revisões sem avaliação de ciclo de vida própria — não alimentam o indicador ci, mas continuam na base como ramo de citação do PRISMA: candidatos a fontes primárias descobertas pelas revisões que as citam.',
       funnelToggleHint: 'toque numa etapa para ver os critérios de exclusão',
+      funnelDbChartTitle: 'Registos por base de dados, antes da remoção de duplicatas',
       funnelDetails: {
         universo: '5.093 registos recolhidos nas buscas. 2.627 (51,6%) eram duplicados, removidos antes de qualquer triagem. 1.808 foram rejeitados ao longo das quatro etapas seguintes — ver o detalhe em cada barra abaixo. 7 nunca tiveram o texto completo disponível (sem acesso). Os 651 restantes — 594 elegíveis + 57 revisões sem ACV própria — chegam à Etapa 4.',
         e1: 'Dos 2.471 registos avaliados nos metadados (ano, tipo de documento, material moldável, aplicação em construção), 2.199 foram aceites. Os 272 excluídos falharam por: aplicação em construção (190), material não moldável (71), tipo de documento (9), ano de publicação (1) — um registo pode falhar mais de um critério.',
@@ -194,6 +213,7 @@
       },
       funnelRevisaoNote: 'Another 57 articles are reviews without their own life-cycle assessment — they do not feed the ci indicator, but stay in the base as a PRISMA citation branch: candidate primary sources discovered through the reviews that cite them.',
       funnelToggleHint: 'tap a stage to see the exclusion criteria',
+      funnelDbChartTitle: 'Records by database, before duplicate removal',
       funnelDetails: {
         universo: "5,093 records collected in the searches. 2,627 (51.6%) were duplicates, removed before any screening. 1,808 were rejected across the four stages that follow — see the detail in each bar below. 7 never had the full text available (no access). The remaining 651 — 594 eligible + 57 reviews without their own LCA — reach Stage 4.",
         e1: 'Of the 2,471 records screened on metadata (year, document type, moldable material, construction application), 2,199 were accepted. The 272 excluded failed on: construction application (190), non-moldable material (71), document type (9), publication year (1) — a record can fail more than one criterion.',
@@ -278,6 +298,7 @@
       },
       funnelRevisaoNote: '另有57篇文献属于没有自身生命周期评估的综述——不计入ci指标，但仍保留在数据库中，作为PRISMA引文分支：这些综述所引用的原始研究是潜在的候选文献。',
       funnelToggleHint: '点击每个阶段查看排除标准',
+      funnelDbChartTitle: '去重之前，各数据库的记录数',
       funnelDetails: {
         universo: '检索共收集5,093条记录。其中2,627条（51.6%）为重复记录，在任何筛选之前已被移除。1,808条在随后四个阶段中被剔除——详见下方各阶段柱状图。7条从未能获取全文（无法访问）。剩余651条——594篇入选文献+57篇无自身生命周期评估的综述——进入第4阶段。',
         e1: '在按元数据（年份、文献类型、可模塑材料、建筑用途）筛选的2,471条记录中，2,199条被接受。被排除的272条中：190条因不属于建筑用途，71条因材料不可模塑，9条因文献类型，1条因发表年份——同一记录可能同时不符合多项标准。',
@@ -628,13 +649,66 @@
         row.appendChild(legend);
       }
 
-      var detail = document.createElement('p');
+      var detail = document.createElement('div');
       detail.className = 'funnel-detail';
-      detail.textContent = strings.funnelDetails[stage.key];
+      var detailText = document.createElement('p');
+      detailText.className = 'funnel-detail-text';
+      detailText.textContent = strings.funnelDetails[stage.key];
+      detail.appendChild(detailText);
+      if (stage.key === 'universo') {
+        detail.appendChild(buildDbChart(strings, lang));
+      }
       row.appendChild(detail);
 
       list.appendChild(row);
     });
+  }
+
+  /* Sub-gráfico dentro do detalhe da etapa "universo" -- pedido da Kie
+     (2026-09-12): mesmos números do slide 22 de /ppt/dissertacao/ (registos
+     por base de dados, antes da remoção de duplicatas), mas em ordem
+     invertida em relação ao slide -- maior no topo, menor embaixo -- e no
+     mesmo estilo de barra (bordada/tintada) das etapas do funil acima. */
+  function buildDbChart(strings, lang) {
+    var wrap = document.createElement('div');
+    wrap.className = 'db-chart';
+
+    var title = document.createElement('div');
+    title.className = 'db-chart-title';
+    title.textContent = strings.funnelDbChartTitle;
+    wrap.appendChild(title);
+
+    var listEl = document.createElement('div');
+    listEl.className = 'db-chart-list';
+    var sorted = DB_SOURCES.slice().sort(function (a, b) { return b.n - a.n; });
+    var max = sorted[0].n;
+
+    sorted.forEach(function (db) {
+      var row = document.createElement('div');
+      row.className = 'db-chart-row';
+
+      var label = document.createElement('div');
+      label.className = 'db-chart-label';
+      label.textContent = db.label;
+      row.appendChild(label);
+
+      var barWrap = document.createElement('div');
+      barWrap.className = 'db-chart-bar-wrap';
+      var bar = document.createElement('div');
+      bar.className = 'db-chart-bar';
+      bar.style.width = (db.n / max) * 100 + '%';
+      var count = document.createElement('span');
+      count.className = 'db-chart-count';
+      count.textContent = fmtInt(db.n, lang);
+      bar.appendChild(count);
+      barWrap.appendChild(bar);
+      row.appendChild(barWrap);
+
+      listEl.appendChild(row);
+    });
+
+    wrap.appendChild(listEl);
+    return wrap;
   }
 
   /* ----------------------------------------------------- gráfico: dispersão */
