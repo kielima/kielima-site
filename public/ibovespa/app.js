@@ -131,7 +131,18 @@ function renderAgrupado(name, dadosOrdenadosPorPct) {
     const tr = document.createElement('tr');
 
     const tdNome = document.createElement('td');
-    tdNome.textContent = row.nome;
+    const estrutura = name === 'acionistas' && state.data.estruturaAcionistas
+      ? state.data.estruturaAcionistas[row.chaveNormalizada]
+      : null;
+    if (estrutura) {
+      const span = document.createElement('span');
+      span.className = 'entidade-ref';
+      span.textContent = row.nome;
+      span.dataset.entidade = row.chaveNormalizada;
+      tdNome.appendChild(span);
+    } else {
+      tdNome.textContent = row.nome;
+    }
     tr.appendChild(tdNome);
 
     const tdQtd = document.createElement('td');
@@ -234,7 +245,7 @@ function agruparAcionistas(acionistas, pesoPorTicker) {
       const peso = pesoPorTicker.get(e.ticker);
       if (e.pct != null && peso != null) pctIndice += (e.pct * peso) / 100;
     }
-    return { ...r, nome: grafiaExibicao.get(r.nome), pctIndice };
+    return { ...r, chaveNormalizada: r.nome, nome: grafiaExibicao.get(r.nome), pctIndice };
   });
 }
 
@@ -314,14 +325,18 @@ function agruparAcionistasPorTicker(acionistas) {
   return porTicker;
 }
 
-function corDaFatia(nomeAcionista, indiceCorVerde) {
-  if (NOMES_RESIDUO.has(nomeAcionista)) return 'var(--pie-outros)';
+function corDaFatia(ehResiduo, indiceCorVerde) {
+  if (ehResiduo) return 'var(--pie-outros)';
   return `var(--${PIE_CORES[indiceCorVerde % PIE_CORES.length]})`;
 }
 
 const LEGENDA_MAX_LINHAS = 8;
+const RESIDUO_GENERICO = /^outros|^público/i;
 
-function montarPizza(linhas) {
+// itens: [{nome, pct}]. ehResiduo(nome) decide a fatia neutra (cinza) —
+// "Outros"/"Ações Tesouraria" numa empresa, "Outros (capital disperso)" etc.
+// numa entidade pesquisada manualmente.
+function montarPizzaGenerica(itens, ehResiduo) {
   let acumulado = 0;
   let indiceCor = 0;
   const fatias = [];
@@ -329,17 +344,18 @@ function montarPizza(linhas) {
   let restantePct = 0;
   let restanteQtd = 0;
 
-  linhas.forEach((l, i) => {
-    const pct = numeric(l.percentual_total_pct) ?? 0;
-    const cor = corDaFatia(l.acionista, indiceCor);
-    if (!NOMES_RESIDUO.has(l.acionista)) indiceCor++;
+  itens.forEach((item, i) => {
+    const pct = numeric(item.pct) ?? 0;
+    const residuo = ehResiduo(item.nome);
+    const cor = corDaFatia(residuo, indiceCor);
+    if (!residuo) indiceCor++;
     fatias.push(`${cor} ${acumulado}% ${acumulado + pct}%`);
     acumulado += pct;
 
     if (i < LEGENDA_MAX_LINHAS) {
       legenda.push(
         `<li><span class="pie-swatch" style="background:${cor}"></span>` +
-          `<span class="pie-legend-nome">${l.acionista}</span>` +
+          `<span class="pie-legend-nome">${item.nome}</span>` +
           `<span class="pie-legend-pct">${fmtPct(pct)}</span></li>`
       );
     } else {
@@ -357,6 +373,13 @@ function montarPizza(linhas) {
   }
 
   return { gradiente: fatias.join(', '), legendaHtml: legenda.join('') };
+}
+
+function montarPizza(linhas) {
+  return montarPizzaGenerica(
+    linhas.map((l) => ({ nome: l.acionista, pct: numeric(l.percentual_total_pct) ?? 0 })),
+    (nome) => NOMES_RESIDUO.has(nome)
+  );
 }
 
 function linhaInfoBadge(dataset) {
@@ -378,6 +401,25 @@ function criarPopover() {
   return el;
 }
 
+function fontesHtml(fontes) {
+  if (!fontes || !fontes.length) return '';
+  const itens = fontes.map((f) => `<li><a href="${f.url}" target="_blank" rel="noopener">${f.titulo}</a></li>`);
+  return `<ul class="pie-fontes">${itens.join('')}</ul>`;
+}
+
+function posicionarPopover(popover, alvo) {
+  popover.hidden = false;
+  const rect = alvo.getBoundingClientRect();
+  const largura = popover.offsetWidth;
+  const altura = popover.offsetHeight;
+  let x = rect.left;
+  let y = rect.bottom + 8;
+  if (x + largura > window.innerWidth - 12) x = window.innerWidth - largura - 12;
+  if (y + altura > window.innerHeight - 12) y = rect.top - altura - 8;
+  popover.style.left = `${Math.max(12, x)}px`;
+  popover.style.top = `${Math.max(12, y)}px`;
+}
+
 function setupPiePopover() {
   const popover = criarPopover();
 
@@ -385,7 +427,7 @@ function setupPiePopover() {
     popover.hidden = true;
   }
 
-  function mostrar(alvo) {
+  function mostrarTicker(alvo) {
     const ticker = alvo.dataset.ticker;
     const linhas = state.data.acionistasPorTicker.get(ticker);
     if (!linhas) return;
@@ -400,32 +442,70 @@ function setupPiePopover() {
       `<ul class="pie-legend">${legendaHtml}</ul>` +
       `</div>`;
 
-    popover.hidden = false;
-    const rect = alvo.getBoundingClientRect();
-    const largura = popover.offsetWidth;
-    const altura = popover.offsetHeight;
-    let x = rect.left;
-    let y = rect.bottom + 8;
-    if (x + largura > window.innerWidth - 12) x = window.innerWidth - largura - 12;
-    if (y + altura > window.innerHeight - 12) y = rect.top - altura - 8;
-    popover.style.left = `${Math.max(12, x)}px`;
-    popover.style.top = `${Math.max(12, y)}px`;
+    posicionarPopover(popover, alvo);
+  }
+
+  function mostrarEntidade(alvo) {
+    const chave = alvo.dataset.entidade;
+    const info = state.data.estruturaAcionistas && state.data.estruturaAcionistas[chave];
+    if (!info) return;
+
+    // "Já no recorte" (ex.: Itaúsa, Banco do Brasil): a estrutura real via
+    // CVM já existe no ticker da própria empresa — mostra o gráfico dela.
+    if (info.tipo === 'ja_no_recorte' && info.ticker) {
+      const linhas = state.data.acionistasPorTicker.get(info.ticker);
+      const empresa = (state.data.empresas.find((e) => e.ticker === info.ticker) || {}).empresa || info.ticker;
+      if (linhas) {
+        const { gradiente, legendaHtml } = montarPizza(linhas);
+        popover.innerHTML =
+          `<p class="pie-empresa">${alvo.textContent} → ${info.ticker} — ${empresa}</p>` +
+          `<p class="pie-resumo">${info.resumo}</p>` +
+          `<div class="pie-body">` +
+          `<div class="pie-circle" style="background: conic-gradient(${gradiente})"></div>` +
+          `<ul class="pie-legend">${legendaHtml}</ul>` +
+          `</div>`;
+        posicionarPopover(popover, alvo);
+        return;
+      }
+    }
+
+    if (info.pizza && info.pizza.length) {
+      const { gradiente, legendaHtml } = montarPizzaGenerica(info.pizza, (nome) => RESIDUO_GENERICO.test(nome));
+      popover.innerHTML =
+        `<p class="pie-empresa">${alvo.textContent}</p>` +
+        `<p class="pie-resumo">${info.resumo}</p>` +
+        `<div class="pie-body">` +
+        `<div class="pie-circle" style="background: conic-gradient(${gradiente})"></div>` +
+        `<ul class="pie-legend">${legendaHtml}</ul>` +
+        `</div>` +
+        fontesHtml(info.fontes);
+    } else {
+      popover.innerHTML =
+        `<p class="pie-empresa">${alvo.textContent}</p>` +
+        `<p class="pie-resumo">${info.resumo}</p>` +
+        fontesHtml(info.fontes);
+    }
+
+    posicionarPopover(popover, alvo);
   }
 
   document.addEventListener('mouseover', (e) => {
-    const alvo = e.target.closest('.ticker-ref');
-    if (alvo) mostrar(alvo);
+    const alvoTicker = e.target.closest('.ticker-ref');
+    if (alvoTicker) return mostrarTicker(alvoTicker);
+    const alvoEntidade = e.target.closest('.entidade-ref');
+    if (alvoEntidade) mostrarEntidade(alvoEntidade);
   });
   document.addEventListener('mouseout', (e) => {
-    const alvo = e.target.closest('.ticker-ref');
+    const alvo = e.target.closest('.ticker-ref, .entidade-ref');
     if (alvo && !alvo.contains(e.relatedTarget)) esconder();
   });
   document.addEventListener('scroll', esconder, true);
 }
 
 async function main() {
-  const res = await fetch('./data.json');
+  const [res, resEstrutura] = await Promise.all([fetch('./data.json'), fetch('./estrutura-acionistas.json')]);
   state.data = await res.json();
+  state.data.estruturaAcionistas = resEstrutura.ok ? await resEstrutura.json() : {};
 
   // Pulverização deixou de ser uma aba própria: a % de cada empresa entra
   // como coluna na aba Empresas, usando o mesmo dado (ranking) de antes.

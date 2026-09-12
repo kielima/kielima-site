@@ -323,6 +323,38 @@ td.empresas-cell .ticker-ref,
   background: var(--bar-bg);
 }
 
+/* ---- Nome de acionista com estrutura societária pesquisada ---------------- */
+
+.entidade-ref {
+  cursor: help;
+  border-bottom: 1px dashed var(--ink-40);
+}
+
+.entidade-ref:hover {
+  border-bottom-color: var(--green);
+  color: var(--green);
+}
+
+.pie-resumo {
+  margin: 0 0 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-70);
+  max-width: 300px;
+}
+
+.pie-fontes {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 10.5px;
+  color: var(--ink-40);
+}
+
+.pie-fontes a {
+  color: inherit;
+}
+
 /* ---- Popover com o gráfico de pizza dos acionistas ------------------------- */
 
 .pie-popover {
