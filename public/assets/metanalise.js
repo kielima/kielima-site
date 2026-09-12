@@ -403,13 +403,27 @@
 
   /* --------------------------------------------------- gráfico: progresso */
 
-  function renderProgress(strings) {
+  function renderProgress(strings, lang) {
     var svg = document.getElementById('progress-svg');
     while (svg.firstChild) svg.removeChild(svg.firstChild);
 
-    var values = PROGRESS.map(function (p) { return p.v; });
-    var W = 900, H = 220;
-    var padL = 36, padR = 16, padT = 16, padB = 26;
+    /* A curva e um historico cumulativo de pares confirmados na base --
+       PROGRESS nao sabe, ponto a ponto, quantos desses pares eram
+       "principal" vs "sensibilidade" em cada momento (a estratificacao
+       por qualidade so existe hoje, aplicada ao estado atual dos dados,
+       nao a cada onda passada). Para a curva reagir ao filtro de estrato
+       sem inventar um historico que nao existe, cada valor registado e
+       reescalado pela MESMA proporcao que o filtro atual tira do total
+       de hoje (DATA.length) -- o ultimo ponto fecha exatamente com
+       currentData().length (o mesmo numero do KPI de pares), e os
+       pontos anteriores encolhem/crescem na mesma proporcao, preservando
+       a forma relativa da curva (inclusive o tamanho das quedas nas
+       correcoes). Aproximado, nao um recalculo linha a linha -- ver nota
+       acima. */
+    var ratio = DATA.length ? currentData().length / DATA.length : 1;
+    var values = PROGRESS.map(function (p) { return p.v * ratio; });
+    var W = 900, H = 200;
+    var padL = 36, padR = 16, padT = 16, padB = 10;
     var innerW = W - padL - padR, innerH = H - padT - padB;
     var max = Math.max.apply(null, values) * 1.08;
     var min = 0;
@@ -442,10 +456,16 @@
     var wrap = document.getElementById('progress-wrap');
     var waveN = 0;
 
+    /* O rotulo de cada ponto (inicio/onda N/correcao) deixou de ficar
+       escrito permanentemente por baixo do eixo -- com 22+ pontos no
+       mesmo espaco os textos se sobrepunham e ficavam ilegiveis (achado
+       da Kie, 2026-09-12). Agora só aparece no tooltip ao passar o mouse
+       em cima do circulo/losango, junto com o valor (ja reescalado pelo
+       filtro de estrato acima). */
     for (var j = 0; j < PROGRESS.length; j++) {
       var pt = PROGRESS[j];
       var isMarco = pt.kind === 'marco';
-      var cx = x(j), cy = y(pt.v);
+      var cx = x(j), cy = y(values[j]);
 
       if (isMarco) {
         svg.appendChild(svgEl('line', {
@@ -461,32 +481,29 @@
       var val = svgEl('text', {
         x: cx, y: cy - 11, class: 'progress-value' + (isMarco ? ' progress-value-marco' : ''), 'text-anchor': 'middle'
       });
-      val.textContent = fmtInt(pt.v, 'PT');
+      val.textContent = fmtInt(Math.round(values[j]), lang);
       svg.appendChild(val);
 
-      var wl = svgEl('text', { x: cx, y: H - 6, class: 'progress-axis', 'text-anchor': 'middle' });
+      var pointLabel;
       if (pt.kind === 'start') {
-        wl.textContent = strings.progressStart;
+        pointLabel = strings.progressStart;
       } else if (isMarco) {
-        wl.textContent = strings.progressMarco;
+        pointLabel = strings.progressMarco;
       } else {
         waveN++;
-        wl.textContent = strings.progressWave + (strings.progressWaveSuffix ? '' : ' ') + waveN + strings.progressWaveSuffix;
+        pointLabel = strings.progressWave + (strings.progressWaveSuffix ? '' : ' ') + waveN + strings.progressWaveSuffix;
       }
-      svg.appendChild(wl);
 
-      if (isMarco) {
-        (function (text) {
-          dot.addEventListener('mousemove', function (ev) {
-            tooltip.innerHTML = text;
-            positionTooltip(tooltip, wrap, ev);
-            tooltip.classList.add('is-visible');
-          });
-          dot.addEventListener('mouseleave', function () {
-            tooltip.classList.remove('is-visible');
-          });
-        })(strings.progressMarcos[pt.tKey]);
-      }
+      (function (label, marcoText) {
+        dot.addEventListener('mousemove', function (ev) {
+          tooltip.innerHTML = marcoText || ('<b>' + label + '</b>');
+          positionTooltip(tooltip, wrap, ev);
+          tooltip.classList.add('is-visible');
+        });
+        dot.addEventListener('mouseleave', function () {
+          tooltip.classList.remove('is-visible');
+        });
+      })(pointLabel, isMarco ? strings.progressMarcos[pt.tKey] : null);
     }
   }
 
@@ -876,7 +893,7 @@
     renderTierCounts(lang);
     renderScatterDesc(strings, lang);
     renderFunnel(strings, lang);
-    renderProgress(strings);
+    renderProgress(strings, lang);
     renderScatter(strings);
     renderLegend(strings);
     renderForest(strings);
