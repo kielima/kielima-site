@@ -48,8 +48,8 @@
     </section>
 
     <nav class="tabs" role="tablist" aria-label="Seções do banco de dados">
-      <button class="tab is-active" role="tab" aria-selected="true" data-tab="ranking">Pulverização</button>
-      <button class="tab" role="tab" aria-selected="false" data-tab="empresas">Empresas</button>
+      <button class="tab is-active" role="tab" aria-selected="true" data-tab="empresas">Empresas</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="acionistas">Acionistas</button>
       <button class="tab" role="tab" aria-selected="false" data-tab="pessoas">Pessoas</button>
     </nav>
 
@@ -58,17 +58,13 @@
       para ver os acionistas dela num gráfico de pizza.
     </p>
 
-    <section class="panel is-active" id="panel-ranking" role="tabpanel">
+    <section class="panel is-active" id="panel-empresas" role="tabpanel">
       <p class="section-note">
-        <strong>pct_acionistas_dispersos</strong> = % da empresa que não está com o
-        controlador, a administração, a tesouraria nem nenhum investidor
-        individualmente nomeado (ex.: BlackRock, BNDESPAR) — é a linha "Outros" do
-        item 15.1/2 do Formulário de Referência. Quanto maior, mais pulverizada.
+        <strong>Dispersos %</strong> = % da empresa que não está com o controlador, a
+        administração, a tesouraria nem nenhum investidor individualmente nomeado (ex.:
+        BlackRock, BNDESPAR) — é a linha "Outros" do item 15.1/2 do Formulário de
+        Referência. Quanto maior, mais pulverizada.
       </p>
-      <div class="chart" id="chart-ranking" role="img" aria-label="Barras de pulverização por empresa"></div>
-    </section>
-
-    <section class="panel" id="panel-empresas" role="tabpanel">
       <input type="search" class="search" data-table="empresas" placeholder="Buscar por ticker, empresa ou setor…" />
       <div class="table-wrap">
         <table id="table-empresas">
@@ -79,6 +75,30 @@
               <th data-sort="setor">Setor</th>
               <th data-sort="peso_ibov_pct" class="num">Peso Ibov %</th>
               <th data-sort="free_float_cvm_pct" class="num">Free float CVM %</th>
+              <th data-sort="pct_acionistas_dispersos" class="num">Dispersos %</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-acionistas" role="tabpanel">
+      <p class="section-note">
+        Todo acionista nomeado individualmente no item 15.1/2 do FRE, em qualquer empresa
+        do recorte — pessoas físicas e jurídicas, holdings, fundos e instituições (ex.:
+        BlackRock, Governo Federal, BNDES). Não inclui as linhas-resíduo "Outros" e "Ações
+        Tesouraria" (não são um acionista nomeado). <strong>Nº empresas</strong> conta em
+        quantas empresas do recorte esse acionista tem participação nomeada.
+      </p>
+      <input type="search" class="search" data-table="acionistas" placeholder="Buscar por nome ou empresa…" />
+      <div class="table-wrap">
+        <table id="table-acionistas">
+          <thead>
+            <tr>
+              <th data-sort="nome">Nome</th>
+              <th data-sort="qtdEmpresas" class="num">Nº empresas</th>
+              <th>Empresas</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -88,9 +108,12 @@
 
     <section class="panel" id="panel-pessoas" role="tabpanel">
       <p class="section-note">
-        <strong>Nº empresas</strong> conta em quantas empresas do recorte a pessoa tem
-        participação. Passe o mouse sobre o código de cada empresa para ver o
-        percentual efetivo dela ali, o número de veículos societários, se é
+        <strong>percentual_efetivo_na_empresa_pct</strong> já multiplica a cadeia
+        societária inteira (do topo, que é % da empresa, até a pessoa) — não é o
+        percentual de um elo isolado (diferente da aba Acionistas, que traz o percentual
+        direto declarado). <strong>Nº empresas</strong> conta em quantas empresas do
+        recorte a pessoa tem participação. Passe o mouse sobre o código de cada empresa
+        para ver o percentual efetivo dela ali, o número de veículos societários, se é
         controladora, e o gráfico de acionistas da empresa.
       </p>
       <input type="search" class="search" data-table="pessoas" placeholder="Buscar por nome ou empresa…" />
@@ -125,6 +148,12 @@
           curadoria manual nesta versão.</li>
         <li><strong>Patrimônio em R$</strong> ainda não foi calculado — exige valor de
           mercado de cada empresa, fonte ainda não integrada.</li>
+        <li><strong>Aba Acionistas:</strong> o mesmo acionista (ex.: BlackRock) às vezes é
+          grafado de formas diferentes em empresas diferentes (maiúsculas, pontuação,
+          "Fundos administrados por X"). O dashboard normaliza essas variações pra
+          consolidar numa linha só, mas isso é automático e pode errar em casos
+          ambíguos — nomes claramente diferentes mesmo que relacionados (ex.: "Governo
+          Federal" vs. "União Federal") não são unificados, por segurança.</li>
         <li>Recorte de uso pessoal, dados públicos, sem garantia de atualização
           contínua. Não é recomendação de investimento.</li>
       </ul>

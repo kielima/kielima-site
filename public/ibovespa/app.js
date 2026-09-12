@@ -5,16 +5,18 @@
 const fmtPct = (v) => (v == null || Number.isNaN(v) ? '—' : `${Number(v).toFixed(2)}%`);
 const fmtNum = (v) => (v == null ? '—' : Number(v).toLocaleString('pt-BR'));
 
-const TABLE_NAMES = ['empresas', 'pessoas'];
+const TABLE_NAMES = ['empresas', 'acionistas', 'pessoas'];
 const PIE_CORES = ['pie-1', 'pie-2', 'pie-3', 'pie-4', 'pie-5', 'pie-6'];
+const NOMES_RESIDUO = new Set(['Outros', 'Ações Tesouraria']);
 
 const state = {
   data: null,
   sort: {
     empresas: { key: 'peso_ibov_pct', dir: -1 },
+    acionistas: { key: 'qtdEmpresas', dir: -1 },
     pessoas: { key: 'qtdEmpresas', dir: -1 },
   },
-  filter: { empresas: '', pessoas: '' },
+  filter: { empresas: '', acionistas: '', pessoas: '' },
 };
 
 const COLS = {
@@ -24,6 +26,7 @@ const COLS = {
     setor: (r) => r.setor,
     peso_ibov_pct: (r) => fmtPct(r.peso_ibov_pct),
     free_float_cvm_pct: (r) => fmtPct(r.free_float_cvm_pct),
+    pct_acionistas_dispersos: (r) => fmtPct(r.pct_acionistas_dispersos),
   },
 };
 
@@ -58,7 +61,11 @@ function tickerRef(ticker, extra) {
   el.className = 'ticker-ref';
   el.textContent = ticker;
   el.dataset.ticker = ticker;
-  if (extra) Object.assign(el.dataset, extra);
+  if (extra) {
+    for (const [k, v] of Object.entries(extra)) {
+      if (v != null && v !== '') el.dataset[k] = v;
+    }
+  }
   return el;
 }
 
@@ -89,28 +96,19 @@ function renderTable(name) {
   markSortedHeader(name, key);
 }
 
-/* ---- Pessoas: uma linha por pessoa, empresas como badges ------------------- */
+/* ---- Agrupamento genérico: uma linha por entidade, empresas como badges --- */
 
-function agruparPessoasPorNome(pessoas) {
+function agruparPorEntidade(linhas, montarEmpresa) {
   const porNome = new Map();
-  for (const p of pessoas) {
-    if (!porNome.has(p.nome)) porNome.set(p.nome, { nome: p.nome, empresas: [] });
-    porNome.get(p.nome).empresas.push({
-      ticker: p.ticker,
-      empresa: p.empresa,
-      pct: p.percentual_efetivo_na_empresa_pct,
-      veiculos: p.num_veiculos_societarios,
-      controlador: p.acionista_controlador === 'S',
-    });
+  for (const l of linhas) {
+    const nome = l.nome;
+    if (!porNome.has(nome)) porNome.set(nome, { nome, empresas: [] });
+    porNome.get(nome).empresas.push(montarEmpresa(l));
   }
-  return [...porNome.values()].map((p) => ({
-    ...p,
-    qtdEmpresas: p.empresas.length,
-    maiorPct: Math.max(...p.empresas.map((e) => e.pct ?? 0)),
-  }));
+  return [...porNome.values()].map((p) => ({ ...p, qtdEmpresas: p.empresas.length }));
 }
 
-function filtrarPessoas(rows, term) {
+function filtrarAgrupado(rows, term) {
   if (!term) return rows;
   const t = term.toLocaleLowerCase('pt-BR');
   return rows.filter(
@@ -122,11 +120,11 @@ function filtrarPessoas(rows, term) {
   );
 }
 
-function renderPessoas() {
-  const rows = filtrarPessoas(state.data.pessoasPorNome, state.filter.pessoas);
-  const { key, dir } = state.sort.pessoas;
+function renderAgrupado(name, dadosOrdenadosPorPct) {
+  const rows = filtrarAgrupado(state.data[`${name}PorNome`], state.filter[name]);
+  const { key, dir } = state.sort[name];
   const sorted = sortRows(rows, key, dir);
-  const tbody = document.querySelector('#table-pessoas tbody');
+  const tbody = document.querySelector(`#table-${name} tbody`);
   const frag = document.createDocumentFragment();
 
   for (const row of sorted) {
@@ -143,22 +141,84 @@ function renderPessoas() {
 
     const tdEmpresas = document.createElement('td');
     tdEmpresas.className = 'empresas-cell';
-    const empresasOrdenadas = [...row.empresas].sort((a, b) => (b.pct ?? 0) - (a.pct ?? 0));
+    const empresasOrdenadas = dadosOrdenadosPorPct
+      ? [...row.empresas].sort((a, b) => (b.pct ?? 0) - (a.pct ?? 0))
+      : row.empresas;
     for (const e of empresasOrdenadas) {
-      tdEmpresas.appendChild(
-        tickerRef(e.ticker, {
-          efetivo: fmtPct(e.pct),
-          veiculos: fmtNum(e.veiculos),
-          controlador: e.controlador ? 'Sim' : 'Não',
-        })
-      );
+      tdEmpresas.appendChild(tickerRef(e.ticker, e.badge));
     }
     tr.appendChild(tdEmpresas);
 
     frag.appendChild(tr);
   }
   tbody.replaceChildren(frag);
-  markSortedHeader('pessoas', key);
+  markSortedHeader(name, key);
+}
+
+/* ---- Pessoas: cadeia societária do FRE, percentual efetivo já calculado --- */
+
+function agruparPessoas(pessoas) {
+  return agruparPorEntidade(
+    pessoas,
+    (p) => ({
+      ticker: p.ticker,
+      empresa: p.empresa,
+      pct: p.percentual_efetivo_na_empresa_pct,
+      badge: {
+        efetivo: fmtPct(p.percentual_efetivo_na_empresa_pct),
+        veiculos: fmtNum(p.num_veiculos_societarios),
+        controlador: p.acionista_controlador === 'S' ? 'Sim' : 'Não',
+      },
+    })
+  );
+}
+
+/* ---- Acionistas: todo mundo nomeado no item 15.1/2, PF e PJ --------------- */
+
+function normalizarNomeAcionista(nome) {
+  let n = nome.trim();
+  n = n.replace(/\s*\([^)]*\)\s*$/, ''); // sufixo parentético, ex.: "(Gestor/Administrador - Ver item 6.6)"
+  n = n.replace(/^fundos?\s+administrados?\s+pel[ao]s?\s+/i, ''); // "Fundos administrados pela X" -> X
+  n = n.toUpperCase().replace(/[.,;:]/g, ' ').replace(/\s+/g, ' ').trim();
+  return n;
+}
+
+const GRAFIA_INDESEJADA = /\(|^FUNDOS?\s/i;
+
+function agruparAcionistas(acionistas) {
+  // O mesmo acionista (ex.: BlackRock) às vezes aparece com grafias diferentes
+  // em empresas diferentes (maiúsculas, pontuação) — agrupa por nome
+  // normalizado e usa a grafia mais frequente como rótulo de exibição.
+  const contagemGrafias = new Map();
+  const linhasComNomeNormalizado = [];
+  for (const a of acionistas) {
+    if (NOMES_RESIDUO.has(a.acionista)) continue;
+    const chave = normalizarNomeAcionista(a.acionista);
+    if (!contagemGrafias.has(chave)) contagemGrafias.set(chave, new Map());
+    const grafias = contagemGrafias.get(chave);
+    grafias.set(a.acionista, (grafias.get(a.acionista) || 0) + 1);
+    linhasComNomeNormalizado.push({ ...a, nome: chave });
+  }
+  const grafiaExibicao = new Map();
+  for (const [chave, grafias] of contagemGrafias) {
+    const candidatas = [...grafias.entries()].sort((x, y) => y[1] - x[1]);
+    const limpa = candidatas.find(([nome]) => !GRAFIA_INDESEJADA.test(nome));
+    grafiaExibicao.set(chave, (limpa || candidatas[0])[0]);
+  }
+
+  const agrupado = agruparPorEntidade(linhasComNomeNormalizado, (a) => ({
+    ticker: a.ticker,
+    empresa: a.empresa,
+    pct: numeric(a.percentual_total_pct),
+    badge: {
+      pct: fmtPct(a.percentual_total_pct),
+      tipo: a.tipo_pessoa === 'PJ' ? 'Pessoa jurídica' : a.tipo_pessoa === 'PF' ? 'Pessoa física' : null,
+      controlador: a.acionista_controlador === 'S' ? 'Sim' : a.acionista_controlador === 'N' ? 'Não' : null,
+      cargo: a.cargo || null,
+    },
+  }));
+
+  return agrupado.map((r) => ({ ...r, nome: grafiaExibicao.get(r.nome) }));
 }
 
 function markSortedHeader(name, key) {
@@ -168,44 +228,9 @@ function markSortedHeader(name, key) {
 }
 
 function renderTableFor(name) {
-  if (name === 'pessoas') renderPessoas();
+  if (name === 'pessoas') renderAgrupado('pessoas', true);
+  else if (name === 'acionistas') renderAgrupado('acionistas', true);
   else renderTable(name);
-}
-
-/* ---- Gráfico de barras da Pulverização ------------------------------------- */
-
-function renderChart() {
-  const container = document.getElementById('chart-ranking');
-  const rows = state.data.ranking;
-  const max = Math.max(...rows.map((r) => r.pct_acionistas_dispersos));
-  const frag = document.createDocumentFragment();
-  for (const r of rows) {
-    const row = document.createElement('div');
-    row.className = 'chart-row';
-
-    const label = document.createElement('span');
-    label.className = 'chart-label';
-    for (const [i, ticker] of r.tickers.split(', ').entries()) {
-      if (i > 0) label.append(', ');
-      label.appendChild(tickerRef(ticker));
-    }
-    label.append(` — ${r.empresa}`);
-
-    const track = document.createElement('div');
-    track.className = 'chart-track';
-    const fill = document.createElement('div');
-    fill.className = 'chart-fill';
-    fill.style.width = `${(r.pct_acionistas_dispersos / max) * 100}%`;
-    track.appendChild(fill);
-
-    const value = document.createElement('span');
-    value.className = 'chart-value';
-    value.textContent = fmtPct(r.pct_acionistas_dispersos);
-
-    row.append(label, track, value);
-    frag.appendChild(row);
-  }
-  container.replaceChildren(frag);
 }
 
 function renderKpis() {
@@ -273,7 +298,7 @@ function agruparAcionistasPorTicker(acionistas) {
 }
 
 function corDaFatia(nomeAcionista, indiceCorVerde) {
-  if (nomeAcionista === 'Outros' || nomeAcionista === 'Ações Tesouraria') return 'var(--pie-outros)';
+  if (NOMES_RESIDUO.has(nomeAcionista)) return 'var(--pie-outros)';
   return `var(--${PIE_CORES[indiceCorVerde % PIE_CORES.length]})`;
 }
 
@@ -290,7 +315,7 @@ function montarPizza(linhas) {
   linhas.forEach((l, i) => {
     const pct = numeric(l.percentual_total_pct) ?? 0;
     const cor = corDaFatia(l.acionista, indiceCor);
-    if (l.acionista !== 'Outros' && l.acionista !== 'Ações Tesouraria') indiceCor++;
+    if (!NOMES_RESIDUO.has(l.acionista)) indiceCor++;
     fatias.push(`${cor} ${acumulado}% ${acumulado + pct}%`);
     acumulado += pct;
 
@@ -317,6 +342,17 @@ function montarPizza(linhas) {
   return { gradiente: fatias.join(', '), legendaHtml: legenda.join('') };
 }
 
+function linhaInfoBadge(dataset) {
+  const partes = [];
+  if (dataset.efetivo) partes.push(`% efetivo aqui: <strong>${dataset.efetivo}</strong>`);
+  if (dataset.pct) partes.push(`Participação aqui: <strong>${dataset.pct}</strong>`);
+  if (dataset.veiculos) partes.push(`${dataset.veiculos} veículo(s) societário(s)`);
+  if (dataset.tipo) partes.push(dataset.tipo);
+  if (dataset.cargo) partes.push(`Cargo: ${dataset.cargo}`);
+  if (dataset.controlador) partes.push(`Controlador(a): ${dataset.controlador}`);
+  return partes.length ? `<p class="pie-info-pessoa">${partes.join(' · ')}</p>` : '';
+}
+
 function criarPopover() {
   const el = document.createElement('div');
   el.className = 'pie-popover';
@@ -339,14 +375,9 @@ function setupPiePopover() {
     const empresa = (state.data.empresas.find((e) => e.ticker === ticker) || {}).empresa || ticker;
     const { gradiente, legendaHtml } = montarPizza(linhas);
 
-    const infoPessoa = alvo.dataset.efetivo
-      ? `<p class="pie-info-pessoa">Nesta pessoa: <strong>${alvo.dataset.efetivo}</strong> efetivo ·
-           ${alvo.dataset.veiculos} veículo(s) · controlador(a): ${alvo.dataset.controlador}</p>`
-      : '';
-
     popover.innerHTML =
       `<p class="pie-empresa">${ticker} — ${empresa}</p>` +
-      infoPessoa +
+      linhaInfoBadge(alvo.dataset) +
       `<div class="pie-body">` +
       `<div class="pie-circle" style="background: conic-gradient(${gradiente})"></div>` +
       `<ul class="pie-legend">${legendaHtml}</ul>` +
@@ -378,11 +409,20 @@ function setupPiePopover() {
 async function main() {
   const res = await fetch('./data.json');
   state.data = await res.json();
-  state.data.pessoasPorNome = agruparPessoasPorNome(state.data.pessoas);
+
+  // Pulverização deixou de ser uma aba própria: a % de cada empresa entra
+  // como coluna na aba Empresas, usando o mesmo dado (ranking) de antes.
+  const pctDispersosPorTicker = new Map();
+  for (const r of state.data.ranking) {
+    for (const t of r.tickers.split(', ')) pctDispersosPorTicker.set(t, r.pct_acionistas_dispersos);
+  }
+  for (const e of state.data.empresas) e.pct_acionistas_dispersos = pctDispersosPorTicker.get(e.ticker) ?? null;
+
+  state.data.pessoasPorNome = agruparPessoas(state.data.pessoas);
+  state.data.acionistasPorNome = agruparAcionistas(state.data.acionistas);
   state.data.acionistasPorTicker = agruparAcionistasPorTicker(state.data.acionistas);
 
   renderKpis();
-  renderChart();
   for (const name of TABLE_NAMES) renderTableFor(name);
 
   setupTabs();
