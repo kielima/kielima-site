@@ -5,12 +5,14 @@
 const fmtPct = (v) => (v == null || Number.isNaN(v) ? '—' : `${Number(v).toFixed(2)}%`);
 const fmtNum = (v) => (v == null ? '—' : Number(v).toLocaleString('pt-BR'));
 
+const TABLE_NAMES = ['empresas', 'acionistas', 'pessoas'];
+
 const state = {
   data: null,
   sort: {
     empresas: { key: 'peso_ibov_pct', dir: -1 },
     acionistas: { key: 'percentual_total_pct', dir: -1 },
-    pessoas: { key: 'percentual_efetivo_na_empresa_pct', dir: -1 },
+    pessoas: { key: 'qtdEmpresas', dir: -1 },
   },
   filter: { empresas: '', acionistas: '', pessoas: '' },
 };
@@ -30,13 +32,6 @@ const COLS = {
     tipo_pessoa: (r) => r.tipo_pessoa || '—',
     percentual_total_pct: (r) => fmtPct(r.percentual_total_pct),
     acionista_controlador: (r) => (r.acionista_controlador === 'S' ? 'Sim' : 'Não'),
-  },
-  pessoas: {
-    nome: (r) => r.nome,
-    empresa: (r) => r.empresa,
-    ticker: (r) => r.ticker,
-    percentual_efetivo_na_empresa_pct: (r) => fmtPct(r.percentual_efetivo_na_empresa_pct),
-    num_veiculos_societarios: (r) => fmtNum(r.num_veiculos_societarios),
   },
 };
 
@@ -64,6 +59,8 @@ function filterRows(rows, term) {
   );
 }
 
+/* ---- Tabelas planas (Empresas, Acionistas) -------------------------------- */
+
 function renderTable(name) {
   const rows = filterRows(state.data[name], state.filter[name]);
   const { key, dir } = state.sort[name];
@@ -82,10 +79,92 @@ function renderTable(name) {
     frag.appendChild(tr);
   }
   tbody.replaceChildren(frag);
+  markSortedHeader(name, key);
+}
 
+/* ---- Pessoas: uma linha por pessoa, empresas como badges com tooltip ------ */
+
+function agruparPessoasPorNome(pessoas) {
+  const porNome = new Map();
+  for (const p of pessoas) {
+    if (!porNome.has(p.nome)) porNome.set(p.nome, { nome: p.nome, empresas: [] });
+    porNome.get(p.nome).empresas.push({
+      ticker: p.ticker,
+      empresa: p.empresa,
+      pct: p.percentual_efetivo_na_empresa_pct,
+      veiculos: p.num_veiculos_societarios,
+      controlador: p.acionista_controlador === 'S',
+    });
+  }
+  return [...porNome.values()].map((p) => ({
+    ...p,
+    qtdEmpresas: p.empresas.length,
+    maiorPct: Math.max(...p.empresas.map((e) => e.pct ?? 0)),
+  }));
+}
+
+function filtrarPessoas(rows, term) {
+  if (!term) return rows;
+  const t = term.toLocaleLowerCase('pt-BR');
+  return rows.filter(
+    (r) =>
+      r.nome.toLocaleLowerCase('pt-BR').includes(t) ||
+      r.empresas.some(
+        (e) => e.ticker.toLocaleLowerCase('pt-BR').includes(t) || e.empresa.toLocaleLowerCase('pt-BR').includes(t)
+      )
+  );
+}
+
+function renderPessoas() {
+  const rows = filtrarPessoas(state.data.pessoasPorNome, state.filter.pessoas);
+  const { key, dir } = state.sort.pessoas;
+  const sorted = sortRows(rows, key, dir);
+  const tbody = document.querySelector('#table-pessoas tbody');
+  const frag = document.createDocumentFragment();
+
+  for (const row of sorted) {
+    const tr = document.createElement('tr');
+
+    const tdNome = document.createElement('td');
+    tdNome.textContent = row.nome;
+    tr.appendChild(tdNome);
+
+    const tdQtd = document.createElement('td');
+    tdQtd.className = 'num';
+    tdQtd.textContent = fmtNum(row.qtdEmpresas);
+    tr.appendChild(tdQtd);
+
+    const tdEmpresas = document.createElement('td');
+    tdEmpresas.className = 'empresas-cell';
+    const empresasOrdenadas = [...row.empresas].sort((a, b) => (b.pct ?? 0) - (a.pct ?? 0));
+    for (const e of empresasOrdenadas) {
+      const badge = document.createElement('span');
+      badge.className = 'ticker-badge';
+      badge.textContent = e.ticker;
+      badge.title =
+        `${e.empresa}\n` +
+        `% efetivo: ${fmtPct(e.pct)}\n` +
+        `Veículos societários: ${fmtNum(e.veiculos)}\n` +
+        `Controlador: ${e.controlador ? 'Sim' : 'Não'}`;
+      tdEmpresas.appendChild(badge);
+    }
+    tr.appendChild(tdEmpresas);
+
+    frag.appendChild(tr);
+  }
+  tbody.replaceChildren(frag);
+  markSortedHeader('pessoas', key);
+}
+
+function markSortedHeader(name, key) {
   for (const th of document.querySelectorAll(`#table-${name} thead th`)) {
     th.classList.toggle('is-sorted', th.dataset.sort === key);
   }
+}
+
+function renderTableFor(name) {
+  if (name === 'pessoas') renderPessoas();
+  else renderTable(name);
 }
 
 function renderChart() {
@@ -120,10 +199,10 @@ function renderChart() {
 }
 
 function renderKpis() {
-  const { empresas, ranking, pessoas } = state.data;
+  const { empresas, ranking, pessoasPorNome } = state.data;
   document.getElementById('data-captura').textContent = state.data.capturado_em;
   document.getElementById('kpi-empresas').textContent = fmtNum(empresas.length);
-  document.getElementById('kpi-pessoas').textContent = fmtNum(new Set(pessoas.map((p) => p.nome)).size);
+  document.getElementById('kpi-pessoas').textContent = fmtNum(pessoasPorNome.length);
 
   const maisPulverizada = ranking[0];
   const maisConcentrada = ranking[ranking.length - 1];
@@ -149,13 +228,13 @@ function setupTabs() {
 }
 
 function setupSort() {
-  for (const name of Object.keys(COLS)) {
-    for (const th of document.querySelectorAll(`#table-${name} thead th`)) {
+  for (const name of TABLE_NAMES) {
+    for (const th of document.querySelectorAll(`#table-${name} thead th[data-sort]`)) {
       th.addEventListener('click', () => {
         const key = th.dataset.sort;
         const current = state.sort[name];
         state.sort[name] = { key, dir: current.key === key ? -current.dir : -1 };
-        renderTable(name);
+        renderTableFor(name);
       });
     }
   }
@@ -166,7 +245,7 @@ function setupSearch() {
     input.addEventListener('input', () => {
       const name = input.dataset.table;
       state.filter[name] = input.value.trim();
-      renderTable(name);
+      renderTableFor(name);
     });
   }
 }
@@ -174,10 +253,11 @@ function setupSearch() {
 async function main() {
   const res = await fetch('./data.json');
   state.data = await res.json();
+  state.data.pessoasPorNome = agruparPessoasPorNome(state.data.pessoas);
 
   renderKpis();
   renderChart();
-  for (const name of Object.keys(COLS)) renderTable(name);
+  for (const name of TABLE_NAMES) renderTableFor(name);
 
   setupTabs();
   setupSort();

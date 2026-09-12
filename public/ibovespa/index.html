@@ -108,16 +108,18 @@
         percentual de um elo isolado. Quando a mesma pessoa aparece em mais de um
         veículo/holding da mesma empresa, os efetivos foram somados.
       </p>
+      <p class="section-note">
+        Passe o mouse sobre o código de cada empresa para ver o percentual efetivo,
+        o número de veículos societários e se a pessoa é controladora.
+      </p>
       <input type="search" class="search" data-table="pessoas" placeholder="Buscar por nome ou empresa…" />
       <div class="table-wrap">
         <table id="table-pessoas">
           <thead>
             <tr>
               <th data-sort="nome">Nome</th>
-              <th data-sort="empresa">Empresa</th>
-              <th data-sort="ticker">Ticker</th>
-              <th data-sort="percentual_efetivo_na_empresa_pct" class="num">% efetivo</th>
-              <th data-sort="num_veiculos_societarios" class="num">Veículos</th>
+              <th data-sort="qtdEmpresas" class="num">Nº empresas</th>
+              <th>Empresas</th>
             </tr>
           </thead>
           <tbody></tbody>
