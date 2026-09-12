@@ -38,14 +38,26 @@
     return DATA.filter(function (d) { return tierVisible[d[3]]; });
   }
 
-  /* Cada ponto é {v: total acumulado}. kind 'wave' = uma rodada de releitura
+  /* "Progresso da extração" tem três frentes independentes, cada uma com o
+     seu próprio array de pontos {v: total acumulado} e sua própria curva no
+     site (pedido da Kie, 2026-09-12, depois de perguntar por que o forest
+     plot não tem barra de erro por estudo -- ver CRITERIOS_E_NUANCES_RSL.md,
+     secção QG, no repositório da RSL). kind 'wave' = uma rodada de releitura
      integral de PDF (numerado automaticamente, excluindo 'start' e 'marco').
      kind 'marco' = uma correção de escopo/qualidade dos dados, não uma
      leitura nova — o valor pode cair. tKey aponta para COPY[lang].progressMarcos,
      o texto do card ao passar o mouse (mesmo componente do tooltip da
      dispersão). Adicionar um marco novo aqui SEMPRE que uma correção alterar
-     o total de pares, com o texto em progressMarcos nas 3 línguas. */
-  var PROGRESS = [
+     o total de pares, com o texto em progressMarcos nas 3 línguas.
+
+     PROGRESS_FCK_CO2: o histórico original (pares resistência+CO₂), sem
+     mudança nenhuma além do nome -- continua reagindo ao filtro de estrato
+     via reescala proporcional (ver renderProgress). PROGRESS_CORPO_PROVA e
+     PROGRESS_IC são frentes NOVAS, começando hoje com um único ponto real
+     (a contagem atual em dados_fck) -- sem histórico fabricado. Cada uma
+     ganha novos pontos conforme lotes de extração dedicados avançarem,
+     exatamente como PROGRESS_FCK_CO2 foi crescendo desde 2026-06. */
+  var PROGRESS_FCK_CO2 = [
     { v: 446, kind: 'start' },
     { v: 604, kind: 'wave' },
     { v: 751, kind: 'wave' },
@@ -68,6 +80,23 @@
     { v: 1114, kind: 'wave' },
     { v: 1116, kind: 'wave' },
     { v: 1121, kind: 'wave' }
+  ];
+
+  /* Contagem viva de dados_fck.vol_corpo_prova_m3 preenchido (qualquer
+     linha, não só as que entram em `pairs`) -- necessário para a futura
+     conversão cubo→cilindro. Snapshot manual em 2026-09-12, mesmo espírito
+     de KPI_VALUES/FUNNEL abaixo -- atualizar à mão quando um lote novo de
+     extração avançar. */
+  var PROGRESS_CORPO_PROVA = [
+    { v: 79, kind: 'start' }
+  ];
+
+  /* Contagem viva de dados_fck.ic_fck_valor preenchido -- o critério QG da
+     Etapa 4 (ver CRITERIOS_E_NUANCES_RSL.md no repositório da RSL). Colunas
+     criadas em 2026-09-12, extração ainda não começou -- ponto único em 0,
+     de propósito, não fabricado. */
+  var PROGRESS_IC = [
+    { v: 0, kind: 'start' }
   ];
 
   /* Contagem viva das 4 etapas da triagem (articles_final.xlsx, coluna
@@ -142,7 +171,13 @@
       tierPrincipal: 'Dois terços de melhor qualidade (score ≥ 4,0)',
       tierSensibilidade: 'Terço mais fraco — só sensibilidade (score < 4,0)',
       progressTitle: 'Progresso da extração',
-      progressP: 'Cada círculo é uma rodada de releitura integral de PDF — sempre o artigo inteiro, nunca só o resumo. Os losangos marcam correções de escopo ou de qualidade dos dados, não leituras novas — passe o mouse para ver o que mudou. A curva mostra o total acumulado de pares resistência+CO₂ confirmados na base.',
+      progressP: 'A extração acontece em três frentes independentes, cada uma com o seu próprio ritmo — o par resistência×CO₂, o volume do corpo de prova e, desde 12.09.2026, o intervalo de confiança de cada estudo. Cada gráfico abaixo mostra o total acumulado da sua frente.',
+      progressFckCo2Title: 'Resistência × CO₂',
+      progressFckCo2P: 'Cada círculo é uma rodada de releitura integral de PDF — sempre o artigo inteiro, nunca só o resumo. Os losangos marcam correções de escopo ou de qualidade dos dados, não leituras novas — passe o mouse para ver o que mudou. A curva mostra o total acumulado de pares resistência+CO₂ confirmados na base.',
+      progressCorpoProvaTitle: 'Volume do corpo de prova',
+      progressCorpoProvaP: 'Contagem de linhas com o volume do corpo de prova (ou do elemento medido) já extraído — necessário para a futura conversão cubo→cilindro. Rastreamento começou em 12.09.2026, ainda sem lotes de releitura dedicados.',
+      progressIcTitle: 'Intervalo de confiança por estudo',
+      progressIcP: 'Contagem de linhas com desvio-padrão, coeficiente de variação ou intervalo de confiança do próprio artigo já extraído — o critério QG proposto para a Etapa 4 (ver "Sobre o indicador" abaixo). Coluna criada em 12.09.2026; a extração ainda não começou.',
       progressWave: 'onda',
       progressWaveSuffix: '',
       progressStart: 'início',
@@ -227,7 +262,13 @@
       tierPrincipal: 'Top two-thirds by quality (score ≥ 4.0)',
       tierSensibilidade: 'Bottom third — sensitivity only (score < 4.0)',
       progressTitle: 'Extraction progress',
-      progressP: 'Each circle is a full-PDF re-read round — always the whole article, never just the abstract. Diamonds mark a scope or data-quality correction, not a new read — hover to see what changed. The curve shows the running total of confirmed strength+CO₂ pairs in the database.',
+      progressP: 'Extraction runs on three independent fronts, each at its own pace — the strength×CO₂ pair, the specimen volume, and, since 09.12.2026, each study’s confidence interval. Each chart below shows the running total for its own front.',
+      progressFckCo2Title: 'Strength × CO₂',
+      progressFckCo2P: 'Each circle is a full-PDF re-read round — always the whole article, never just the abstract. Diamonds mark a scope or data-quality correction, not a new read — hover to see what changed. The curve shows the running total of confirmed strength+CO₂ pairs in the database.',
+      progressCorpoProvaTitle: 'Specimen volume',
+      progressCorpoProvaP: 'Count of rows with the specimen (or measured element) volume already extracted — needed for the planned cube-to-cylinder conversion. Tracking started on 09.12.2026, no dedicated re-read batches yet.',
+      progressIcTitle: 'Confidence interval per study',
+      progressIcP: 'Count of rows with a standard deviation, coefficient of variation, or confidence interval already extracted from the article itself — the QG criterion proposed for Stage 4 (see "About the indicator" below). Column created on 09.12.2026; extraction has not started yet.',
       progressWave: 'wave',
       progressWaveSuffix: '',
       progressStart: 'start',
@@ -312,7 +353,13 @@
       tierPrincipal: '质量最优三分之二（得分 ≥ 4.0）',
       tierSensibilidade: '质量最弱三分之一 —— 仅用于敏感性分析（得分 < 4.0）',
       progressTitle: '提取进度',
-      progressP: '每个圆点代表一轮完整重读PDF——始终通读全文，而非仅读摘要。菱形标记的是范围或数据质量方面的修正，不是新一轮阅读——将鼠标悬停查看具体改动。曲线显示数据库中已确认的强度+CO₂数据对累计总数。',
+      progressP: '数据提取分三条独立的战线推进，各有各的节奏——强度×CO₂数据对、试件体积，以及自2026年9月12日起新增的各研究置信区间。下方每张图都显示对应战线的累计总数。',
+      progressFckCo2Title: '强度 × CO₂',
+      progressFckCo2P: '每个圆点代表一轮完整重读PDF——始终通读全文，而非仅读摘要。菱形标记的是范围或数据质量方面的修正，不是新一轮阅读——将鼠标悬停查看具体改动。曲线显示数据库中已确认的强度+CO₂数据对累计总数。',
+      progressCorpoProvaTitle: '试件体积',
+      progressCorpoProvaP: '已提取试件（或被测构件）体积的数据行计数——为将来的立方体转圆柱体换算做准备。该项追踪始于2026年9月12日，尚无专门的重读批次。',
+      progressIcTitle: '各研究的置信区间',
+      progressIcP: '已从原文提取标准差、变异系数或置信区间的数据行计数——即第4阶段拟议的QG标准（见下方"关于该指标"）。该列于2026年9月12日创建，提取工作尚未开始。',
       progressWave: '第',
       progressWaveSuffix: '轮',
       progressStart: '起点',
@@ -435,31 +482,63 @@
   /* --------------------------------------------------- gráfico: progresso */
 
   function renderProgress(strings, lang) {
-    var svg = document.getElementById('progress-svg');
+    /* A curva fck-CO2 e um historico cumulativo de pares confirmados na
+       base -- PROGRESS_FCK_CO2 nao sabe, ponto a ponto, quantos desses
+       pares eram "principal" vs "sensibilidade" em cada momento (a
+       estratificacao por qualidade so existe hoje, aplicada ao estado
+       atual dos dados, nao a cada onda passada). Para a curva reagir ao
+       filtro de estrato sem inventar um historico que nao existe, cada
+       valor registado e reescalado pela MESMA proporcao que o filtro
+       atual tira do total de hoje (DATA.length) -- o ultimo ponto fecha
+       exatamente com currentData().length (o mesmo numero do KPI de
+       pares), e os pontos anteriores encolhem/crescem na mesma proporcao,
+       preservando a forma relativa da curva (inclusive o tamanho das
+       quedas nas correcoes). Aproximado, nao um recalculo linha a linha.
+
+       As outras duas frentes (corpo de prova, intervalo de confianca) NAO
+       sao reescaladas pelo filtro de estrato -- cada uma tem um unico
+       ponto hoje (a contagem bruta em dados_fck, nao filtrada por
+       principal/sensibilidade), e DATA nao carrega, por par, se aquela
+       linha ja tem volume/IC extraido -- nao ha como recalcular por
+       estrato sem exportar mais campos. Ficam como contagem bruta ate
+       terem historico suficiente para essa nuance valer a pena. */
+    var ratio = DATA.length ? currentData().length / DATA.length : 1;
+    var fckCo2Points = PROGRESS_FCK_CO2.map(function (p) {
+      return { v: p.v * ratio, kind: p.kind, tKey: p.tKey };
+    });
+
+    renderProgressChart({
+      svg: 'progress-svg-fck-co2', tooltip: 'progress-tooltip-fck-co2', wrap: 'progress-wrap-fck-co2'
+    }, fckCo2Points, strings, lang);
+    renderProgressChart({
+      svg: 'progress-svg-corpo-prova', tooltip: 'progress-tooltip-corpo-prova', wrap: 'progress-wrap-corpo-prova'
+    }, PROGRESS_CORPO_PROVA, strings, lang);
+    renderProgressChart({
+      svg: 'progress-svg-ic', tooltip: 'progress-tooltip-ic', wrap: 'progress-wrap-ic'
+    }, PROGRESS_IC, strings, lang);
+  }
+
+  /* Desenha uma curva de progresso num conjunto de elementos DOM (svg +
+     tooltip + wrap) a partir de uma lista de pontos {v, kind, tKey}.
+     Generaliza para series de um so ponto (denom abaixo usa `|| 1` para
+     nao dividir por zero quando points.length === 1) -- e o caso das
+     frentes novas (corpo de prova, intervalo de confianca), que comecam
+     hoje com um unico ponto real, sem historico fabricado. */
+  function renderProgressChart(ids, points, strings, lang) {
+    var svg = document.getElementById(ids.svg);
     while (svg.firstChild) svg.removeChild(svg.firstChild);
 
-    /* A curva e um historico cumulativo de pares confirmados na base --
-       PROGRESS nao sabe, ponto a ponto, quantos desses pares eram
-       "principal" vs "sensibilidade" em cada momento (a estratificacao
-       por qualidade so existe hoje, aplicada ao estado atual dos dados,
-       nao a cada onda passada). Para a curva reagir ao filtro de estrato
-       sem inventar um historico que nao existe, cada valor registado e
-       reescalado pela MESMA proporcao que o filtro atual tira do total
-       de hoje (DATA.length) -- o ultimo ponto fecha exatamente com
-       currentData().length (o mesmo numero do KPI de pares), e os
-       pontos anteriores encolhem/crescem na mesma proporcao, preservando
-       a forma relativa da curva (inclusive o tamanho das quedas nas
-       correcoes). Aproximado, nao um recalculo linha a linha -- ver nota
-       acima. */
-    var ratio = DATA.length ? currentData().length / DATA.length : 1;
-    var values = PROGRESS.map(function (p) { return p.v * ratio; });
     var W = 900, H = 200;
     var padL = 36, padR = 16, padT = 16, padB = 10;
     var innerW = W - padL - padR, innerH = H - padT - padB;
-    var max = Math.max.apply(null, values) * 1.08;
+    // piso de 4 no eixo -- sem isso, uma frente que comeca em 0 (ex. IC hoje)
+    // dava um eixo com "1,1,1,0,0" (arredondamento de fracoes de 1), em vez
+    // de uma escala legivel.
+    var max = Math.max(Math.max.apply(null, points.map(function (p) { return p.v; })) * 1.08, 4);
     var min = 0;
+    var denom = (points.length - 1) || 1;
 
-    function x(i) { return padL + (i / (PROGRESS.length - 1)) * innerW; }
+    function x(i) { return padL + (i / denom) * innerW; }
     function y(v) { return padT + innerH - ((v - min) / (max - min)) * innerH; }
 
     svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
@@ -476,15 +555,15 @@
     }
 
     // área + linha
-    var pathD = 'M ' + x(0) + ' ' + y(values[0]);
-    for (var i = 1; i < PROGRESS.length; i++) pathD += ' L ' + x(i) + ' ' + y(values[i]);
-    var areaD = pathD + ' L ' + x(PROGRESS.length - 1) + ' ' + (padT + innerH) + ' L ' + x(0) + ' ' + (padT + innerH) + ' Z';
+    var pathD = 'M ' + x(0) + ' ' + y(points[0].v);
+    for (var i = 1; i < points.length; i++) pathD += ' L ' + x(i) + ' ' + y(points[i].v);
+    var areaD = pathD + ' L ' + x(points.length - 1) + ' ' + (padT + innerH) + ' L ' + x(0) + ' ' + (padT + innerH) + ' Z';
 
     svg.appendChild(svgEl('path', { d: areaD, class: 'progress-area' }));
     svg.appendChild(svgEl('path', { d: pathD, class: 'progress-line' }));
 
-    var tooltip = document.getElementById('progress-tooltip');
-    var wrap = document.getElementById('progress-wrap');
+    var tooltip = document.getElementById(ids.tooltip);
+    var wrap = document.getElementById(ids.wrap);
     var waveN = 0;
 
     /* O rotulo de cada ponto (inicio/onda N/correcao) deixou de ficar
@@ -492,11 +571,11 @@
        mesmo espaco os textos se sobrepunham e ficavam ilegiveis (achado
        da Kie, 2026-09-12). Agora só aparece no tooltip ao passar o mouse
        em cima do circulo/losango, junto com o valor (ja reescalado pelo
-       filtro de estrato acima). */
-    for (var j = 0; j < PROGRESS.length; j++) {
-      var pt = PROGRESS[j];
+       filtro de estrato acima, quando aplicavel). */
+    for (var j = 0; j < points.length; j++) {
+      var pt = points[j];
       var isMarco = pt.kind === 'marco';
-      var cx = x(j), cy = y(values[j]);
+      var cx = x(j), cy = y(pt.v);
 
       if (isMarco) {
         svg.appendChild(svgEl('line', {
@@ -512,7 +591,7 @@
       var val = svgEl('text', {
         x: cx, y: cy - 11, class: 'progress-value' + (isMarco ? ' progress-value-marco' : ''), 'text-anchor': 'middle'
       });
-      val.textContent = fmtInt(Math.round(values[j]), lang);
+      val.textContent = fmtInt(Math.round(pt.v), lang);
       svg.appendChild(val);
 
       var pointLabel;
