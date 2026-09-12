@@ -706,6 +706,81 @@
   display: block;
 }
 
+.funnel-detail-text {
+  margin: 0;
+}
+
+/* Sub-gráfico dentro do detalhe da etapa "universo" (registos por base de
+   dados) -- mesmas classes .db-chart-bar* reaproveitam a estética
+   bordada/tintada do .funnel-bar acima, só que compacta o bastante para
+   caber sete linhas dentro do card de detalhe de uma única etapa. */
+.db-chart {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.db-chart-title {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: var(--ink-40);
+  margin-bottom: 10px;
+}
+
+.db-chart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.db-chart-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.db-chart-label {
+  flex: none;
+  width: 132px;
+  font-size: 12px;
+  color: var(--ink-65);
+}
+
+.db-chart-bar-wrap {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  min-width: 0;
+}
+
+.db-chart-bar {
+  height: 26px;
+  min-width: 38px;
+  border-radius: 3px;
+  border: 1.5px solid var(--green);
+  background: color-mix(in srgb, var(--green) 9%, var(--bg));
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  overflow: hidden;
+}
+
+.db-chart-count {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--green);
+  white-space: nowrap;
+}
+
+@media (max-width: 620px) {
+  .db-chart-label {
+    width: 92px;
+    font-size: 10.5px;
+  }
+}
+
 /* Preenchimento tinto + borda sólida, como as caixas do fluxograma PRISMA
    (public/ppt/dissertacao/prisma-slide.html, --teal-soft/--teal-border) —
    pedido explícito da Kiê para aproximar a estética do painel à do slide
