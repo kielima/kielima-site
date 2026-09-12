@@ -218,7 +218,7 @@ const navegador = await chromium.launch({
    normal como qualquer outra. */
 {
   const meta = await abrir(navegador, '/metanalise/');
-  await conferirIdiomas(meta, { '.kpi-tile': 4, '.cat-chip': 8, '.forest-row': 9 });
+  await conferirIdiomas(meta, { '.kpi-tile': 4, '.cat-chip': 8, '.forest-head': 9 });
 
   const pontos = await meta.pagina.evaluate(() => document.querySelectorAll('.scatter-pt').length);
   if (pontos < 1000) problemas.push(`/metanalise/: só ${pontos} pontos na dispersão, esperado 1000+`);
@@ -248,6 +248,20 @@ const navegador = await chromium.launch({
   await meta.pagina.waitForTimeout(150);
   const pCheckedAinda = await meta.pagina.evaluate(() => document.getElementById('tier-check-p').checked);
   if (!pCheckedAinda) problemas.push('/metanalise/: foi possível desligar os dois estratos ao mesmo tempo');
+
+  // Clicar numa família do "ci por família de material" tem de expandir o
+  // forest plot com os estudos que a compõem, e recolher de novo ao clicar
+  // outra vez.
+  await meta.pagina.click('.forest-head');
+  await meta.pagina.waitForTimeout(150);
+  const subLinhas = await meta.pagina.evaluate(() =>
+    document.querySelector('.forest-item.is-open .forest-sub-list')?.querySelectorAll('.forest-sub-row').length ?? 0
+  );
+  if (subLinhas < 1) problemas.push('/metanalise/: clicar numa família não expandiu os estudos que a compõem');
+  await meta.pagina.click('.forest-head');
+  await meta.pagina.waitForTimeout(150);
+  const aindaAberta = await meta.pagina.evaluate(() => document.querySelectorAll('.forest-item.is-open').length);
+  if (aindaAberta !== 0) problemas.push('/metanalise/: clicar de novo na família não recolheu o forest plot');
 
   await meta.ctx.close();
   await abrir(navegador, '/metanalise/', { tema: 'dark' }).then((r) => r.ctx.close());
