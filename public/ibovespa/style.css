@@ -266,6 +266,36 @@ tbody tr:hover td {
   background: var(--bar-bg);
 }
 
+/* ---- Célula de empresas (aba Pessoas) -------------------------------------- */
+
+td.empresas-cell {
+  white-space: normal;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: none;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.ticker-badge {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  padding: 3px 7px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: var(--ink-70);
+  cursor: default;
+  white-space: nowrap;
+}
+
+.ticker-badge:hover {
+  border-color: var(--green);
+  color: var(--green);
+  background: var(--bar-bg);
+}
+
 /* ---- Gráfico de barras (pulverização) -------------------------------------- */
 
 .chart {
