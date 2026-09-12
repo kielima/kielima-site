@@ -66,6 +66,24 @@
     { v: 1121, kind: 'wave' }
   ];
 
+  /* Contagem viva das 4 etapas da triagem (articles_final.xlsx, coluna
+     status_triagem + colunas E1_, E2_, E3_ e E4_ — revisao-sistematica-
+     literatura). Atualizar à mão sempre que um PR mudar esses totais
+     (mesmo espírito de KPI_VALUES/PROGRESS abaixo, snapshot manual, não
+     dado ao vivo). universo = todo o banco (5.093 registos, incluindo
+     duplicatas e sem-acesso); cada etapa seguinte é sempre um subconjunto
+     Aceito da anterior. e4.principal + e4.sensibilidade = e4.n = os 594
+     artigos Elegíveis (2 terços de melhor qualidade formam o resultado
+     principal); as 57 revisões sem ACV própria que também sobrevivem à
+     Etapa 3 ficam fora desta barra — ver funnelRevisaoNote. */
+  var FUNNEL = [
+    { key: 'universo', n: 5093 },
+    { key: 'e1', n: 2199 },
+    { key: 'e2', n: 662 },
+    { key: 'e3', n: 651 },
+    { key: 'e4', n: 594, principal: 462, sensibilidade: 132 }
+  ];
+
   var COPY = {
     PT: {
       kicker: 'PESQUISA · PAINEL AO VIVO',
@@ -76,6 +94,17 @@
       kpiParesLabel: 'pares resistência × CO₂ extraídos',
       kpiVidaLabel: 'com vida útil de projeto declarada',
       kpiReleituraLabel: 'lotes da releitura integral concluídos',
+      funnelLabel: 'TRIAGEM',
+      funnelTitle: 'O funil da triagem: de 5.093 registos a 594 artigos',
+      funnelP: 'A revisão sistemática passa por quatro etapas antes de um artigo entrar na metanálise: metadados, leitura do PDF completo, restrição geográfica do material e, por fim, qualidade metodológica. Cada barra mostra quantos artigos sobrevivem a cada etapa, a partir do banco completo de registos recolhidos nas buscas.',
+      funnelStages: {
+        universo: 'Banco completo (buscas + duplicatas removidas)',
+        e1: 'Etapa 1 — metadados (ano, tipo de documento, material moldável, aplicação em construção)',
+        e2: 'Etapa 2 — leitura do PDF completo (resistência à compressão e CO₂/ACV declarados)',
+        e3: 'Etapa 3 — material não geograficamente restrito',
+        e4: 'Etapa 4 — qualidade metodológica (resultado final)'
+      },
+      funnelRevisaoNote: 'Mais 57 artigos são revisões sem avaliação de ciclo de vida própria — não alimentam o indicador ci, mas continuam na base como ramo de citação do PRISMA: candidatos a fontes primárias descobertas pelas revisões que as citam.',
       tierLabel: 'ESTRATIFICAÇÃO POR QUALIDADE',
       tierTitle: 'Resultado principal × análise de sensibilidade',
       tierP: 'A Etapa 4 pontua a qualidade de cada artigo aceite (0–6, seis itens). Os dois terços de melhor pontuação formam o resultado principal da metanálise; o terço mais fraco continua aceite, mas só entra na análise de sensibilidade. Ligue e desligue cada grupo para comparar.',
@@ -139,6 +168,17 @@
       kpiParesLabel: 'strength × CO₂ pairs extracted',
       kpiVidaLabel: 'with declared design service life',
       kpiReleituraLabel: 'batches of the full re-read completed',
+      funnelLabel: 'SCREENING',
+      funnelTitle: 'The screening funnel: from 5,093 records to 594 articles',
+      funnelP: "The systematic review runs through four stages before an article enters the meta-analysis: metadata, full-PDF reading, the material's geographic restriction, and finally methodological quality. Each bar shows how many articles survive each stage, starting from the full pool of records collected in the searches.",
+      funnelStages: {
+        universo: 'Full database (searches + duplicates removed)',
+        e1: 'Stage 1 — metadata (year, document type, moldable material, construction application)',
+        e2: 'Stage 2 — full-PDF reading (declared compressive strength and CO₂/LCA)',
+        e3: 'Stage 3 — material not geographically restricted',
+        e4: 'Stage 4 — methodological quality (final result)'
+      },
+      funnelRevisaoNote: 'Another 57 articles are reviews without their own life-cycle assessment — they do not feed the ci indicator, but stay in the base as a PRISMA citation branch: candidate primary sources discovered through the reviews that cite them.',
       tierLabel: 'QUALITY STRATIFICATION',
       tierTitle: 'Main result × sensitivity analysis',
       tierP: "Stage 4 scores the quality of every accepted article (0-6, six items). The top two-thirds by score form the meta-analysis's main result; the bottom third stays accepted, but only feeds the sensitivity analysis. Toggle each group to compare.",
@@ -202,6 +242,17 @@
       kpiParesLabel: '已提取的强度×CO₂数据对',
       kpiVidaLabel: '已注明设计使用寿命',
       kpiReleituraLabel: '完整复读批次已完成',
+      funnelLabel: '筛选',
+      funnelTitle: '筛选漏斗：从5,093条记录到594篇文献',
+      funnelP: '系统综述在文献进入荟萃分析之前要经过四个阶段：元数据、通读全文PDF、材料的地域限制，最后是方法学质量。每一条柱状图显示从检索收集到的全部记录出发，有多少文献在每个阶段存活下来。',
+      funnelStages: {
+        universo: '完整数据库（检索结果，已去重）',
+        e1: '第1阶段——元数据（年份、文献类型、可模塑材料、建筑用途）',
+        e2: '第2阶段——通读全文PDF（注明抗压强度与CO₂/生命周期评估）',
+        e3: '第3阶段——材料不受地域限制',
+        e4: '第4阶段——方法学质量（最终结果）'
+      },
+      funnelRevisaoNote: '另有57篇文献属于没有自身生命周期评估的综述——不计入ci指标，但仍保留在数据库中，作为PRISMA引文分支：这些综述所引用的原始研究是潜在的候选文献。',
       tierLabel: '质量分层',
       tierTitle: '主要结果 × 敏感性分析',
       tierP: '第4阶段为每篇入选文献的质量打分（0-6分，六个项目）。得分最高的三分之二构成荟萃分析的主要结果；得分最低的三分之一仍属入选文献，但只用于敏感性分析。切换各组即可对比。',
@@ -413,6 +464,86 @@
         })(strings.progressMarcos[pt.tKey]);
       }
     }
+  }
+
+  /* --------------------------------------------------- gráfico: funil */
+
+  function renderFunnel(strings, lang) {
+    var list = document.getElementById('funnel-list');
+    list.textContent = '';
+    var base = FUNNEL[0].n;
+
+    FUNNEL.forEach(function (stage) {
+      var row = document.createElement('div');
+      row.className = 'funnel-row';
+
+      var head = document.createElement('div');
+      head.className = 'funnel-head';
+      var label = document.createElement('span');
+      label.textContent = strings.funnelStages[stage.key];
+      head.appendChild(label);
+      var count = document.createElement('span');
+      count.className = 'funnel-count';
+      count.textContent = fmtInt(stage.n, lang);
+      head.appendChild(count);
+      row.appendChild(head);
+
+      var wrap = document.createElement('div');
+      wrap.className = 'funnel-bar-wrap';
+      var bar = document.createElement('div');
+      bar.className = 'funnel-bar';
+      bar.style.width = Math.max(6, (stage.n / base) * 100) + '%';
+
+      if (stage.principal != null) {
+        var segP = document.createElement('div');
+        segP.className = 'funnel-bar-seg funnel-bar-seg-principal';
+        segP.style.flex = stage.principal;
+        bar.appendChild(segP);
+        var segS = document.createElement('div');
+        segS.className = 'funnel-bar-seg funnel-bar-seg-sensibilidade';
+        segS.style.flex = stage.sensibilidade;
+        bar.appendChild(segS);
+      } else {
+        var seg = document.createElement('div');
+        seg.className = 'funnel-bar-seg funnel-bar-seg-full';
+        seg.style.flex = '1';
+        bar.appendChild(seg);
+      }
+      wrap.appendChild(bar);
+      row.appendChild(wrap);
+
+      if (stage.principal != null) {
+        var legend = document.createElement('div');
+        legend.className = 'unit-legend';
+        legend.style.marginBottom = '0';
+        legend.style.paddingBottom = '0';
+        legend.style.borderBottom = 'none';
+
+        var pItem = document.createElement('span');
+        pItem.className = 'unit-legend-item';
+        var pSw = document.createElement('span');
+        pSw.className = 'unit-swatch unit-swatch-nativo';
+        pItem.appendChild(pSw);
+        var pLbl = document.createElement('span');
+        pLbl.textContent = strings.tierPrincipal + ' — ' + fmtInt(stage.principal, lang);
+        pItem.appendChild(pLbl);
+        legend.appendChild(pItem);
+
+        var sItem = document.createElement('span');
+        sItem.className = 'unit-legend-item';
+        var sSw = document.createElement('span');
+        sSw.className = 'unit-swatch unit-swatch-derivado';
+        sItem.appendChild(sSw);
+        var sLbl = document.createElement('span');
+        sLbl.textContent = strings.tierSensibilidade + ' — ' + fmtInt(stage.sensibilidade, lang);
+        sItem.appendChild(sLbl);
+        legend.appendChild(sItem);
+
+        row.appendChild(legend);
+      }
+
+      list.appendChild(row);
+    });
   }
 
   /* ----------------------------------------------------- gráfico: dispersão */
@@ -680,6 +811,7 @@
     renderKPIs(lang);
     renderTierCounts(lang);
     renderScatterDesc(strings, lang);
+    renderFunnel(strings, lang);
     renderProgress(strings);
     renderScatter(strings);
     renderLegend(strings);
