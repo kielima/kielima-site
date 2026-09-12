@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ibovespa — acionistas e pulverização</title>
+  <meta name="description" content="Recorte das empresas do Ibovespa: setor, free float, acionistas e percentual efetivo de pessoas físicas na cadeia societária, a partir de dados públicos da CVM e da B3." />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <meta name="theme-color" content="#f8f8f8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0d110e" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&family=Geist:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div>
+        <p class="kicker">Dados públicos · CVM + B3</p>
+        <h1>Ibovespa — acionistas e pulverização</h1>
+        <p class="lead">
+          Quem controla cada empresa do índice, quanto do capital está com acionistas
+          pequenos e o percentual efetivo de cada pessoa física na cadeia societária.
+          Recorte pessoal de apoio a decisão de investimento — não é recomendação.
+        </p>
+      </div>
+      <p class="capturado">Carteira teórica capturada em <span id="data-captura">—</span></p>
+    </header>
+
+    <section class="kpis" id="kpis" aria-label="Resumo do recorte">
+      <div class="kpi-tile">
+        <span class="kpi-value" id="kpi-empresas">—</span>
+        <span class="kpi-label">empresas no recorte</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-value" id="kpi-pessoas">—</span>
+        <span class="kpi-label">pessoas físicas identificadas</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-value" id="kpi-mais-pulverizada">—</span>
+        <span class="kpi-label">mais pulverizada</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-value" id="kpi-mais-concentrada">—</span>
+        <span class="kpi-label">mais concentrada</span>
+      </div>
+    </section>
+
+    <nav class="tabs" role="tablist" aria-label="Seções do banco de dados">
+      <button class="tab is-active" role="tab" aria-selected="true" data-tab="ranking">Pulverização</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="empresas">Empresas</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="acionistas">Acionistas</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="pessoas">Pessoas</button>
+    </nav>
+
+    <section class="panel is-active" id="panel-ranking" role="tabpanel">
+      <p class="section-note">
+        <strong>pct_acionistas_dispersos</strong> = % da empresa que não está com o
+        controlador, a administração, a tesouraria nem nenhum investidor
+        individualmente nomeado (ex.: BlackRock, BNDESPAR) — é a linha "Outros" do
+        item 15.1/2 do Formulário de Referência. Quanto maior, mais pulverizada.
+      </p>
+      <div class="chart" id="chart-ranking" role="img" aria-label="Barras de pulverização por empresa"></div>
+    </section>
+
+    <section class="panel" id="panel-empresas" role="tabpanel">
+      <input type="search" class="search" data-table="empresas" placeholder="Buscar por ticker, empresa ou setor…" />
+      <div class="table-wrap">
+        <table id="table-empresas">
+          <thead>
+            <tr>
+              <th data-sort="ticker">Ticker</th>
+              <th data-sort="empresa">Empresa</th>
+              <th data-sort="setor">Setor</th>
+              <th data-sort="peso_ibov_pct" class="num">Peso Ibov %</th>
+              <th data-sort="free_float_cvm_pct" class="num">Free float CVM %</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-acionistas" role="tabpanel">
+      <input type="search" class="search" data-table="acionistas" placeholder="Buscar por empresa ou acionista…" />
+      <div class="table-wrap">
+        <table id="table-acionistas">
+          <thead>
+            <tr>
+              <th data-sort="empresa">Empresa</th>
+              <th data-sort="ticker">Ticker</th>
+              <th data-sort="acionista">Acionista</th>
+              <th data-sort="tipo_pessoa">Tipo</th>
+              <th data-sort="percentual_total_pct" class="num">%</th>
+              <th data-sort="acionista_controlador">Controlador</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-pessoas" role="tabpanel">
+      <p class="section-note">
+        <strong>percentual_efetivo_na_empresa_pct</strong> já multiplica a cadeia
+        societária inteira (do topo, que é % da empresa, até a pessoa) — não é o
+        percentual de um elo isolado. Quando a mesma pessoa aparece em mais de um
+        veículo/holding da mesma empresa, os efetivos foram somados.
+      </p>
+      <input type="search" class="search" data-table="pessoas" placeholder="Buscar por nome ou empresa…" />
+      <div class="table-wrap">
+        <table id="table-pessoas">
+          <thead>
+            <tr>
+              <th data-sort="nome">Nome</th>
+              <th data-sort="empresa">Empresa</th>
+              <th data-sort="ticker">Ticker</th>
+              <th data-sort="percentual_efetivo_na_empresa_pct" class="num">% efetivo</th>
+              <th data-sort="num_veiculos_societarios" class="num">Veículos</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="notes">
+      <h2>Metodologia e limitações</h2>
+      <ul>
+        <li><strong>Fontes:</strong> composição do índice e setor via API pública da B3
+          (Guia das Companhias); acionistas, distribuição de capital e pulverização via
+          Portal de Dados Abertos da CVM, dataset "Cias Abertas — Formulário de
+          Referência (FRE)", itens 15.1/2 e 15.3. FRE mais recente de 2026 por empresa,
+          com fallback para 2025 quando ainda não havia entrega nova na captura.</li>
+        <li><strong>Free float</strong> aqui é o declarado pela própria empresa (CVM,
+          item 15.3) — inclui investidores relevantes nomeados que não são
+          controladores, por isso é normalmente maior que o % de acionistas dispersos.</li>
+        <li><strong>Qualidade da fonte:</strong> o próprio FRE às vezes classifica pessoa
+          jurídica como pessoa física por erro de preenchimento da empresa (ex.: um
+          investidor institucional estrangeiro aparecendo na lista de pessoas). Sem
+          curadoria manual nesta versão.</li>
+        <li><strong>Patrimônio em R$</strong> ainda não foi calculado — exige valor de
+          mercado de cada empresa, fonte ainda não integrada.</li>
+        <li>Recorte de uso pessoal, dados públicos, sem garantia de atualização
+          contínua. Não é recomendação de investimento.</li>
+      </ul>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
