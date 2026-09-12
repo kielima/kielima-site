@@ -815,6 +815,65 @@
   }
 }
 
+/* Lista dos critérios de qualidade QA-QG, dentro do detalhe da etapa 4 do
+   funil -- pedido da Kie, 2026-09-12. */
+.quality-criteria {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quality-criteria-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.quality-criteria-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.quality-criteria-code {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--green);
+  flex: none;
+}
+
+.quality-criteria-label {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.quality-criteria-tag {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.03em;
+  color: var(--ink-40);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
+.quality-criteria-row.is-proposto .quality-criteria-code {
+  color: var(--ink-40);
+}
+
+.quality-criteria-desc {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--ink-65);
+}
+
 /* Preenchimento tinto + borda sólida, como as caixas do fluxograma PRISMA
    (public/ppt/dissertacao/prisma-slide.html, --teal-soft/--teal-border) —
    pedido explícito da Kiê para aproximar a estética do painel à do slide

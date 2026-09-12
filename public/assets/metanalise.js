@@ -135,6 +135,22 @@
     { label: 'SciELO', n: 28 }
   ];
 
+  /* Checklist de qualidade da Etapa 4 -- QA-QF em vigor (0/0,5/1,0 cada,
+     máximo 6,0), QG proposto em 2026-09-12 (ver CRITERIOS_E_NUANCES_RSL.md
+     no repositório da RSL) e ainda não pontuado em nenhuma linha -- por
+     isso `proposto: true` só nele, para o site marcar visualmente que é
+     diferente dos outros seis. Rótulo e descrição de cada item vivem em
+     COPY[lang].qualityCriteria, por serem texto traduzido. */
+  var QUALITY_CRITERIA = [
+    { key: 'QA' },
+    { key: 'QB' },
+    { key: 'QC' },
+    { key: 'QD' },
+    { key: 'QE' },
+    { key: 'QF' },
+    { key: 'QG', proposto: true }
+  ];
+
   var COPY = {
     PT: {
       kicker: 'PESQUISA · PAINEL AO VIVO',
@@ -158,6 +174,16 @@
       funnelRevisaoNote: 'Mais 57 artigos são revisões sem avaliação de ciclo de vida própria — não alimentam o indicador ci, mas continuam na base como ramo de citação do PRISMA: candidatos a fontes primárias descobertas pelas revisões que as citam.',
       funnelToggleHint: 'toque numa etapa para ver os critérios de exclusão',
       funnelDbChartTitle: 'Registos por base de dados, antes da remoção de duplicatas',
+      qualityCriteriaProposto: 'proposto — ainda não pontuado',
+      qualityCriteria: {
+        QA: { label: 'Unidade funcional', desc: 'A unidade funcional está declarada e é inequívoca.' },
+        QB: { label: 'Método de análise', desc: 'O método de avaliação de impacto (LCIA) está nomeado.' },
+        QC: { label: 'Fonte dos dados', desc: 'A base de inventário está nomeada.' },
+        QD: { label: 'Vida útil', desc: 'A vida útil está declarada (entra na unidade funcional do indicador ci_t).' },
+        QE: { label: 'Fronteira do sistema', desc: 'O que está dentro e fora do sistema está definido (ex.: cradle-to-gate, cradle-to-grave).' },
+        QF: { label: 'Emparelhamento CO₂↔resistência', desc: 'Os dois números do quociente ci pertencem à mesma mistura, não a misturas ou recortes diferentes.' },
+        QG: { label: 'Dispersão/intervalo de confiança declarado', desc: 'O artigo dá meio de calcular um intervalo de confiança do ci daquela mistura — só conta dispersão medida pelo próprio artigo, nunca citada de outro estudo.' }
+      },
       funnelDetails: {
         universo: '5.093 registos recolhidos nas buscas. 2.627 (51,6%) eram duplicados, removidos antes de qualquer triagem. 1.808 foram rejeitados ao longo das quatro etapas seguintes — ver o detalhe em cada barra abaixo. 7 nunca tiveram o texto completo disponível (sem acesso). Os 651 restantes — 594 elegíveis + 57 revisões sem ACV própria — chegam à Etapa 4.',
         e1: 'Dos 2.471 registos avaliados nos metadados (ano, tipo de documento, material moldável, aplicação em construção), 2.199 foram aceites. Os 272 excluídos falharam por: aplicação em construção (190), material não moldável (71), tipo de documento (9), ano de publicação (1) — um registo pode falhar mais de um critério.',
@@ -249,6 +275,16 @@
       funnelRevisaoNote: 'Another 57 articles are reviews without their own life-cycle assessment — they do not feed the ci indicator, but stay in the base as a PRISMA citation branch: candidate primary sources discovered through the reviews that cite them.',
       funnelToggleHint: 'tap a stage to see the exclusion criteria',
       funnelDbChartTitle: 'Records by database, before duplicate removal',
+      qualityCriteriaProposto: 'proposed — not scored yet',
+      qualityCriteria: {
+        QA: { label: 'Functional unit', desc: 'The functional unit is declared and unambiguous.' },
+        QB: { label: 'Analysis method', desc: 'The impact assessment method (LCIA) is named.' },
+        QC: { label: 'Data source', desc: 'The inventory database is named.' },
+        QD: { label: 'Service life', desc: 'Service life is declared (feeds the functional unit of the ci_t indicator).' },
+        QE: { label: 'System boundary', desc: 'What is inside and outside the system is defined (e.g. cradle-to-gate, cradle-to-grave).' },
+        QF: { label: 'CO₂↔strength pairing', desc: 'The two numbers of the ci ratio belong to the same mixture, not to different mixtures or scopes.' },
+        QG: { label: 'Declared dispersion / confidence interval', desc: 'The article gives a way to compute a confidence interval for that mixture’s ci — only counts dispersion measured by the article itself, never cited from a different study.' }
+      },
       funnelDetails: {
         universo: "5,093 records collected in the searches. 2,627 (51.6%) were duplicates, removed before any screening. 1,808 were rejected across the four stages that follow — see the detail in each bar below. 7 never had the full text available (no access). The remaining 651 — 594 eligible + 57 reviews without their own LCA — reach Stage 4.",
         e1: 'Of the 2,471 records screened on metadata (year, document type, moldable material, construction application), 2,199 were accepted. The 272 excluded failed on: construction application (190), non-moldable material (71), document type (9), publication year (1) — a record can fail more than one criterion.',
@@ -340,6 +376,16 @@
       funnelRevisaoNote: '另有57篇文献属于没有自身生命周期评估的综述——不计入ci指标，但仍保留在数据库中，作为PRISMA引文分支：这些综述所引用的原始研究是潜在的候选文献。',
       funnelToggleHint: '点击每个阶段查看排除标准',
       funnelDbChartTitle: '去重之前，各数据库的记录数',
+      qualityCriteriaProposto: '拟议中——尚未评分',
+      qualityCriteria: {
+        QA: { label: '功能单位', desc: '功能单位已明确声明，且没有歧义。' },
+        QB: { label: '分析方法', desc: '已注明所用的影响评估方法（LCIA）。' },
+        QC: { label: '数据来源', desc: '已注明所用的清单数据库。' },
+        QD: { label: '使用寿命', desc: '已声明使用寿命（构成ci_t指标功能单位的一部分）。' },
+        QE: { label: '系统边界', desc: '已明确系统的边界范围（例如摇篮到大门、摇篮到坟墓）。' },
+        QF: { label: 'CO₂与强度的配对', desc: 'ci比值中的两个数值属于同一配方，而非不同配方或不同口径拼凑而成。' },
+        QG: { label: '已声明的离散程度/置信区间', desc: '文章提供了计算该配方ci置信区间所需的信息——只计入文章本身测量得到的离散程度，不计入引用自其他研究的数值。' }
+      },
       funnelDetails: {
         universo: '检索共收集5,093条记录。其中2,627条（51.6%）为重复记录，在任何筛选之前已被移除。1,808条在随后四个阶段中被剔除——详见下方各阶段柱状图。7条从未能获取全文（无法访问）。剩余651条——594篇入选文献+57篇无自身生命周期评估的综述——进入第4阶段。',
         e1: '在按元数据（年份、文献类型、可模塑材料、建筑用途）筛选的2,471条记录中，2,199条被接受。被排除的272条中：190条因不属于建筑用途，71条因材料不可模塑，9条因文献类型，1条因发表年份——同一记录可能同时不符合多项标准。',
@@ -737,10 +783,55 @@
       if (stage.key === 'universo') {
         detail.appendChild(buildDbChart(strings, lang));
       }
+      if (stage.key === 'e4') {
+        detail.appendChild(buildQualityCriteriaList(strings));
+      }
       row.appendChild(detail);
 
       list.appendChild(row);
     });
+  }
+
+  /* Lista dos itens do checklist de qualidade (QA-QF em vigor, QG proposto
+     -- ver CRITERIOS_E_NUANCES_RSL.md no repositório da RSL) dentro do
+     detalhe da etapa 4 -- pedido da Kie, 2026-09-12. QG fica visualmente
+     distinto (rótulo "proposto") porque, ao contrário de QA-QF, ainda não
+     é pontuado em nenhuma linha -- ver PROGRESS_IC acima. */
+  function buildQualityCriteriaList(strings) {
+    var wrap = document.createElement('div');
+    wrap.className = 'quality-criteria';
+
+    QUALITY_CRITERIA.forEach(function (item) {
+      var row = document.createElement('div');
+      row.className = 'quality-criteria-row' + (item.proposto ? ' is-proposto' : '');
+
+      var head = document.createElement('div');
+      head.className = 'quality-criteria-head';
+      var code = document.createElement('span');
+      code.className = 'quality-criteria-code';
+      code.textContent = item.key;
+      head.appendChild(code);
+      var label = document.createElement('span');
+      label.className = 'quality-criteria-label';
+      label.textContent = strings.qualityCriteria[item.key].label;
+      head.appendChild(label);
+      if (item.proposto) {
+        var tag = document.createElement('span');
+        tag.className = 'quality-criteria-tag';
+        tag.textContent = strings.qualityCriteriaProposto;
+        head.appendChild(tag);
+      }
+      row.appendChild(head);
+
+      var desc = document.createElement('p');
+      desc.className = 'quality-criteria-desc';
+      desc.textContent = strings.qualityCriteria[item.key].desc;
+      row.appendChild(desc);
+
+      wrap.appendChild(row);
+    });
+
+    return wrap;
   }
 
   /* Sub-gráfico dentro do detalhe da etapa "universo" -- pedido da Kie
