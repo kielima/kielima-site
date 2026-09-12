@@ -105,6 +105,14 @@
         e4: 'Etapa 4 — qualidade metodológica (resultado final)'
       },
       funnelRevisaoNote: 'Mais 57 artigos são revisões sem avaliação de ciclo de vida própria — não alimentam o indicador ci, mas continuam na base como ramo de citação do PRISMA: candidatos a fontes primárias descobertas pelas revisões que as citam.',
+      funnelToggleHint: 'toque numa etapa para ver os critérios de exclusão',
+      funnelDetails: {
+        universo: '5.093 registos recolhidos nas buscas. 2.627 (51,6%) eram duplicados, removidos antes de qualquer triagem. 1.808 foram rejeitados ao longo das quatro etapas seguintes — ver o detalhe em cada barra abaixo. 7 nunca tiveram o texto completo disponível (sem acesso). Os 651 restantes — 594 elegíveis + 57 revisões sem ACV própria — chegam à Etapa 4.',
+        e1: 'Dos 2.471 registos avaliados nos metadados (ano, tipo de documento, material moldável, aplicação em construção), 2.199 foram aceites. Os 272 excluídos falharam por: aplicação em construção (190), material não moldável (71), tipo de documento (9), ano de publicação (1) — um registo pode falhar mais de um critério.',
+        e2: 'Dos 2.188 artigos com PDF lido na íntegra, 662 foram aceites. Dos 1.526 excluídos: 1.239 não relatavam resistência à compressão própria, 331 não relatavam CO₂/ACV com resultado absoluto — alguns falham nos dois critérios.',
+        e3: 'Dos 658 artigos avaliados quanto à restrição geográfica do material, 651 foram aceites; 7 foram excluídos por o material principal ser geograficamente restrito (ex.: resíduo de produção regional concentrada).',
+        e4: 'Dos 651 artigos avaliados na Etapa 4 (checklist de 6 itens, 0 a 6 pontos): 462 formam o resultado principal (score ≥ 4,0), 132 entram só na análise de sensibilidade (score < 4,0), e 57 são revisões sem avaliação de ciclo de vida própria — não pontuam para o indicador ci, mas alimentam o ramo de citação do PRISMA (fontes primárias descobertas por essas revisões).'
+      },
       tierLabel: 'ESTRATIFICAÇÃO POR QUALIDADE',
       tierTitle: 'Resultado principal × análise de sensibilidade',
       tierP: 'A Etapa 4 pontua a qualidade de cada artigo aceite (0–6, seis itens). Os dois terços de melhor pontuação formam o resultado principal da metanálise; o terço mais fraco continua aceite, mas só entra na análise de sensibilidade. Ligue e desligue cada grupo para comparar.',
@@ -179,6 +187,14 @@
         e4: 'Stage 4 — methodological quality (final result)'
       },
       funnelRevisaoNote: 'Another 57 articles are reviews without their own life-cycle assessment — they do not feed the ci indicator, but stay in the base as a PRISMA citation branch: candidate primary sources discovered through the reviews that cite them.',
+      funnelToggleHint: 'tap a stage to see the exclusion criteria',
+      funnelDetails: {
+        universo: "5,093 records collected in the searches. 2,627 (51.6%) were duplicates, removed before any screening. 1,808 were rejected across the four stages that follow — see the detail in each bar below. 7 never had the full text available (no access). The remaining 651 — 594 eligible + 57 reviews without their own LCA — reach Stage 4.",
+        e1: 'Of the 2,471 records screened on metadata (year, document type, moldable material, construction application), 2,199 were accepted. The 272 excluded failed on: construction application (190), non-moldable material (71), document type (9), publication year (1) — a record can fail more than one criterion.',
+        e2: 'Of the 2,188 articles fully read as PDF, 662 were accepted. Of the 1,526 excluded: 1,239 did not report their own compressive strength, 331 did not report CO₂/LCA with an absolute result — some fail both criteria.',
+        e3: "Of the 658 articles assessed for the material's geographic restriction, 651 were accepted; 7 were excluded because the main material is geographically restricted (e.g. a regionally concentrated production by-product).",
+        e4: "Of the 651 articles assessed in Stage 4 (a 6-item checklist, 0 to 6 points): 462 form the main result (score ≥ 4.0), 132 enter only the sensitivity analysis (score < 4.0), and 57 are reviews without their own life-cycle assessment — they don't score toward the ci indicator, but feed the PRISMA citation branch (primary sources discovered through those reviews)."
+      },
       tierLabel: 'QUALITY STRATIFICATION',
       tierTitle: 'Main result × sensitivity analysis',
       tierP: "Stage 4 scores the quality of every accepted article (0-6, six items). The top two-thirds by score form the meta-analysis's main result; the bottom third stays accepted, but only feeds the sensitivity analysis. Toggle each group to compare.",
@@ -253,6 +269,14 @@
         e4: '第4阶段——方法学质量（最终结果）'
       },
       funnelRevisaoNote: '另有57篇文献属于没有自身生命周期评估的综述——不计入ci指标，但仍保留在数据库中，作为PRISMA引文分支：这些综述所引用的原始研究是潜在的候选文献。',
+      funnelToggleHint: '点击每个阶段查看排除标准',
+      funnelDetails: {
+        universo: '检索共收集5,093条记录。其中2,627条（51.6%）为重复记录，在任何筛选之前已被移除。1,808条在随后四个阶段中被剔除——详见下方各阶段柱状图。7条从未能获取全文（无法访问）。剩余651条——594篇入选文献+57篇无自身生命周期评估的综述——进入第4阶段。',
+        e1: '在按元数据（年份、文献类型、可模塑材料、建筑用途）筛选的2,471条记录中，2,199条被接受。被排除的272条中：190条因不属于建筑用途，71条因材料不可模塑，9条因文献类型，1条因发表年份——同一记录可能同时不符合多项标准。',
+        e2: '在通读全文PDF的2,188篇文献中，662篇被接受。被排除的1,526篇中：1,239篇未报告自身的抗压强度，331篇未报告有绝对数值的CO₂/生命周期评估结果——部分文献两项标准都未满足。',
+        e3: '在评估材料地域限制的658篇文献中，651篇被接受；7篇因主要材料受地域限制（例如某地区高度集中的生产副产品）而被排除。',
+        e4: '在第4阶段（6项清单，0至6分）评估的651篇文献中：462篇构成主要结果（得分≥4.0），132篇仅用于敏感性分析（得分<4.0），57篇是没有自身生命周期评估的综述——不计入ci指标得分，但作为PRISMA引文分支的来源（这些综述引用的原始研究）。'
+      },
       tierLabel: '质量分层',
       tierTitle: '主要结果 × 敏感性分析',
       tierP: '第4阶段为每篇入选文献的质量打分（0-6分，六个项目）。得分最高的三分之二构成荟萃分析的主要结果；得分最低的三分之一仍属入选文献，但只用于敏感性分析。切换各组即可对比。',
@@ -468,20 +492,38 @@
 
   /* --------------------------------------------------- gráfico: funil */
 
+  /* Persistido fora da função para sobreviver a renderFunnel ser chamada de
+     novo (troca de idioma, toggle de estrato) sem fechar o que a pessoa já
+     tinha aberto -- mesmo tratamento que activeCat/tierVisible dão ao
+     estado da dispersão. */
+  var funnelOpen = {};
+
   function renderFunnel(strings, lang) {
     var list = document.getElementById('funnel-list');
     list.textContent = '';
     var base = FUNNEL[0].n;
 
     FUNNEL.forEach(function (stage) {
+      var isOpen = !!funnelOpen[stage.key];
       var row = document.createElement('div');
-      row.className = 'funnel-row';
+      row.className = 'funnel-row' + (isOpen ? ' is-open' : '');
 
-      var head = document.createElement('div');
+      var head = document.createElement('button');
+      head.type = 'button';
       head.className = 'funnel-head';
+      head.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       var label = document.createElement('span');
       label.textContent = strings.funnelStages[stage.key];
       head.appendChild(label);
+      var chevron = document.createElement('span');
+      chevron.className = 'funnel-chevron';
+      chevron.setAttribute('aria-hidden', 'true');
+      chevron.textContent = '›';
+      head.appendChild(chevron);
+      head.addEventListener('click', function () {
+        funnelOpen[stage.key] = !funnelOpen[stage.key];
+        renderFunnel(i18n.strings(), i18n.current());
+      });
       row.appendChild(head);
 
       var wrap = document.createElement('div');
@@ -558,6 +600,11 @@
 
         row.appendChild(legend);
       }
+
+      var detail = document.createElement('p');
+      detail.className = 'funnel-detail';
+      detail.textContent = strings.funnelDetails[stage.key];
+      row.appendChild(detail);
 
       list.appendChild(row);
     });
