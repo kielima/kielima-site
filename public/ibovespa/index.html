@@ -50,9 +50,13 @@
     <nav class="tabs" role="tablist" aria-label="Seções do banco de dados">
       <button class="tab is-active" role="tab" aria-selected="true" data-tab="ranking">Pulverização</button>
       <button class="tab" role="tab" aria-selected="false" data-tab="empresas">Empresas</button>
-      <button class="tab" role="tab" aria-selected="false" data-tab="acionistas">Acionistas</button>
       <button class="tab" role="tab" aria-selected="false" data-tab="pessoas">Pessoas</button>
     </nav>
+
+    <p class="section-note">
+      Passe o mouse sobre o código de qualquer empresa (nesta página, em qualquer aba)
+      para ver os acionistas dela num gráfico de pizza.
+    </p>
 
     <section class="panel is-active" id="panel-ranking" role="tabpanel">
       <p class="section-note">
@@ -82,35 +86,12 @@
       </div>
     </section>
 
-    <section class="panel" id="panel-acionistas" role="tabpanel">
-      <input type="search" class="search" data-table="acionistas" placeholder="Buscar por empresa ou acionista…" />
-      <div class="table-wrap">
-        <table id="table-acionistas">
-          <thead>
-            <tr>
-              <th data-sort="empresa">Empresa</th>
-              <th data-sort="ticker">Ticker</th>
-              <th data-sort="acionista">Acionista</th>
-              <th data-sort="tipo_pessoa">Tipo</th>
-              <th data-sort="percentual_total_pct" class="num">%</th>
-              <th data-sort="acionista_controlador">Controlador</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </section>
-
     <section class="panel" id="panel-pessoas" role="tabpanel">
       <p class="section-note">
-        <strong>percentual_efetivo_na_empresa_pct</strong> já multiplica a cadeia
-        societária inteira (do topo, que é % da empresa, até a pessoa) — não é o
-        percentual de um elo isolado. Quando a mesma pessoa aparece em mais de um
-        veículo/holding da mesma empresa, os efetivos foram somados.
-      </p>
-      <p class="section-note">
-        Passe o mouse sobre o código de cada empresa para ver o percentual efetivo,
-        o número de veículos societários e se a pessoa é controladora.
+        <strong>Nº empresas</strong> conta em quantas empresas do recorte a pessoa tem
+        participação. Passe o mouse sobre o código de cada empresa para ver o
+        percentual efetivo dela ali, o número de veículos societários, se é
+        controladora, e o gráfico de acionistas da empresa.
       </p>
       <input type="search" class="search" data-table="pessoas" placeholder="Buscar por nome ou empresa…" />
       <div class="table-wrap">
