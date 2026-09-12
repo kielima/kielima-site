@@ -500,6 +500,87 @@
   }
 }
 
+/* ------------------------------------------------------- funil da triagem */
+
+.funnel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.funnel-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.funnel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--ink-78);
+}
+
+.funnel-head b {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.funnel-count {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--ink-65);
+  white-space: nowrap;
+}
+
+.funnel-bar-wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.funnel-bar {
+  height: 30px;
+  border-radius: 6px;
+  display: flex;
+  overflow: hidden;
+  min-width: 6%;
+}
+
+.funnel-bar-seg {
+  height: 100%;
+}
+
+.funnel-bar-seg-full,
+.funnel-bar-seg-principal {
+  background: var(--green);
+}
+
+.funnel-bar-seg-sensibilidade {
+  background: var(--green-soft);
+}
+
+.funnel-note {
+  margin: 16px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-65);
+}
+
+@media (max-width: 620px) {
+  .funnel-head {
+    font-size: 11.5px;
+  }
+
+  .funnel-bar {
+    height: 24px;
+  }
+}
+
 /* ---------------------------------------------------- unidades de CO2 */
 
 .unit-legend {
