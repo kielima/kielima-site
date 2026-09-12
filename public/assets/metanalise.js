@@ -482,31 +482,48 @@
       var label = document.createElement('span');
       label.textContent = strings.funnelStages[stage.key];
       head.appendChild(label);
-      var count = document.createElement('span');
-      count.className = 'funnel-count';
-      count.textContent = fmtInt(stage.n, lang);
-      head.appendChild(count);
       row.appendChild(head);
 
       var wrap = document.createElement('div');
       wrap.className = 'funnel-bar-wrap';
       var bar = document.createElement('div');
       bar.className = 'funnel-bar';
-      bar.style.width = Math.max(6, (stage.n / base) * 100) + '%';
+      /* A ultima etapa (com o desdobramento principal/sensibilidade) fica
+         com largura pelo proprio conteudo -- os dois numeros escritos ja
+         carregam a proporcao, e uma largura percentual apertaria "+132"
+         a zero em telas estreitas (min-width:auto do flex item nao ajuda
+         quando o pai tem overflow:hidden e uma largura fixa menor que a
+         soma dos dois conteudos). Nas etapas anteriores, sem esse
+         desdobramento, a largura proporcional ao universo continua. */
+      if (stage.principal == null) {
+        bar.style.width = Math.max(16, (stage.n / base) * 100) + '%';
+      }
 
       if (stage.principal != null) {
         var segP = document.createElement('div');
         segP.className = 'funnel-bar-seg funnel-bar-seg-principal';
-        segP.style.flex = stage.principal;
+        segP.style.flex = '1 1 auto';
+        var segPVal = document.createElement('span');
+        segPVal.className = 'funnel-bar-count';
+        segPVal.textContent = fmtInt(stage.principal, lang);
+        segP.appendChild(segPVal);
         bar.appendChild(segP);
         var segS = document.createElement('div');
         segS.className = 'funnel-bar-seg funnel-bar-seg-sensibilidade';
-        segS.style.flex = stage.sensibilidade;
+        segS.style.flex = '0 0 auto';
+        var segSVal = document.createElement('span');
+        segSVal.className = 'funnel-bar-count';
+        segSVal.textContent = '+' + fmtInt(stage.sensibilidade, lang);
+        segS.appendChild(segSVal);
         bar.appendChild(segS);
       } else {
         var seg = document.createElement('div');
         seg.className = 'funnel-bar-seg funnel-bar-seg-full';
         seg.style.flex = '1';
+        var segVal = document.createElement('span');
+        segVal.className = 'funnel-bar-count';
+        segVal.textContent = fmtInt(stage.n, lang);
+        seg.appendChild(segVal);
         bar.appendChild(seg);
       }
       wrap.appendChild(bar);

@@ -515,10 +515,6 @@
 }
 
 .funnel-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 12px;
   font-size: 13px;
   color: var(--ink-78);
 }
@@ -528,38 +524,48 @@
   font-weight: 500;
 }
 
-.funnel-count {
-  font-family: var(--mono);
-  font-size: 12.5px;
-  color: var(--ink-65);
-  white-space: nowrap;
-}
-
+/* Preenchimento tinto + borda sólida, como as caixas do fluxograma PRISMA
+   (public/ppt/dissertacao/prisma-slide.html, --teal-soft/--teal-border) —
+   pedido explícito da Kiê para aproximar a estética do painel à do slide
+   25 da apresentação da dissertação. Alinhado à esquerda (não centrado)
+   para o funil "encolher" a partir da mesma margem em cada etapa. */
 .funnel-bar-wrap {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
 }
 
 .funnel-bar {
-  height: 30px;
-  border-radius: 6px;
+  height: 38px;
+  border-radius: 3px;
+  border: 1.5px solid var(--green);
+  background: color-mix(in srgb, var(--green) 9%, var(--bg));
   display: flex;
   overflow: hidden;
-  min-width: 6%;
+  min-width: 16%;
 }
 
 .funnel-bar-seg {
   height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
 }
 
-.funnel-bar-seg-full,
-.funnel-bar-seg-principal {
-  background: var(--green);
+.funnel-bar-seg-principal + .funnel-bar-seg-sensibilidade {
+  border-left: 1.5px solid var(--green);
 }
 
 .funnel-bar-seg-sensibilidade {
-  background: var(--green-soft);
+  background: color-mix(in srgb, var(--green) 22%, var(--bg));
+}
+
+.funnel-bar-count {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green);
+  white-space: nowrap;
 }
 
 .funnel-note {
@@ -577,7 +583,11 @@
   }
 
   .funnel-bar {
-    height: 24px;
+    height: 32px;
+  }
+
+  .funnel-bar-seg {
+    padding: 0 8px;
   }
 }
 
