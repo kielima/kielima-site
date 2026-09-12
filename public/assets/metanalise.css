@@ -434,17 +434,35 @@
   gap: 2px;
 }
 
-.forest-row {
+/* .forest-head é um <button> (foco/teclado de graça) que ocupa o lugar do
+   antigo .forest-row estático — clicável para expandir os estudos da
+   família, mesmo padrão do .funnel-head acima. */
+.forest-head {
   display: grid;
   grid-template-columns: 190px 1fr 64px;
   align-items: center;
   gap: 14px;
-  padding: 9px 0;
+  width: 100%;
+  border: none;
   border-top: 1px solid var(--line);
+  background: none;
+  padding: 9px 0;
+  margin: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
-.forest-row:first-child {
+.forest-item:first-child .forest-head {
   border-top: none;
+}
+
+.forest-head:hover .forest-name {
+  color: var(--ink);
+}
+
+.forest-head:hover .forest-chevron {
+  color: var(--green);
 }
 
 .forest-name {
@@ -452,6 +470,19 @@
   align-items: center;
   gap: 9px;
   font-size: 13.5px;
+  color: var(--ink-78);
+}
+
+.forest-chevron {
+  flex: none;
+  color: var(--ink-40);
+  font-size: 15px;
+  line-height: 1;
+  transition: transform 0.15s ease;
+}
+
+.forest-item.is-open .forest-chevron {
+  transform: rotate(90deg);
 }
 
 .forest-track {
@@ -489,14 +520,109 @@
   color: var(--ink);
 }
 
+/* -------------------------------------------------- forest: detalhe (sub-lista) */
+
+.forest-detail {
+  display: none;
+  margin: 0 0 10px;
+  padding: 6px 0 6px 22px;
+  border-left: 2px solid var(--line);
+}
+
+.forest-item.is-open .forest-detail {
+  display: block;
+}
+
+.forest-item-overall .forest-head {
+  border-top: 2px solid var(--ink);
+  margin-top: 4px;
+  padding-top: 13px;
+}
+
+.forest-item-overall .forest-name span:last-child {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.forest-sub-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.forest-sub-row {
+  display: grid;
+  grid-template-columns: 1fr 96px 70px;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 6px;
+  border-top: 1px solid var(--line);
+}
+
+.forest-sub-row:first-child {
+  border-top: none;
+}
+
+.forest-sub-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 12px;
+  color: var(--ink-65);
+}
+
+.forest-sub-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.forest-sub-tier {
+  flex: none;
+  width: 7px;
+  height: 7px;
+}
+
+.forest-track-sub {
+  height: 14px;
+}
+
+.forest-bar-sub {
+  width: 6px;
+  height: 6px;
+}
+
+.forest-sub-value {
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+
+.forest-sub-raw {
+  display: block;
+  font-size: 9.5px;
+  color: var(--ink-40);
+}
+
 @media (max-width: 620px) {
-  .forest-row {
+  .forest-head {
     grid-template-columns: 108px 1fr 52px;
     gap: 8px;
   }
 
   .forest-name {
     font-size: 12px;
+  }
+
+  .forest-sub-row {
+    grid-template-columns: 1fr 64px 60px;
+    gap: 6px;
+  }
+
+  .forest-detail {
+    padding-left: 12px;
   }
 }
 
