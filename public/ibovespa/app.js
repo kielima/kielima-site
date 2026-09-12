@@ -69,6 +69,23 @@ function tickerRef(ticker, extra) {
   return el;
 }
 
+// Badge de acionista-pai numa célula de Empresas (usado pelos "acionistas de
+// acionistas" — não têm ação de nenhuma empresa do Ibovespa diretamente, o
+// vínculo deles é com o acionista-pai). Visual igual ao ticker-ref; o hover
+// mostra o mesmo popover de quem hover no nome do acionista-pai.
+function entidadeBadge(nome, chave, extra) {
+  const el = document.createElement('span');
+  el.className = 'ticker-ref';
+  el.textContent = nome;
+  el.dataset.entidade = chave;
+  if (extra) {
+    for (const [k, v] of Object.entries(extra)) {
+      if (v != null && v !== '') el.dataset[k] = v;
+    }
+  }
+  return el;
+}
+
 /* ---- Tabela de Empresas ---------------------------------------------------- */
 
 function renderTable(name) {
@@ -114,8 +131,8 @@ function filtrarAgrupado(rows, term) {
   return rows.filter(
     (r) =>
       r.nome.toLocaleLowerCase('pt-BR').includes(t) ||
-      r.empresas.some(
-        (e) => e.ticker.toLocaleLowerCase('pt-BR').includes(t) || e.empresa.toLocaleLowerCase('pt-BR').includes(t)
+      r.empresas.some((e) =>
+        [e.ticker, e.empresa, e.nome].some((v) => v && v.toLocaleLowerCase('pt-BR').includes(t))
       )
   );
 }
@@ -163,7 +180,7 @@ function renderAgrupado(name, dadosOrdenadosPorPct) {
       ? [...row.empresas].sort((a, b) => (b.pct ?? 0) - (a.pct ?? 0))
       : row.empresas;
     for (const e of empresasOrdenadas) {
-      tdEmpresas.appendChild(tickerRef(e.ticker, e.badge));
+      tdEmpresas.appendChild(e.tipo === 'entidade' ? entidadeBadge(e.nome, e.chave, e.badge) : tickerRef(e.ticker, e.badge));
     }
     tr.appendChild(tdEmpresas);
 
@@ -247,6 +264,46 @@ function agruparAcionistas(acionistas, pesoPorTicker) {
     }
     return { ...r, chaveNormalizada: r.nome, nome: grafiaExibicao.get(r.nome), pctIndice };
   });
+}
+
+/* ---- Acionistas de acionistas: quem tem participação pesquisada dentro de --
+   um acionista curado (estrutura-acionistas.json) vira linha própria. Some
+   quando o mesmo sub-acionista aparece sob mais de um acionista-pai; pula
+   quando o sub-acionista já é ele mesmo um acionista com linha própria (dado
+   real da CVM) — nesse caso a linha existente já responde por ele. ------- */
+
+function construirSubAcionistas(acionistasPorNome, estrutura) {
+  if (!estrutura) return [];
+  const chavesExistentes = new Set(acionistasPorNome.map((r) => r.chaveNormalizada));
+  const porChave = new Map();
+
+  for (const pai of acionistasPorNome) {
+    const info = estrutura[pai.chaveNormalizada];
+    if (!info || !info.pizza) continue;
+    for (const item of info.pizza) {
+      if (RESIDUO_GENERICO.test(item.nome)) continue;
+      const chave = normalizarNomeAcionista(item.nome);
+      if (chavesExistentes.has(chave)) continue;
+      if (!porChave.has(chave)) porChave.set(chave, { nome: item.nome, chaveNormalizada: chave, empresas: [] });
+      const pctAqui = numeric(item.pct) ?? 0;
+      porChave.get(chave).empresas.push({
+        tipo: 'entidade',
+        chave: pai.chaveNormalizada,
+        nome: pai.nome,
+        pct: pctAqui,
+        badge: { pct: fmtPct(pctAqui) },
+      });
+    }
+  }
+
+  return [...porChave.values()].map((r) => ({
+    ...r,
+    qtdEmpresas: r.empresas.length,
+    pctIndice: r.empresas.reduce((soma, e) => {
+      const pai = acionistasPorNome.find((p) => p.chaveNormalizada === e.chave);
+      return soma + (pai ? (e.pct * pai.pctIndice) / 100 : 0);
+    }, 0),
+  }));
 }
 
 function markSortedHeader(name, key) {
@@ -459,6 +516,7 @@ function setupPiePopover() {
         const { gradiente, legendaHtml } = montarPizza(linhas);
         popover.innerHTML =
           `<p class="pie-empresa">${alvo.textContent} → ${info.ticker} — ${empresa}</p>` +
+          linhaInfoBadge(alvo.dataset) +
           `<p class="pie-resumo">${info.resumo}</p>` +
           `<div class="pie-body">` +
           `<div class="pie-circle" style="background: conic-gradient(${gradiente})"></div>` +
@@ -473,6 +531,7 @@ function setupPiePopover() {
       const { gradiente, legendaHtml } = montarPizzaGenerica(info.pizza, (nome) => RESIDUO_GENERICO.test(nome));
       popover.innerHTML =
         `<p class="pie-empresa">${alvo.textContent}</p>` +
+        linhaInfoBadge(alvo.dataset) +
         `<p class="pie-resumo">${info.resumo}</p>` +
         `<div class="pie-body">` +
         `<div class="pie-circle" style="background: conic-gradient(${gradiente})"></div>` +
@@ -482,6 +541,7 @@ function setupPiePopover() {
     } else {
       popover.innerHTML =
         `<p class="pie-empresa">${alvo.textContent}</p>` +
+        linhaInfoBadge(alvo.dataset) +
         `<p class="pie-resumo">${info.resumo}</p>` +
         fontesHtml(info.fontes);
     }
@@ -490,10 +550,10 @@ function setupPiePopover() {
   }
 
   document.addEventListener('mouseover', (e) => {
-    const alvoTicker = e.target.closest('.ticker-ref');
-    if (alvoTicker) return mostrarTicker(alvoTicker);
-    const alvoEntidade = e.target.closest('.entidade-ref');
-    if (alvoEntidade) mostrarEntidade(alvoEntidade);
+    const alvo = e.target.closest('.ticker-ref, .entidade-ref');
+    if (!alvo) return;
+    if (alvo.dataset.entidade) mostrarEntidade(alvo);
+    else if (alvo.dataset.ticker) mostrarTicker(alvo);
   });
   document.addEventListener('mouseout', (e) => {
     const alvo = e.target.closest('.ticker-ref, .entidade-ref');
@@ -520,6 +580,9 @@ async function main() {
   state.data.pessoasPorNome = agruparPessoas(state.data.pessoas);
   state.data.acionistasPorNome = agruparAcionistas(state.data.acionistas, pesoPorTicker);
   state.data.acionistasPorTicker = agruparAcionistasPorTicker(state.data.acionistas);
+
+  const subAcionistas = construirSubAcionistas(state.data.acionistasPorNome, state.data.estruturaAcionistas);
+  state.data.acionistasPorNome = [...state.data.acionistasPorNome, ...subAcionistas];
 
   renderKpis();
   for (const name of TABLE_NAMES) renderTableFor(name);
