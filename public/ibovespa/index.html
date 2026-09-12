@@ -90,6 +90,12 @@
         BlackRock, Governo Federal, BNDES). Não inclui as linhas-resíduo "Outros" e "Ações
         Tesouraria" (não são um acionista nomeado). <strong>Nº empresas</strong> conta em
         quantas empresas do recorte esse acionista tem participação nomeada.
+        <strong>% do Ibovespa</strong> é a participação ponderada pelo peso de cada
+        empresa no índice: para cada empresa onde o acionista aparece, multiplica a % que
+        ele tem lá pelo peso daquela empresa no Ibovespa, e soma tudo — responde "se eu
+        possuísse o índice inteiro na proporção dos pesos, que fatia seria atribuível a
+        esse acionista". Não soma até 100% entre todos os acionistas (falta a fatia de
+        "Outros"/tesouraria de cada empresa, que fica fora desta aba).
       </p>
       <input type="search" class="search" data-table="acionistas" placeholder="Buscar por nome ou empresa…" />
       <div class="table-wrap">
@@ -98,6 +104,7 @@
             <tr>
               <th data-sort="nome">Nome</th>
               <th data-sort="qtdEmpresas" class="num">Nº empresas</th>
+              <th data-sort="pctIndice" class="num">% do Ibovespa</th>
               <th>Empresas</th>
             </tr>
           </thead>

@@ -13,7 +13,7 @@ const state = {
   data: null,
   sort: {
     empresas: { key: 'peso_ibov_pct', dir: -1 },
-    acionistas: { key: 'qtdEmpresas', dir: -1 },
+    acionistas: { key: 'pctIndice', dir: -1 },
     pessoas: { key: 'qtdEmpresas', dir: -1 },
   },
   filter: { empresas: '', acionistas: '', pessoas: '' },
@@ -139,6 +139,13 @@ function renderAgrupado(name, dadosOrdenadosPorPct) {
     tdQtd.textContent = fmtNum(row.qtdEmpresas);
     tr.appendChild(tdQtd);
 
+    if (name === 'acionistas') {
+      const tdIndice = document.createElement('td');
+      tdIndice.className = 'num';
+      tdIndice.textContent = fmtPct(row.pctIndice);
+      tr.appendChild(tdIndice);
+    }
+
     const tdEmpresas = document.createElement('td');
     tdEmpresas.className = 'empresas-cell';
     const empresasOrdenadas = dadosOrdenadosPorPct
@@ -185,7 +192,7 @@ function normalizarNomeAcionista(nome) {
 
 const GRAFIA_INDESEJADA = /\(|^FUNDOS?\s/i;
 
-function agruparAcionistas(acionistas) {
+function agruparAcionistas(acionistas, pesoPorTicker) {
   // O mesmo acionista (ex.: BlackRock) às vezes aparece com grafias diferentes
   // em empresas diferentes (maiúsculas, pontuação) — agrupa por nome
   // normalizado e usa a grafia mais frequente como rótulo de exibição.
@@ -218,7 +225,17 @@ function agruparAcionistas(acionistas) {
     },
   }));
 
-  return agrupado.map((r) => ({ ...r, nome: grafiaExibicao.get(r.nome) }));
+  return agrupado.map((r) => {
+    // % do Ibovespa: para cada empresa onde a entidade aparece, pondera a %
+    // que ela tem lá pelo peso daquela empresa no índice, e soma tudo — é a
+    // fatia do índice inteiro atribuível a essa entidade, na proporção dos pesos.
+    let pctIndice = 0;
+    for (const e of r.empresas) {
+      const peso = pesoPorTicker.get(e.ticker);
+      if (e.pct != null && peso != null) pctIndice += (e.pct * peso) / 100;
+    }
+    return { ...r, nome: grafiaExibicao.get(r.nome), pctIndice };
+  });
 }
 
 function markSortedHeader(name, key) {
@@ -418,8 +435,10 @@ async function main() {
   }
   for (const e of state.data.empresas) e.pct_acionistas_dispersos = pctDispersosPorTicker.get(e.ticker) ?? null;
 
+  const pesoPorTicker = new Map(state.data.empresas.map((e) => [e.ticker, numeric(e.peso_ibov_pct)]));
+
   state.data.pessoasPorNome = agruparPessoas(state.data.pessoas);
-  state.data.acionistasPorNome = agruparAcionistas(state.data.acionistas);
+  state.data.acionistasPorNome = agruparAcionistas(state.data.acionistas, pesoPorTicker);
   state.data.acionistasPorTicker = agruparAcionistasPorTicker(state.data.acionistas);
 
   renderKpis();
