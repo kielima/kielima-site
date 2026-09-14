@@ -1,5 +1,13 @@
 # Regras do projeto — kielima.com
 
+## Preferências de interação da Kiê
+
+- **⭐ Perguntas: sempre no texto do chat, nunca na ferramenta de pergunta com
+  opções/escolha múltipla** (pedido explícito, 2026-09-14). Quando precisar de
+  uma decisão da Kiê — sobre este repositório ou qualquer outro repositório
+  ligado à sessão — escrever a pergunta diretamente na resposta, em texto
+  corrido, e aguardar. Nunca usar a ferramenta de perguntas com opções.
+
 ## Tipografia das apresentações (`public/ppt/*/`)
 
 - **Tamanho mínimo de texto: 24px.** Nunca criar nem alterar texto de uma
