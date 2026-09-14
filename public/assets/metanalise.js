@@ -161,6 +161,7 @@
       kpiParesLabel: 'pares resistência × CO₂ extraídos',
       kpiVidaLabel: 'com vida útil de projeto declarada',
       kpiReleituraLabel: 'lotes da releitura integral concluídos',
+      kpiCompletoLabel: 'dos artigos aceitos com resistência e CO₂ já extraídos',
       funnelLabel: 'TRIAGEM',
       funnelTitle: 'O funil da triagem: de 5.093 registos a 594 artigos',
       funnelP: 'A revisão sistemática passa por quatro etapas antes de um artigo entrar na metanálise: metadados, leitura do PDF completo, restrição geográfica do material e, por fim, qualidade metodológica. Cada barra mostra quantos artigos sobrevivem a cada etapa, a partir do banco completo de registos recolhidos nas buscas.',
@@ -272,6 +273,7 @@
       kpiParesLabel: 'strength × CO₂ pairs extracted',
       kpiVidaLabel: 'with declared design service life',
       kpiReleituraLabel: 'batches of the full re-read completed',
+      kpiCompletoLabel: 'of accepted articles with strength and CO₂ already extracted',
       funnelLabel: 'SCREENING',
       funnelTitle: 'The screening funnel: from 5,093 records to 594 articles',
       funnelP: "The systematic review runs through four stages before an article enters the meta-analysis: metadata, full-PDF reading, the material's geographic restriction, and finally methodological quality. Each bar shows how many articles survive each stage, starting from the full pool of records collected in the searches.",
@@ -383,6 +385,7 @@
       kpiParesLabel: '已提取的强度×CO₂数据对',
       kpiVidaLabel: '已注明设计使用寿命',
       kpiReleituraLabel: '完整复读批次已完成',
+      kpiCompletoLabel: '已入选文献中强度与CO₂均已提取的比例',
       funnelLabel: '筛选',
       funnelTitle: '筛选漏斗：从5,093条记录到594篇文献',
       funnelP: '系统综述在文献进入荟萃分析之前要经过四个阶段：元数据、通读全文PDF、材料的地域限制，最后是方法学质量。每一条柱状图显示从检索收集到的全部记录出发，有多少文献在每个阶段存活下来。',
@@ -533,7 +536,18 @@
   var KPI_VALUES = {
     funil: 595,
     vida: 87,
-    releitura: '64/68'
+    releitura: '64/68',
+    /* % de artigos Elegível com pelo menos um par fck+CO2 completo em
+       dados_fck, sobre o total de artigos Elegível que ainda podem vir a
+       ter um (exclui os que, por desenho, nunca terão par próprio -- as
+       revisões bibliográficas aceites pela regra da Kie de 2026-09-14,
+       cujos dados vêm da extração das fontes secundárias citadas, ainda
+       pendente -- ver PROMPT_E2.md no repositório da RSL). Snapshot
+       manual em 2026-09-14: 598 Elegível ao vivo, 2 isentas (linhas 3001
+       e 3163), 443 dos 596 restantes com par completo = 74%. Atualizar à
+       mão sempre que um lote de extração ou uma promoção Inconclusivo→
+       Elegível avançar, mesmo espírito das demais KPI_VALUES. */
+    completo: 74
   };
 
   function renderKPIs(lang) {
@@ -541,6 +555,7 @@
     document.getElementById('kpi-pares').textContent = fmtInt(currentData().length, lang);
     document.getElementById('kpi-vida').textContent = fmtInt(KPI_VALUES.vida, lang);
     document.getElementById('kpi-releitura').textContent = KPI_VALUES.releitura;
+    document.getElementById('kpi-completo').textContent = KPI_VALUES.completo + '%';
   }
 
   function renderTierCounts(lang) {
