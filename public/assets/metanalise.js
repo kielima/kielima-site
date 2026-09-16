@@ -543,11 +543,15 @@
        revisões bibliográficas aceites pela regra da Kie de 2026-09-14,
        cujos dados vêm da extração das fontes secundárias citadas, ainda
        pendente -- ver PROMPT_E2.md no repositório da RSL). Snapshot
-       manual em 2026-09-14: 598 Elegível ao vivo, 2 isentas (linhas 3001
-       e 3163), 443 dos 596 restantes com par completo = 74%. Atualizar à
-       mão sempre que um lote de extração ou uma promoção Inconclusivo→
-       Elegível avançar, mesmo espírito das demais KPI_VALUES. */
-    completo: 74
+       manual em 2026-09-16 (era 74% em 2026-09-14): 598 Elegível ao vivo,
+       2 isentas (linhas 3001 e 3163), 467 dos 596 restantes com par
+       completo = 78% -- subida reflete a tarefa de 22 lotes de
+       preenchimento de lacunas fck/CO2 fechada nesta sessão (PRs #204,
+       #206, #207 da RSL, mais as 4 correções pontuais dos PRs #208-#211).
+       Atualizar à mão sempre que um lote de extração ou uma promoção
+       Inconclusivo→Elegível avançar, mesmo espírito das demais
+       KPI_VALUES. */
+    completo: 78
   };
 
   function renderKPIs(lang) {
