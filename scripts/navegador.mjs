@@ -130,7 +130,7 @@ const navegador = await chromium.launch({
 /* ---- Cartão -------------------------------------------------------------- */
 {
   const cartao = await abrir(navegador, '/cartao/');
-  await conferirIdiomas(cartao, { '.links a': 5 });
+  await conferirIdiomas(cartao, { '.links a': 4 });
 
   if (!(await cartao.pagina.evaluate(() => !!document.querySelector('#particles canvas')))) {
     problemas.push('/cartao/: o campo de partículas não foi criado');

@@ -50,6 +50,7 @@
     <div class="seed-intro">
       <span class="kicker" data-i18n="kicker"></span>
       <h1 data-i18n="title"></h1>
+      <p class="closing" data-i18n="closing"></p>
       <p class="lead" data-i18n="lead"></p>
     </div>
 
@@ -61,15 +62,26 @@
     </section>
 
     <section class="seed-section seed-section--specs">
-      <span class="section-label" data-i18n="specsLabel"></span>
-      <dl class="specs" id="specs"></dl>
+      <button type="button" class="specs-trigger" id="specs-trigger">
+        <span data-i18n="specsLabel"></span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="17" x2="14" y2="17"></line></svg>
+      </button>
     </section>
 
     <div class="seed-outro">
-      <p class="closing" data-i18n="closing"></p>
       <a class="back-link" href="/cartao">← <span data-i18n="back"></span></a>
     </div>
   </main>
+
+  <dialog class="specs-dialog" id="specs-dialog">
+    <div class="specs-dialog-head">
+      <span class="section-label" data-i18n="specsLabel"></span>
+      <button type="button" class="specs-dialog-close" id="specs-dialog-close" aria-label="Fechar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="5" x2="19" y2="19"></line><line x1="19" y1="5" x2="5" y2="19"></line></svg>
+      </button>
+    </div>
+    <dl class="specs" id="specs"></dl>
+  </dialog>
 
 </div>
 

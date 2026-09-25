@@ -239,6 +239,79 @@
   padding: 0 clamp(24px, 5vw, 64px) clamp(48px, 6vw, 80px);
 }
 
+.specs-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 14px 22px;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.specs-trigger:hover,
+.specs-trigger:focus-visible {
+  color: var(--green);
+  border-color: var(--green-soft);
+}
+
+.specs-dialog {
+  border: none;
+  border-radius: 14px;
+  padding: clamp(24px, 4vw, 36px);
+  width: min(560px, calc(100vw - 48px));
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+}
+
+.specs-dialog::backdrop {
+  background: rgba(4, 8, 5, 0.55);
+}
+
+.specs-dialog-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.specs-dialog-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-50);
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.specs-dialog-close:hover,
+.specs-dialog-close:focus-visible {
+  color: var(--ink);
+  background: var(--line);
+}
+
+.specs-dialog .specs {
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin-top: 22px;
+}
+
 .specs {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
