@@ -10,18 +10,19 @@
       lead: 'O cartão físico é impresso em papel semente: celulose reciclada, sem plástico e sem laminação, com sementes prensadas na própria folha. Ele termina a vida como planta, não como resíduo.',
       stepsLabel: 'COMO PLANTAR',
       specsLabel: 'FICHA TÉCNICA',
+      closeLabel: 'Fechar',
       closing: 'Um cartão de visita que vira flor é o argumento mais curto que eu tenho sobre ciclo de vida de materiais.',
       steps: [
         { title: 'Deixe o cartão de molho', text: 'Mergulhe o cartão em água por cerca de 1 minuto, o suficiente para amolecer a fibra. Pode rasgar em pedaços de 2 a 3 cm se quiser plantar em vasos pequenos.' },
         { title: 'Prepare a terra', text: 'Encha um vaso ou canteiro com terra vegetal solta e úmida. Deixe uns 2 cm livres na borda.' },
-        { title: 'Cubra com uma camada fina', text: 'Apoie o cartão sobre a terra e cubra com no máximo 3 a 5 mm de substrato. Semente enterrada fundo não germina — ela precisa de luz difusa.' },
-        { title: 'Regue e acompanhe', text: 'Mantenha úmido (nunca encharcado) por 10 a 15 dias, em local com luz indireta. A germinação costuma começar entre o 5º e o 15º dia.' }
+        { title: 'Cubra com uma camada fina', text: 'Apoie o cartão sobre a terra e cubra com no máximo 3 a 5 mm de substrato. Semente enterrada fundo não germina — ela precisa de luz.' },
+        { title: 'Regue e acompanhe', text: 'Mantenha úmido (nunca encharcado) por 7 a 10 dias, em local ensolarado. A germinação costuma começar entre o 5º e o 10º dia.' }
       ],
       specs: [
         { k: 'Substrato do papel', v: 'Celulose 100% reciclada, sem cloro' },
-        { k: 'Sementes', v: 'Flores não invasivas de pequeno porte (ex.: Tagetes patula)' },
-        { k: 'Época ideal', v: 'Primavera e verão; clima ameno acelera a germinação' },
-        { k: 'Germinação', v: '5 a 15 dias, com solo úmido e luz indireta' },
+        { k: 'Sementes', v: 'Manjericão (Ocimum basilicum)' },
+        { k: 'Época ideal', v: 'Primavera e verão, após o risco de geadas; solo aquecido acelera a germinação' },
+        { k: 'Germinação', v: '5 a 10 dias, com solo úmido e bastante luz' },
         { k: 'Tinta', v: 'Impressão à base de água, sem revestimento plástico' },
         { k: 'Descarte', v: 'Não há: o cartão é o vaso e a semente' }
       ]
@@ -33,18 +34,19 @@
       lead: 'The printed card is made of seed paper: recycled cellulose, no plastic, no lamination, with seeds pressed into the sheet itself. It ends its life as a plant, not as waste.',
       stepsLabel: 'HOW TO PLANT',
       specsLabel: 'SPECIFICATIONS',
+      closeLabel: 'Close',
       closing: 'A business card that turns into a flower is the shortest argument I have about material life cycles.',
       steps: [
         { title: 'Soak the card', text: 'Submerge the card in water for about a minute — just enough to soften the fibre. Tear it into 2–3 cm pieces if you are planting in small pots.' },
         { title: 'Prepare the soil', text: 'Fill a pot or bed with loose, moist potting soil, leaving about 2 cm free at the rim.' },
-        { title: 'Cover it thinly', text: 'Lay the card on the soil and cover with no more than 3–5 mm of substrate. Seeds buried deep will not sprout — they need diffuse light.' },
-        { title: 'Water and watch', text: 'Keep it moist (never soaked) for 10 to 15 days in indirect light. Germination usually starts between day 5 and day 15.' }
+        { title: 'Cover it thinly', text: 'Lay the card on the soil and cover with no more than 3–5 mm of substrate. Seeds buried deep will not sprout — they need light.' },
+        { title: 'Water and watch', text: 'Keep it moist (never soaked) for 7 to 10 days in a sunny spot. Germination usually starts between day 5 and day 10.' }
       ],
       specs: [
         { k: 'Paper substrate', v: '100% recycled, chlorine-free cellulose' },
-        { k: 'Seeds', v: 'Small non-invasive flowers (e.g. Tagetes patula)' },
-        { k: 'Best season', v: 'Spring and summer; mild weather speeds germination' },
-        { k: 'Germination', v: '5 to 15 days, moist soil and indirect light' },
+        { k: 'Seeds', v: 'Basil (Ocimum basilicum)' },
+        { k: 'Best season', v: 'Spring and summer, after the last frost; warm soil speeds germination' },
+        { k: 'Germination', v: '5 to 10 days, moist soil and plenty of light' },
         { k: 'Ink', v: 'Water-based printing, no plastic coating' },
         { k: 'Disposal', v: 'None: the card is both pot and seed' }
       ]
@@ -56,18 +58,19 @@
       lead: '实体名片使用种子纸印刷：再生纤维、无塑料、无覆膜，种子直接压入纸张。它的终点是一株植物，而不是垃圾。',
       stepsLabel: '种植步骤',
       specsLabel: '材料信息',
+      closeLabel: '关闭',
       closing: '一张会开花的名片，是我关于材料生命周期最简短的论证。',
       steps: [
         { title: '浸湿名片', text: '将名片浸入水中约一分钟，使纤维变软。若使用小花盆，可撕成 2–3 厘米的碎片。' },
         { title: '准备土壤', text: '在花盆或苗床中装入疏松湿润的营养土，顶部留出约 2 厘米。' },
-        { title: '薄薄覆土', text: '将名片平铺在土面，覆盖 3–5 毫米基质即可。埋得太深种子无法发芽，它需要散射光。' },
-        { title: '浇水观察', text: '保持湿润但不积水，置于散射光处 10–15 天。通常第 5 至 15 天开始发芽。' }
+        { title: '薄薄覆土', text: '将名片平铺在土面，覆盖 3–5 毫米基质即可。埋得太深种子无法发芽，它需要光照。' },
+        { title: '浇水观察', text: '保持湿润但不积水，置于阳光充足处 7–10 天。通常第 5 至 10 天开始发芽。' }
       ],
       specs: [
         { k: '纸张基材', v: '100% 再生纤维，无氯漂白' },
-        { k: '种子', v: '小型非入侵性花卉（如孔雀草）' },
-        { k: '最佳季节', v: '春夏；气候温和发芽更快' },
-        { k: '发芽时间', v: '5–15 天，湿润土壤与散射光' },
+        { k: '种子', v: '罗勒（甜罗勒）' },
+        { k: '最佳季节', v: '春夏季，霜期过后；土壤温暖有助发芽' },
+        { k: '发芽时间', v: '5–10 天，湿润土壤，充足光照' },
         { k: '油墨', v: '水性印刷，无塑料涂层' },
         { k: '废弃处理', v: '无需处理：名片既是容器也是种子' }
       ]
@@ -202,12 +205,40 @@
   plant(document.getElementById('garden-left'), SPECS_L);
   plant(document.getElementById('garden-right'), SPECS_R);
 
+  /* ------------------------------------------------------- popup da ficha */
+
+  var specsDialog = document.getElementById('specs-dialog');
+  var specsTrigger = document.getElementById('specs-trigger');
+  var specsClose = document.getElementById('specs-dialog-close');
+
+  if (specsTrigger && specsDialog) {
+    specsTrigger.addEventListener('click', function () {
+      specsDialog.showModal();
+    });
+  }
+
+  if (specsClose && specsDialog) {
+    specsClose.addEventListener('click', function () {
+      specsDialog.close();
+    });
+  }
+
+  if (specsDialog) {
+    // Um <dialog> modal ocupa a tela toda; clique fora do painel cai
+    // direto no próprio elemento (não em algum filho), então isso basta
+    // para fechar ao clicar no fundo.
+    specsDialog.addEventListener('click', function (e) {
+      if (e.target === specsDialog) specsDialog.close();
+    });
+  }
+
   window.KLI18n.init({
     copy: COPY,
     select: document.getElementById('lang-select'),
     onChange: function (lang, strings) {
       renderSteps(strings.steps);
       renderSpecs(strings.specs);
+      if (specsClose) specsClose.setAttribute('aria-label', strings.closeLabel);
     }
   });
 })();
