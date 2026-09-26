@@ -20,6 +20,7 @@ const TIPOS = {
   '.svg': 'image/svg+xml',
   '.vcf': 'text/vcard; charset=utf-8',
   '.jpg': 'image/jpeg',
+  '.json': 'application/json; charset=utf-8',
 };
 
 /* Servidor estático mínimo, com o mesmo comportamento de índice de pasta
@@ -266,6 +267,63 @@ const navegador = await chromium.launch({
   await meta.ctx.close();
   await abrir(navegador, '/metanalise/', { tema: 'dark' }).then((r) => r.ctx.close());
   await abrir(navegador, '/metanalise/', { viewport: { width: 390, height: 844 } }).then((r) => r.ctx.close());
+}
+
+/* ---- Banco de dados da metanálise -----------------------------------------
+   Tabela com a aba dados_fck inteira, lida de /metanalise/dados/banco.json. */
+{
+  // O botão da barra superior do painel tem de levar ao banco de dados.
+  const painel = await abrir(navegador, '/metanalise/');
+  await painel.pagina.click('#db-link');
+  await painel.pagina.waitForLoadState('load');
+  if (!painel.pagina.url().endsWith('/metanalise/dados/')) {
+    problemas.push(`/metanalise/: o botão do banco de dados levou a ${painel.pagina.url()}`);
+  }
+  await painel.ctx.close();
+
+  const db = await abrir(navegador, '/metanalise/dados/');
+  await conferirIdiomas(db, { '#db-head th': 33, '#db-body tr': 50 });
+
+  // Pesquisar tem de filtrar as linhas; limpar a pesquisa, voltar a 50.
+  await db.pagina.fill('#db-search', 'monorail');
+  await db.pagina.waitForTimeout(400);
+  const filtradas = await db.pagina.evaluate(() => document.querySelectorAll('#db-body tr').length);
+  if (!(filtradas >= 1 && filtradas < 50)) {
+    problemas.push(`/metanalise/dados/: a pesquisa não filtrou as linhas (ficaram ${filtradas})`);
+  }
+  await db.pagina.fill('#db-search', '');
+  await db.pagina.waitForTimeout(400);
+
+  // Ordenar por fck_mpa, do maior para o menor: a primeira linha tem de ser
+  // o maior valor da página.
+  const colFck = await db.pagina.evaluate(() =>
+    [...document.querySelectorAll('#db-head .db-sort')].findIndex((b) => b.textContent.trim() === 'fck_mpa')
+  );
+  if (colFck < 0) problemas.push('/metanalise/dados/: coluna fck_mpa não encontrada');
+  else {
+    const botao = db.pagina.locator('#db-head .db-sort').nth(colFck);
+    await botao.click();
+    await botao.click();
+    await db.pagina.waitForTimeout(200);
+    const valores = await db.pagina.evaluate((c) =>
+      [...document.querySelectorAll('#db-body tr')]
+        .map((tr) => parseFloat(tr.children[c].textContent))
+        .filter((v) => !Number.isNaN(v)), colFck);
+    if (!valores.length || valores[0] !== Math.max(...valores)) {
+      problemas.push('/metanalise/dados/: ordenar fck_mpa de forma decrescente não pôs o maior valor primeiro');
+    }
+  }
+
+  // Avançar de página tem de mudar as linhas mostradas.
+  const primeiraAntes = await db.pagina.evaluate(() => document.querySelector('#db-body tr')?.textContent);
+  await db.pagina.click('#db-next');
+  await db.pagina.waitForTimeout(150);
+  const primeiraDepois = await db.pagina.evaluate(() => document.querySelector('#db-body tr')?.textContent);
+  if (primeiraAntes === primeiraDepois) problemas.push('/metanalise/dados/: o botão "seguinte" não mudou de página');
+
+  await db.ctx.close();
+  await abrir(navegador, '/metanalise/dados/', { tema: 'dark' }).then((r) => r.ctx.close());
+  await abrir(navegador, '/metanalise/dados/', { viewport: { width: 390, height: 844 } }).then((r) => r.ctx.close());
 }
 
 /* ---- Navegação entre páginas --------------------------------------------- */
