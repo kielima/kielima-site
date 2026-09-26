@@ -39,19 +39,23 @@
 
   <header class="seed-topbar">
     <a class="back-link" href="/cartao">← <span data-i18n="back"></span></a>
-    <select class="lang-select" id="lang-select" aria-label="Idioma / Language / 语言">
-      <option value="PT">PT</option>
-      <option value="EN">EN</option>
-      <option value="ZH">中文</option>
-    </select>
+    <div class="topbar-actions">
+      <button type="button" class="theme-toggle" id="theme-toggle">
+        <svg class="icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><line x1="12" y1="2.6" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="21.4"></line><line x1="2.6" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="21.4" y2="12"></line><line x1="5.6" y1="5.6" x2="7.3" y2="7.3"></line><line x1="16.7" y1="16.7" x2="18.4" y2="18.4"></line><line x1="5.6" y1="18.4" x2="7.3" y2="16.7"></line><line x1="16.7" y1="7.3" x2="18.4" y2="5.6"></line></svg>
+        <svg class="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.2 14.6A8.6 8.6 0 0 1 9.4 3.8a8.6 8.6 0 1 0 10.8 10.8z"></path></svg>
+      </button>
+      <select class="lang-select" id="lang-select" aria-label="Idioma / Language / 语言">
+        <option value="PT">PT</option>
+        <option value="EN">EN</option>
+        <option value="ZH">中文</option>
+      </select>
+    </div>
   </header>
 
   <main>
     <div class="seed-intro">
-      <span class="kicker" data-i18n="kicker"></span>
       <h1 data-i18n="title"></h1>
-      <p class="closing" data-i18n="closing"></p>
-      <p class="lead" data-i18n="lead"></p>
+      <p class="lead"><span class="lead-quip" data-i18n="closing"></span> <span data-i18n="lead"></span></p>
     </div>
 
     <div class="rule rule--seed"></div>
@@ -86,6 +90,7 @@
 </div>
 
 <script src="/assets/i18n.js"></script>
+<script src="/assets/theme.js"></script>
 <script src="/assets/papel-semente.js"></script>
 </body>
 </html>

@@ -5,12 +5,13 @@
   var COPY = {
     PT: {
       back: 'Cartão',
-      kicker: 'PAPEL SEMENTE',
       title: 'Plante este cartão.',
       lead: 'O cartão físico é impresso em papel semente: celulose reciclada, sem plástico e sem laminação, com sementes prensadas na própria folha. Ele termina a vida como planta, não como resíduo.',
       stepsLabel: 'COMO PLANTAR',
       specsLabel: 'FICHA TÉCNICA',
       closeLabel: 'Fechar',
+      themeToDark: 'Modo escuro',
+      themeToLight: 'Modo claro',
       closing: 'Um cartão de visita que vira flor é o argumento mais curto que eu tenho sobre ciclo de vida de materiais.',
       steps: [
         { title: 'Deixe o cartão de molho', text: 'Mergulhe o cartão em água por cerca de 1 minuto, o suficiente para amolecer a fibra. Pode rasgar em pedaços de 2 a 3 cm se quiser plantar em vasos pequenos.' },
@@ -29,12 +30,13 @@
     },
     EN: {
       back: 'Card',
-      kicker: 'SEED PAPER',
       title: 'Plant this card.',
       lead: 'The printed card is made of seed paper: recycled cellulose, no plastic, no lamination, with seeds pressed into the sheet itself. It ends its life as a plant, not as waste.',
       stepsLabel: 'HOW TO PLANT',
       specsLabel: 'SPECIFICATIONS',
       closeLabel: 'Close',
+      themeToDark: 'Dark mode',
+      themeToLight: 'Light mode',
       closing: 'A business card that turns into a flower is the shortest argument I have about material life cycles.',
       steps: [
         { title: 'Soak the card', text: 'Submerge the card in water for about a minute — just enough to soften the fibre. Tear it into 2–3 cm pieces if you are planting in small pots.' },
@@ -53,12 +55,13 @@
     },
     ZH: {
       back: '名片',
-      kicker: '种子纸',
       title: '把这张名片种下。',
       lead: '实体名片使用种子纸印刷：再生纤维、无塑料、无覆膜，种子直接压入纸张。它的终点是一株植物，而不是垃圾。',
       stepsLabel: '种植步骤',
       specsLabel: '材料信息',
       closeLabel: '关闭',
+      themeToDark: '深色模式',
+      themeToLight: '浅色模式',
       closing: '一张会开花的名片，是我关于材料生命周期最简短的论证。',
       steps: [
         { title: '浸湿名片', text: '将名片浸入水中约一分钟，使纤维变软。若使用小花盆，可撕成 2–3 厘米的碎片。' },
@@ -232,13 +235,26 @@
     });
   }
 
-  window.KLI18n.init({
+  var themeCtl = null;
+
+  var i18n = window.KLI18n.init({
     copy: COPY,
     select: document.getElementById('lang-select'),
     onChange: function (lang, strings) {
       renderSteps(strings.steps);
       renderSpecs(strings.specs);
       if (specsClose) specsClose.setAttribute('aria-label', strings.closeLabel);
+      if (themeCtl) themeCtl.sync();
     }
+  });
+
+  /* ------------------------------------------------------------- tema */
+
+  var toggle = document.getElementById('theme-toggle');
+  themeCtl = window.KLTheme.attach(toggle, function (dark) {
+    var s = i18n.strings();
+    var label = dark ? s.themeToLight : s.themeToDark;
+    toggle.setAttribute('aria-label', label);
+    toggle.setAttribute('title', label);
   });
 })();

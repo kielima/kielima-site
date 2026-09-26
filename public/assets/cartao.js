@@ -7,9 +7,8 @@
 
   var COPY = {
     PT: {
-      brand: 'ENGENHARIA CIVIL · PROJETOS · SUSTENTABILIDADE',
+      brand: 'SUSTENTABILIDADE',
       name: 'Kiê Lima',
-      role: 'Pesquisa e inovação em materiais sustentáveis para construção.',
       bio: 'Eng. Civil pela PUC-Campinas (ProUni), MBA em Gestão de Projetos pela FGV e mestrando em Sistemas de Infraestrutura Urbana pela PUC-Campinas (CAPES). Pesquisa em ACV (Avaliação de Ciclo de Vida) de materiais cimentícios.',
       mission: 'ES > G',
       addContact: 'Adicionar contato',
@@ -20,9 +19,8 @@
       themeToLight: 'Modo claro'
     },
     EN: {
-      brand: 'CIVIL ENGINEERING · PROJECTS · SUSTAINABILITY',
+      brand: 'SUSTAINABILITY',
       name: 'Kiê Lima',
-      role: 'Research and innovation in sustainable construction materials.',
       bio: 'Civil engineer from PUC-Campinas (ProUni), MBA in Project Management from FGV, and MSc candidate in Urban Infrastructure Systems at PUC-Campinas (CAPES). Research in LCA (Life Cycle Assessment) of cementitious materials.',
       mission: 'Environmental and social impact, prioritized above all else.',
       addContact: 'Add contact',
@@ -33,9 +31,8 @@
       themeToLight: 'Light mode'
     },
     ZH: {
-      brand: '土木工程 · 项目管理 · 可持续发展',
+      brand: '可持续发展',
       name: '霆宇',
-      role: '可持续建筑材料的研究与创新。',
       bio: '土木工程师，毕业于坎皮纳斯天主教大学（ProUni奖学金），持有FGV项目管理MBA学位，目前于坎皮纳斯天主教大学攻读城市基础设施系统硕士学位（CAPES奖学金）。研究方向为水泥基材料的生命周期评估（LCA）。',
       mission: '始终将环境与社会利益置于其他利益之上。',
       addContact: '添加联系人',
