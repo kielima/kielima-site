@@ -87,16 +87,6 @@
   color: var(--green-soft);
 }
 
-.role {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(20px, 2.6vw, 30px);
-  color: var(--ink-65);
-  margin: 0;
-  max-width: 760px;
-}
-
 .bio {
   font-family: var(--sans);
   font-size: 17px;
