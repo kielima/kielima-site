@@ -282,20 +282,34 @@ const navegador = await chromium.launch({
   await painel.ctx.close();
 
   const db = await abrir(navegador, '/metanalise/dados/');
-  await conferirIdiomas(db, { '#db-head th': 33, '#db-body tr': 50 });
+  await conferirIdiomas(db, { '#db-head th': 33 });
 
-  // Pesquisar tem de filtrar as linhas; limpar a pesquisa, voltar a 50.
+  // Todas as linhas numa só página, sem paginação: a tabela tem de mostrar
+  // o banco inteiro de uma vez.
+  const totalLinhas = await db.pagina.evaluate(async () =>
+    (await (await fetch('/metanalise/dados/banco.json')).json()).linhas.length
+  );
+  const mostradas = await db.pagina.evaluate(() => document.querySelectorAll('#db-body tr').length);
+  if (mostradas !== totalLinhas) {
+    problemas.push(`/metanalise/dados/: a tabela mostra ${mostradas} linhas, esperado ${totalLinhas} (todas)`);
+  }
+
+  // Pesquisar tem de filtrar as linhas; limpar a pesquisa, voltar a todas.
   await db.pagina.fill('#db-search', 'monorail');
   await db.pagina.waitForTimeout(400);
   const filtradas = await db.pagina.evaluate(() => document.querySelectorAll('#db-body tr').length);
-  if (!(filtradas >= 1 && filtradas < 50)) {
+  if (!(filtradas >= 1 && filtradas < totalLinhas)) {
     problemas.push(`/metanalise/dados/: a pesquisa não filtrou as linhas (ficaram ${filtradas})`);
   }
   await db.pagina.fill('#db-search', '');
   await db.pagina.waitForTimeout(400);
+  const deVolta = await db.pagina.evaluate(() => document.querySelectorAll('#db-body tr').length);
+  if (deVolta !== totalLinhas) {
+    problemas.push(`/metanalise/dados/: limpar a pesquisa não voltou a mostrar todas as linhas (${deVolta})`);
+  }
 
   // Ordenar por fck_mpa, do maior para o menor: a primeira linha tem de ser
-  // o maior valor da página.
+  // o maior valor do banco.
   const colFck = await db.pagina.evaluate(() =>
     [...document.querySelectorAll('#db-head .db-sort')].findIndex((b) => b.textContent.trim() === 'fck_mpa')
   );
@@ -314,12 +328,29 @@ const navegador = await chromium.launch({
     }
   }
 
-  // Avançar de página tem de mudar as linhas mostradas.
-  const primeiraAntes = await db.pagina.evaluate(() => document.querySelector('#db-body tr')?.textContent);
-  await db.pagina.click('#db-next');
+  // Clicar numa linha abre a ficha técnica do artigo; Escape fecha-a.
+  await db.pagina.fill('#db-search', '');
+  await db.pagina.waitForTimeout(400);
+  await db.pagina.click('#db-body tr:first-child');
+  await db.pagina.waitForTimeout(200);
+  const ficha = await db.pagina.evaluate(() => ({
+    aberta: !document.getElementById('db-modal').hidden,
+    titulo: document.getElementById('ficha-titulo')?.textContent.trim() || '',
+    secoes: document.querySelectorAll('#ficha-corpo .ficha-sec').length
+  }));
+  if (!ficha.aberta || !ficha.titulo || ficha.secoes < 1) {
+    problemas.push(`/metanalise/dados/: clicar numa linha não abriu a ficha técnica — ${JSON.stringify(ficha)}`);
+  }
+  // A ficha tem de caber numa folha A4 ao imprimir (o zoom ajusta-a antes).
+  await db.pagina.evaluate(() => window.dispatchEvent(new Event('beforeprint')));
+  const pdf = await db.pagina.pdf({ format: 'A4', preferCSSPageSize: true });
+  const paginas = (pdf.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length;
+  if (paginas !== 1) problemas.push(`/metanalise/dados/: a ficha impressa ocupa ${paginas} páginas, esperado 1`);
+  await db.pagina.evaluate(() => window.dispatchEvent(new Event('afterprint')));
+  await db.pagina.keyboard.press('Escape');
   await db.pagina.waitForTimeout(150);
-  const primeiraDepois = await db.pagina.evaluate(() => document.querySelector('#db-body tr')?.textContent);
-  if (primeiraAntes === primeiraDepois) problemas.push('/metanalise/dados/: o botão "seguinte" não mudou de página');
+  const fechada = await db.pagina.evaluate(() => document.getElementById('db-modal').hidden);
+  if (!fechada) problemas.push('/metanalise/dados/: Escape não fechou a ficha técnica');
 
   await db.ctx.close();
   await abrir(navegador, '/metanalise/dados/', { tema: 'dark' }).then((r) => r.ctx.close());

@@ -56,8 +56,6 @@
         <input type="search" class="db-search" id="db-search" autocomplete="off" spellcheck="false">
         <span class="db-count" id="db-count"></span>
         <div class="db-pager">
-          <button type="button" class="db-btn" id="db-prev" data-i18n="prev"></button>
-          <button type="button" class="db-btn" id="db-next" data-i18n="next"></button>
           <a class="db-btn" id="db-download" href="/metanalise/dados/banco.json" download="banco-metanalise.json" data-i18n="download"></a>
         </div>
       </div>
@@ -73,6 +71,16 @@
 
   </main>
 
+</div>
+
+<div class="db-modal" id="db-modal" role="dialog" aria-modal="true" aria-labelledby="ficha-titulo" hidden>
+  <article class="ficha" id="ficha">
+    <div class="ficha-acoes">
+      <button type="button" class="db-btn" id="ficha-imprimir" data-i18n="print"></button>
+      <button type="button" class="db-btn" id="ficha-fechar" data-i18n="close"></button>
+    </div>
+    <div id="ficha-corpo"></div>
+  </article>
 </div>
 
 <script src="/assets/i18n.js"></script>
