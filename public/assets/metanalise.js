@@ -157,6 +157,7 @@
       title: 'Pegada de carbono × resistência: a metanálise da dissertação',
       lead: 'Este painel acompanha, em tempo real, a extração de dados da revisão sistemática de literatura por trás da minha dissertação — comparando resistência à compressão e pegada de carbono em concretos de baixo carbono, agregado reciclado e UHPC. Os números mudam conforme a leitura de cada artigo avança.',
       navBack: '← kielima.com',
+      navDb: 'Banco de dados',
       kpiFunilLabel: 'artigos aceitos (passaram as 4 etapas)',
       kpiParesLabel: 'pares resistência × CO₂ extraídos',
       kpiVidaLabel: 'com vida útil de projeto declarada',
@@ -269,6 +270,7 @@
       title: 'Carbon footprint × strength: the dissertation meta-analysis',
       lead: 'This dashboard tracks, in real time, the data extraction behind the systematic literature review under my dissertation — comparing compressive strength and carbon footprint across low-carbon, recycled-aggregate and ultra-high-performance (UHPC) concretes. The numbers change as each article gets read.',
       navBack: '← kielima.com',
+      navDb: 'Database',
       kpiFunilLabel: 'articles accepted (passed all 4 stages)',
       kpiParesLabel: 'strength × CO₂ pairs extracted',
       kpiVidaLabel: 'with declared design service life',
@@ -381,6 +383,7 @@
       title: '碳足迹 × 强度：论文的荟萃分析',
       lead: '本面板实时展示我硕士论文所依托的系统性文献综述的数据提取进度——比较低碳混凝土、再生骨料混凝土与超高性能混凝土（UHPC）的抗压强度与碳足迹。数字会随着每篇文献的阅读而更新。',
       navBack: '← kielima.com',
+      navDb: '数据库',
       kpiFunilLabel: '已通过全部4个阶段的入选文献',
       kpiParesLabel: '已提取的强度×CO₂数据对',
       kpiVidaLabel: '已注明设计使用寿命',
@@ -1291,6 +1294,11 @@
     copy: COPY,
     select: document.getElementById('lang-select'),
     onChange: function (lang, strings) {
+      // No telemóvel o rótulo do botão do banco de dados esconde-se e fica só
+      // o ícone -- o nome acessível passa a vir do aria-label.
+      var dbLink = document.getElementById('db-link');
+      dbLink.setAttribute('aria-label', strings.navDb);
+      dbLink.setAttribute('title', strings.navDb);
       renderAll(strings, lang);
       if (themeCtl) themeCtl.sync();
     }
