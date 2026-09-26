@@ -282,7 +282,8 @@ const navegador = await chromium.launch({
   await painel.ctx.close();
 
   const db = await abrir(navegador, '/metanalise/dados/');
-  await conferirIdiomas(db, { '#db-head th': 33 });
+  const nColunas = JSON.parse(await readFile(join(PUBLICO, 'metanalise/dados/banco.json'), 'utf8')).colunas.length;
+  await conferirIdiomas(db, { '#db-head th': nColunas });
 
   // Todas as linhas numa só página, sem paginação: a tabela tem de mostrar
   // o banco inteiro de uma vez.
