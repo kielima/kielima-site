@@ -112,15 +112,17 @@
      literatura). Atualizar à mão sempre que um PR mudar esses totais
      (mesmo espírito de KPI_VALUES/PROGRESS abaixo, snapshot manual, não
      dado ao vivo). universo = todo o banco (5.093 registos, incluindo
-     duplicatas e sem-acesso); cada etapa seguinte é sempre um subconjunto
-     Aceito da anterior. e4.principal + e4.sensibilidade = e4.n = os 530
+     duplicatas e sem-acesso); da Etapa 1 em diante contam-se só linhas
+     com status_triagem diferente de Duplicado (desde 2026-09-27: antes
+     entravam 6-7 duplicatas com E1 preenchido); cada etapa seguinte é
+     sempre um subconjunto Aceito da anterior. e4.principal + e4.sensibilidade = e4.n = os 530
      artigos Elegíveis (2 terços de melhor qualidade formam o resultado
      principal); as 57 revisões sem ACV própria que também sobrevivem à
      Etapa 3 ficam fora desta barra — ver funnelRevisaoNote. */
   var FUNNEL = [
     { key: 'universo', n: 5093 },
-    { key: 'e1', n: 2199 },
-    { key: 'e2', n: 605 },
+    { key: 'e1', n: 2193 },
+    { key: 'e2', n: 604 },
     { key: 'e3', n: 587 },
     { key: 'e4', n: 530, principal: 421, sensibilidade: 109 }
   ];
@@ -196,8 +198,8 @@
       },
       funnelDetails: {
         universo: '5.093 registos recolhidos nas buscas. 2.628 (51,6%) eram duplicados, removidos antes de qualquer triagem. 1.869 foram rejeitados ao longo das quatro etapas seguintes — ver o detalhe em cada barra abaixo. 7 nunca tiveram o texto completo disponível (sem acesso). Dos 589 restantes, 587 — 530 elegíveis + 57 revisões sem ACV própria — chegam à Etapa 4; 2 elegíveis aceites numa revisão pontual ainda aguardam as Etapas 3 e 4.',
-        e1: 'Dos 2.471 registos avaliados nos metadados (ano, tipo de documento, material moldável, aplicação em construção), 2.199 foram aceites. Os 272 excluídos falharam por: aplicação em construção (190), material não moldável (71), tipo de documento (9), ano de publicação (1) — um registo pode falhar mais de um critério.',
-        e2: 'Dos 2.188 artigos com PDF lido na íntegra, 605 foram aceites. Dos 1.583 excluídos: 1.297 não relatavam resistência à compressão própria pareável a um CO₂ próprio, 388 não relatavam CO₂/ACV com resultado absoluto — alguns falham nos dois critérios.',
+        e1: 'Dos 2.465 registos avaliados nos metadados (ano, tipo de documento, material moldável, aplicação em construção), 2.193 foram aceites. Os 272 excluídos falharam por: aplicação em construção (190), material não moldável (71), tipo de documento (9), ano de publicação (1) — um registo pode falhar mais de um critério.',
+        e2: 'Dos 2.187 artigos com PDF lido na íntegra, 604 foram aceites. Dos 1.583 excluídos: 1.297 não relatavam resistência à compressão própria pareável a um CO₂ próprio, 388 não relatavam CO₂/ACV com resultado absoluto — alguns falham nos dois critérios.',
         e3: 'Dos 598 artigos avaliados quanto à restrição geográfica do material, 587 foram aceites; 11 foram excluídos por o material principal ser geograficamente restrito (ex.: resíduo de produção regional concentrada).',
         e4: 'Dos 587 artigos avaliados na Etapa 4 (checklist de 7 itens, 0 a 7 pontos): 421 formam o resultado principal (score ≥ 4,0), 109 entram só na análise de sensibilidade (score < 4,0), e 57 são revisões sem avaliação de ciclo de vida própria — não pontuam para o indicador ci, mas alimentam o ramo de citação do PRISMA (fontes primárias descobertas por essas revisões).'
       },
@@ -312,8 +314,8 @@
       },
       funnelDetails: {
         universo: "5,093 records collected in the searches. 2,628 (51.6%) were duplicates, removed before any screening. 1,869 were rejected across the four stages that follow — see the detail in each bar below. 7 never had the full text available (no access). Of the remaining 589, 587 — 530 eligible + 57 reviews without their own LCA — reach Stage 4; 2 eligible articles accepted in a one-off review still await Stages 3 and 4.",
-        e1: 'Of the 2,471 records screened on metadata (year, document type, moldable material, construction application), 2,199 were accepted. The 272 excluded failed on: construction application (190), non-moldable material (71), document type (9), publication year (1) — a record can fail more than one criterion.',
-        e2: 'Of the 2,188 articles fully read as PDF, 605 were accepted. Of the 1,583 excluded: 1,297 did not report their own compressive strength paired with their own CO₂, 388 did not report CO₂/LCA with an absolute result — some fail both criteria.',
+        e1: 'Of the 2,465 records screened on metadata (year, document type, moldable material, construction application), 2,193 were accepted. The 272 excluded failed on: construction application (190), non-moldable material (71), document type (9), publication year (1) — a record can fail more than one criterion.',
+        e2: 'Of the 2,187 articles fully read as PDF, 604 were accepted. Of the 1,583 excluded: 1,297 did not report their own compressive strength paired with their own CO₂, 388 did not report CO₂/LCA with an absolute result — some fail both criteria.',
         e3: "Of the 598 articles assessed for the material's geographic restriction, 587 were accepted; 11 were excluded because the main material is geographically restricted (e.g. a regionally concentrated production by-product).",
         e4: "Of the 587 articles assessed in Stage 4 (a 7-item checklist, 0 to 7 points): 421 form the main result (score ≥ 4.0), 109 enter only the sensitivity analysis (score < 4.0), and 57 are reviews without their own life-cycle assessment — they don't score toward the ci indicator, but feed the PRISMA citation branch (primary sources discovered through those reviews)."
       },
@@ -428,8 +430,8 @@
       },
       funnelDetails: {
         universo: '检索共收集5,093条记录。其中2,628条（51.6%）为重复记录，在任何筛选之前已被移除。1,869条在随后四个阶段中被剔除——详见下方各阶段柱状图。7条从未能获取全文（无法访问）。剩余589条中，587条——530篇入选文献+57篇无自身生命周期评估的综述——进入第4阶段；另有2篇在一次专项复核中入选的文献尚待第3、4阶段评估。',
-        e1: '在按元数据（年份、文献类型、可模塑材料、建筑用途）筛选的2,471条记录中，2,199条被接受。被排除的272条中：190条因不属于建筑用途，71条因材料不可模塑，9条因文献类型，1条因发表年份——同一记录可能同时不符合多项标准。',
-        e2: '在通读全文PDF的2,188篇文献中，605篇被接受。被排除的1,583篇中：1,297篇未报告可与自身CO₂配对的自身抗压强度，388篇未报告有绝对数值的CO₂/生命周期评估结果——部分文献两项标准都未满足。',
+        e1: '在按元数据（年份、文献类型、可模塑材料、建筑用途）筛选的2,465条记录中，2,193条被接受。被排除的272条中：190条因不属于建筑用途，71条因材料不可模塑，9条因文献类型，1条因发表年份——同一记录可能同时不符合多项标准。',
+        e2: '在通读全文PDF的2,187篇文献中，604篇被接受。被排除的1,583篇中：1,297篇未报告可与自身CO₂配对的自身抗压强度，388篇未报告有绝对数值的CO₂/生命周期评估结果——部分文献两项标准都未满足。',
         e3: '在评估材料地域限制的598篇文献中，587篇被接受；11篇因主要材料受地域限制（例如某地区高度集中的生产副产品）而被排除。',
         e4: '在第4阶段（7项清单，0至7分）评估的587篇文献中：421篇构成主要结果（得分≥4.0），109篇仅用于敏感性分析（得分<4.0），57篇是没有自身生命周期评估的综述——不计入ci指标得分，但作为PRISMA引文分支的来源（这些综述引用的原始研究）。'
       },
