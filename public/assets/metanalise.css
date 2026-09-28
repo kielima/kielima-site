@@ -359,6 +359,75 @@
   color: var(--ink-40);
 }
 
+/* ------------------------------------------- filtro da base do ligante */
+
+/* A barra fica presa ao topo ao percorrer a página, porque o filtro vale para
+   a página inteira (2026-09-28). */
+.base-filter-bar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.base-filter-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 10px clamp(24px, 5vw, 64px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+
+.base-filter {
+  margin-top: 0;
+}
+
+.base-filter .tier-chip {
+  padding: 8px 14px;
+}
+
+@media (max-width: 560px) {
+  .base-filter-inner {
+    padding: 8px 16px;
+    gap: 6px 10px;
+  }
+
+  /* no telemóvel os dois botões ficam lado a lado; o rótulo e as contagens
+     escondem-se (as contagens continuam no KPI de pares e na legenda) */
+  .base-filter-inner .section-label,
+  .base-filter .tier-n {
+    display: none;
+  }
+
+  .tier-filter.base-filter {
+    flex-wrap: nowrap;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .base-filter .tier-chip {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 7px 10px;
+    gap: 6px;
+    font-size: 13px;
+  }
+}
+
+.base-note-section {
+  padding-top: 16px;
+  padding-bottom: 0;
+}
+
+.base-note {
+  font-size: 13px;
+  color: var(--ink-65);
+  max-width: 78ch;
+}
+
 /* ------------------------------------------------ filtro de estrato */
 
 .tier-filter {
