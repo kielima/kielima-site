@@ -9,7 +9,7 @@
     PT: {
       brand: 'SUSTENTABILIDADE',
       name: 'Kiê Lima',
-      bio: 'Eng. Civil pela PUC-Campinas (ProUni), MBA em Gestão de Projetos pela FGV e mestrando em Sistemas de Infraestrutura Urbana pela PUC-Campinas (CAPES). Pesquisa em ACV (Avaliação de Ciclo de Vida) de materiais cimentícios.',
+      bio: 'Eng. Civil pela PUC-Campinas, MBA em Gestão de Projetos pela FGV e mestrando em Sistemas de Infraestrutura Urbana pela PUC-Campinas. Pesquisa em ACV (Avaliação de Ciclo de Vida) de materiais estruturais sustentáveis para a construção civil.',
       mission: 'ES > G',
       addContact: 'Adicionar contato',
       seedNote: 'O cartão físico é impresso em papel semente.',
@@ -21,7 +21,7 @@
     EN: {
       brand: 'SUSTAINABILITY',
       name: 'Kiê Lima',
-      bio: 'Civil engineer from PUC-Campinas (ProUni), MBA in Project Management from FGV, and MSc candidate in Urban Infrastructure Systems at PUC-Campinas (CAPES). Research in LCA (Life Cycle Assessment) of cementitious materials.',
+      bio: 'Civil engineer from PUC-Campinas, MBA in Project Management from FGV, and MSc candidate in Urban Infrastructure Systems at PUC-Campinas. Research in LCA (Life Cycle Assessment) of sustainable structural materials for civil construction.',
       mission: 'Environmental and social impact, prioritized above all else.',
       addContact: 'Add contact',
       seedNote: 'The printed card is made of seed paper.',
@@ -33,7 +33,7 @@
     ZH: {
       brand: '可持续发展',
       name: '霆宇',
-      bio: '土木工程师，毕业于坎皮纳斯天主教大学（ProUni奖学金），持有FGV项目管理MBA学位，目前于坎皮纳斯天主教大学攻读城市基础设施系统硕士学位（CAPES奖学金）。研究方向为水泥基材料的生命周期评估（LCA）。',
+      bio: '土木工程师，毕业于坎皮纳斯天主教大学，持有FGV项目管理MBA学位，目前于坎皮纳斯天主教大学攻读城市基础设施系统硕士学位。研究方向为土木工程可持续结构材料的生命周期评估（LCA）。',
       mission: '始终将环境与社会利益置于其他利益之上。',
       addContact: '添加联系人',
       seedNote: '实体名片使用种子纸印刷。',
