@@ -284,6 +284,20 @@
       mouse.y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
     }
 
+    // No celular, o navegador trata o arrasto do dedo como rolagem da página
+    // e cancela a sessão de ponteiro assim que a rolagem começa (vira
+    // pointercancel, sem mais pointermove) — daí o campo nunca acompanhar o
+    // dedo lá, mesmo com pointermove ligado. touchmove continua disparando
+    // durante a rolagem (é passivo, não compete com ela), então serve de
+    // reforço só para toque.
+    function onTouchMove(e) {
+      if (!e.touches || !e.touches.length) return;
+      var touch = e.touches[0];
+      var rect = container.getBoundingClientRect();
+      mouse.x = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -(((touch.clientY - rect.top) / rect.height) * 2 - 1);
+    }
+
     var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var elapsed = 0;
     var lastTime = 0;
@@ -338,7 +352,10 @@
     }
 
     window.addEventListener('resize', resize);
-    if (opts.moveParticlesOnHover && !reduceMotion) window.addEventListener('pointermove', onPointerMove);
+    if (opts.moveParticlesOnHover && !reduceMotion) {
+      window.addEventListener('pointermove', onPointerMove);
+      window.addEventListener('touchmove', onTouchMove, { passive: true });
+    }
     document.addEventListener('visibilitychange', onVisibility);
 
     resize();
@@ -357,6 +374,7 @@
         stop();
         window.removeEventListener('resize', resize);
         window.removeEventListener('pointermove', onPointerMove);
+        window.removeEventListener('touchmove', onTouchMove);
         document.removeEventListener('visibilitychange', onVisibility);
         if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
       }
