@@ -267,21 +267,33 @@
     }
 
     function resize() {
-      var w = container.clientWidth || window.innerWidth;
-      var h = container.clientHeight || window.innerHeight;
-      canvas.width = Math.max(1, Math.round(w * opts.pixelRatio));
-      canvas.height = Math.max(1, Math.round(h * opts.pixelRatio));
-      gl.viewport(0, 0, canvas.width, canvas.height);
-      gl.uniformMatrix4fv(uProjection, false, perspective(opts.fov, canvas.width / canvas.height, 0.1, 100));
+      var w = Math.max(1, Math.round((container.clientWidth || window.innerWidth) * opts.pixelRatio));
+      var h = Math.max(1, Math.round((container.clientHeight || window.innerHeight) * opts.pixelRatio));
+      // Redimensionar o canvas apaga o quadro; o celular dispara resize à toa
+      // durante a rolagem, então só refaz quando o tamanho mudou de fato.
+      if (w === canvas.width && h === canvas.height) return;
+      canvas.width = w;
+      canvas.height = h;
+      gl.viewport(0, 0, w, h);
+      gl.uniformMatrix4fv(uProjection, false, perspective(opts.fov, w / h, 0.1, 100));
     }
 
+    // O campo desliza até o ponteiro em vez de saltar: no toque, cada novo
+    // arrasto começa longe de onde o anterior terminou, e na home (que rola)
+    // isso fazia o campo pular a cada rolagem.
+    var target = { x: 0, y: 0 };
     var mouse = { x: 0, y: 0 };
+
+    function aim(clientX, clientY) {
+      var rect = container.getBoundingClientRect();
+      target.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+      target.y = -(((clientY - rect.top) / rect.height) * 2 - 1);
+    }
+
     // pointermove, não mousemove: mousemove não existe em tela de toque, então
     // no tablet o campo nunca reagia. pointermove cobre mouse, caneta e dedo.
     function onPointerMove(e) {
-      var rect = container.getBoundingClientRect();
-      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      mouse.y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
+      aim(e.clientX, e.clientY);
     }
 
     // No celular, o navegador trata o arrasto do dedo como rolagem da página
@@ -292,10 +304,7 @@
     // reforço só para toque.
     function onTouchMove(e) {
       if (!e.touches || !e.touches.length) return;
-      var touch = e.touches[0];
-      var rect = container.getBoundingClientRect();
-      mouse.x = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
-      mouse.y = -(((touch.clientY - rect.top) / rect.height) * 2 - 1);
+      aim(e.touches[0].clientX, e.touches[0].clientY);
     }
 
     var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -331,6 +340,10 @@
       lastTime = now;
       elapsed += delta * opts.speed;
       if (!opts.disableRotation) rotZ += 0.01 * opts.speed;
+      // ~10% do caminho por quadro a 60 fps, independente da taxa de quadros.
+      var ease = 1 - Math.pow(0.9, delta / 16.67);
+      mouse.x += (target.x - mouse.x) * ease;
+      mouse.y += (target.y - mouse.y) * ease;
       draw();
     }
 
