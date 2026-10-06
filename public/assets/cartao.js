@@ -15,6 +15,12 @@
       seedNote: 'O cartão físico é impresso em papel semente.',
       seedLink: 'Instruções de plantio →',
       copied: EMAIL + ' copiado',
+      pixLabel: 'Pagar com Pix',
+      pixTitle: 'Pix',
+      pixHint: 'Escaneie o QR Code no app do seu banco, ou copie o código e cole no Pix Copia e Cola.',
+      pixCopy: 'Copiar código Pix',
+      pixCopied: 'Código copiado',
+      pixClose: 'Fechar',
       themeToDark: 'Modo escuro',
       themeToLight: 'Modo claro'
     },
@@ -27,6 +33,12 @@
       seedNote: 'The printed card is made of seed paper.',
       seedLink: 'Planting instructions →',
       copied: EMAIL + ' copied',
+      pixLabel: 'Pay with Pix',
+      pixTitle: 'Pix',
+      pixHint: 'Scan the QR code in your bank app, or copy the code and paste it into Pix Copia e Cola.',
+      pixCopy: 'Copy Pix code',
+      pixCopied: 'Code copied',
+      pixClose: 'Close',
       themeToDark: 'Dark mode',
       themeToLight: 'Light mode'
     },
@@ -39,6 +51,12 @@
       seedNote: '实体名片使用种子纸印刷。',
       seedLink: '种植说明 →',
       copied: EMAIL + ' 已复制',
+      pixLabel: '用 Pix 付款',
+      pixTitle: 'Pix',
+      pixHint: '在银行 App 中扫描二维码，或复制代码并粘贴到 Pix 复制粘贴（Copia e Cola）中。',
+      pixCopy: '复制 Pix 代码',
+      pixCopied: '代码已复制',
+      pixClose: '关闭',
       themeToDark: '深色模式',
       themeToLight: '浅色模式'
     }
