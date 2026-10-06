@@ -138,6 +138,18 @@ if (existsSync(ci)) {
   }
 }
 
+/* 8 — O QR do Pix é o mesmo código do "copia e cola" ------------------------
+   O SVG é gerado à parte (npm run pix-qr). Se a chave em pix.js mudar e o
+   QR não for regerado, o botão de copiar e o QR mandariam o dinheiro para
+   chaves diferentes — e nenhum dos dois falharia de forma visível. */
+{
+  const { ARQUIVO, gerarSvg } = await import('./pix-qr.mjs');
+  const atual = existsSync(ARQUIVO) ? readFileSync(ARQUIVO, 'utf8') : '';
+  if (atual !== (await gerarSvg())) {
+    erros.push(`${relativo(ARQUIVO)}: não bate com o código de assets/pix.js — rode "npm run pix-qr"`);
+  }
+}
+
 if (erros.length) {
   console.error(`\n✗ ${erros.length} problema(s):\n`);
   for (const e of erros) console.error(`  · ${e}`);

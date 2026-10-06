@@ -23,6 +23,12 @@
       linksLabel: 'CONTATO',
       cardsLabel: 'LINKS',
       copied: EMAIL + ' copiado',
+      pixLabel: 'Pagar com Pix',
+      pixTitle: 'Pix',
+      pixHint: 'Escaneie o QR Code no app do seu banco, ou copie o código e cole no Pix Copia e Cola.',
+      pixCopy: 'Copiar código Pix',
+      pixCopied: 'Código copiado',
+      pixClose: 'Fechar',
       siteLink: 'Site completo',
       cards: {
         ppt: {
@@ -38,6 +44,12 @@
       linksLabel: 'CONTACT',
       cardsLabel: 'LINKS',
       copied: EMAIL + ' copied',
+      pixLabel: 'Pay with Pix',
+      pixTitle: 'Pix',
+      pixHint: 'Scan the QR code in your bank app, or copy the code and paste it into Pix Copia e Cola.',
+      pixCopy: 'Copy Pix code',
+      pixCopied: 'Code copied',
+      pixClose: 'Close',
       siteLink: 'Full site',
       cards: {
         ppt: {
@@ -53,6 +65,12 @@
       linksLabel: '联系方式',
       cardsLabel: '链接',
       copied: EMAIL + ' 已复制',
+      pixLabel: '用 Pix 付款',
+      pixTitle: 'Pix',
+      pixHint: '在银行 App 中扫描二维码，或复制代码并粘贴到 Pix 复制粘贴（Copia e Cola）中。',
+      pixCopy: '复制 Pix 代码',
+      pixCopied: '代码已复制',
+      pixClose: '关闭',
       siteLink: '完整网站',
       cards: {
         ppt: {

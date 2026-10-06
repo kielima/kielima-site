@@ -93,6 +93,39 @@ async function conferirIdiomas({ pagina, rotulo }, esperado) {
   await pagina.selectOption('#lang-select', 'PT');
 }
 
+/* O pop-up do Pix (cartão e /tree): abre, mostra o QR de fato carregado e
+   copia exatamente o código a partir do qual o QR foi gerado — se o botão
+   copiasse outra coisa, o pagamento iria para outro lugar sem erro nenhum. */
+const { codigoPix } = await import('./pix-qr.mjs');
+
+async function conferirPix({ pagina, ctx, rotulo }) {
+  await ctx.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await pagina.click('#pix-button');
+  await pagina.waitForTimeout(300);
+
+  const estado = await pagina.evaluate(() => {
+    const d = document.querySelector('.pix-dialog');
+    const qr = d && d.querySelector('.pix-qr');
+    return { aberto: !!(d && d.open), qr: !!(qr && qr.complete && qr.naturalWidth > 0) };
+  });
+  if (!estado.aberto) return problemas.push(`${rotulo}: o pop-up do Pix não abriu`);
+  if (!estado.qr) problemas.push(`${rotulo}: o QR Code do Pix não carregou`);
+
+  await pagina.click('.pix-copy');
+  await pagina.waitForTimeout(300);
+  const copiado = await pagina.evaluate(() => navigator.clipboard.readText());
+  if (copiado !== codigoPix()) problemas.push(`${rotulo}: o Pix copiado não é o código do QR — ${copiado}`);
+  if (await pagina.locator('.pix-status').isHidden()) {
+    problemas.push(`${rotulo}: o aviso de código copiado não apareceu`);
+  }
+
+  await pagina.keyboard.press('Escape');
+  await pagina.waitForTimeout(200);
+  if (await pagina.evaluate(() => document.querySelector('.pix-dialog').open)) {
+    problemas.push(`${rotulo}: o pop-up do Pix não fechou com Esc`);
+  }
+}
+
 servidor.listen(PORTA);
 /* CHROMIUM_PATH permite usar um Chromium já presente na máquina, em vez de
    baixar o do Playwright. O CI não precisa disso; ambientes com o navegador
@@ -149,6 +182,8 @@ const navegador = await chromium.launch({
     problemas.push(`/cartao/: alternância de tema errada — ${JSON.stringify(icones)}`);
   }
 
+  await conferirPix(cartao);
+
   // O vCard precisa ser gerado ao clicar em "Adicionar contato". O botão usa
   // um data: URI (sem nome de arquivo), então quem importa é o conteúdo, não
   // o nome sugerido pelo navegador. Fica por último nesta página de propósito:
@@ -184,6 +219,7 @@ const navegador = await chromium.launch({
 {
   const tree = await abrir(navegador, '/tree/');
   await conferirIdiomas(tree, { '.tree-links a': 5, '.tree-link': 1 });
+  await conferirPix(tree);
 
   // O avatar é a única imagem do site: se o arquivo sumir num rename, a página
   // continua "funcionando" e ninguém vê — daí conferir que ela de fato carregou.
