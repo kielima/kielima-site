@@ -59,7 +59,8 @@
      ou 'com' (com os descontos que o próprio artigo aplica: carga evitada,
      carbonatação, carbono biogénico, módulo D). d[6] = CO₂ com desconto (null =
      o artigo não declara desconto, vale o bruto); d[7] = 1 quando o artigo só
-     publica o valor com desconto (d[1] é então esse valor nos dois cenários). */
+     publica o valor com desconto: esse par sai do cenário 'sem' e só entra no
+     'com' (decisão da Kie, 2026-10-07; F9 em DECISOES_METANALISE.md). */
   var CO2_KEY = 'kl-meta-co2';
   var co2Scenario = 'sem';
   try {
@@ -75,8 +76,14 @@
     return c;
   }
 
+  function scenarioMatches(d) {
+    return co2Scenario === 'com' || d[7] !== 1;
+  }
+
   function currentData() {
-    return DATA.filter(function (d) { return tierVisible[d[3]] && baseMatches(d); }).map(withScenario);
+    return DATA.filter(function (d) {
+      return tierVisible[d[3]] && baseMatches(d) && scenarioMatches(d);
+    }).map(withScenario);
   }
 
   /* "Progresso da extração" tem três frentes independentes, cada uma com o
@@ -272,16 +279,19 @@
       },
       tierLabel: 'ESTRATIFICAÇÃO POR QUALIDADE',
       tierTitle: 'Resultado principal × análise de sensibilidade',
-      tierP: 'A Etapa 4 pontua a qualidade de cada artigo aceite (0–6, seis itens). Os dois terços de melhor pontuação formam o resultado principal da metanálise; o terço mais fraco continua aceite, mas só entra na análise de sensibilidade. Ligue e desligue cada grupo para comparar.',
+      tierP: 'A Etapa 4 pontua a qualidade de cada artigo aceite (0–7, sete itens). Os dois terços de melhor pontuação formam o resultado principal da metanálise; o terço mais fraco continua aceite, mas só entra na análise de sensibilidade. Ligue e desligue cada grupo na barra fixa do topo («Qualidade») para comparar.',
       tierPrincipal: 'Dois terços de melhor qualidade (score ≥ 4,0)',
       tierSensibilidade: 'Terço mais fraco — só sensibilidade (score < 4,0)',
+      tierBarLabel: 'QUALIDADE',
+      tierPrincipalCurto: 'Melhor qualidade (≥ 4,0)',
+      tierSensCurto: 'Terço mais fraco (< 4,0)',
       baseLabel: 'BASE DO LIGANTE',
       baseTodos: 'Todos os materiais',
       basePortland: 'Só cimento Portland',
       co2Label: 'CO₂ DOS ARTIGOS',
       co2Sem: 'Sem desconto',
       co2Com: 'Com desconto',
-      co2Note: 'Alguns artigos descontam do CO₂ do betão créditos que não são da produção: carga evitada (cimento, agregado ou aterro que deixam de existir), carbonatação ao longo da vida, carbono biogénico armazenado ou reciclagem no fim de vida (módulo D). «Sem desconto» mostra o CO₂ bruto de cada traço; «Com desconto» aplica os descontos que o próprio artigo declara (o número ao lado conta os traços que mudam). Quando o artigo só publica o valor já com desconto, esse valor aparece nos dois cenários.',
+      co2Note: 'Alguns artigos descontam do CO₂ do betão créditos que não são da produção: carga evitada (cimento, agregado ou aterro que deixam de existir), carbonatação ao longo da vida, carbono biogénico armazenado ou reciclagem no fim de vida (módulo D). «Sem desconto» mostra o CO₂ bruto de cada traço; «Com desconto» aplica os descontos que o próprio artigo declara (o número ao lado conta os traços que mudam). Quando o artigo só publica o valor já com desconto, esse traço fica de fora em «Sem desconto» e só aparece em «Com desconto».',
       baseNote: 'Filtra a página inteira pelo ligante de cada traço. «Cimento Portland» inclui cimentos compostos, substituição parcial do cimento por adições (cinza volante, escória, argila calcinada, sílica ativa), UHPC, betão armado e betão com agregado reciclado. Ficam de fora os traços sem clínquer Portland como ligante principal: geopolímeros e ligantes álcali-ativados, sulfoaluminato de cálcio, cimentos de magnésio, compósitos de gesso e madeira. O funil conta artigos, não traços, e não muda com o filtro; o mesmo vale para as curvas de volume e de intervalo de confiança e para o gráfico de unidades.',
       progressTitle: 'Progresso da extração',
       progressP: 'A extração acontece em três frentes independentes, cada uma com o seu próprio ritmo — o par resistência×CO₂, o volume do corpo de prova e, desde 12.09.2026, o intervalo de confiança de cada estudo. Cada gráfico abaixo mostra o total acumulado da sua frente.',
@@ -397,16 +407,19 @@
       },
       tierLabel: 'QUALITY STRATIFICATION',
       tierTitle: 'Main result × sensitivity analysis',
-      tierP: "Stage 4 scores the quality of every accepted article (0-6, six items). The top two-thirds by score form the meta-analysis's main result; the bottom third stays accepted, but only feeds the sensitivity analysis. Toggle each group to compare.",
+      tierP: "Stage 4 scores the quality of every accepted article (0-7, seven items). The top two-thirds by score form the meta-analysis's main result; the bottom third stays accepted, but only feeds the sensitivity analysis. Toggle each group in the sticky bar at the top («Quality») to compare.",
       tierPrincipal: 'Top two-thirds by quality (score ≥ 4.0)',
       tierSensibilidade: 'Bottom third — sensitivity only (score < 4.0)',
+      tierBarLabel: 'QUALITY',
+      tierPrincipalCurto: 'Higher quality (≥ 4.0)',
+      tierSensCurto: 'Weakest third (< 4.0)',
       baseLabel: 'BINDER BASE',
       baseTodos: 'All materials',
       basePortland: 'Portland cement only',
       co2Label: 'CO₂ OF THE ARTICLES',
       co2Sem: 'Without credits',
       co2Com: 'With credits',
-      co2Note: 'Some articles subtract from the concrete CO₂ credits that are not part of production: avoided burden (cement, aggregate or landfill that no longer happen), carbonation over the service life, stored biogenic carbon, or end-of-life recycling (module D). "Without credits" shows the gross CO₂ of each mix; "With credits" applies the credits each article itself declares (the number next to it counts the mixes that change). When an article only publishes the value with credits, that value appears in both scenarios.',
+      co2Note: 'Some articles subtract from the concrete CO₂ credits that are not part of production: avoided burden (cement, aggregate or landfill that no longer happen), carbonation over the service life, stored biogenic carbon, or end-of-life recycling (module D). "Without credits" shows the gross CO₂ of each mix; "With credits" applies the credits each article itself declares (the number next to it counts the mixes that change). When an article only publishes the value with credits, that mix is left out of «Without credits» and only appears in «With credits».',
       baseNote: 'Filters the whole page by the binder of each mix. "Portland cement" covers blended cements, partial cement replacement by supplementary materials (fly ash, slag, calcined clay, silica fume), UHPC, reinforced concrete and recycled-aggregate concrete. Left out are mixes without Portland clinker as the main binder: geopolymers and alkali-activated binders, calcium sulfoaluminate, magnesium cements, gypsum composites and timber. The funnel counts articles, not mixes, and does not change with the filter; the same holds for the specimen-volume and confidence-interval curves and for the units chart.',
       progressTitle: 'Extraction progress',
       progressP: 'Extraction runs on three independent fronts, each at its own pace — the strength×CO₂ pair, the specimen volume, and, since 09.12.2026, each study’s confidence interval. Each chart below shows the running total for its own front.',
@@ -522,16 +535,19 @@
       },
       tierLabel: '质量分层',
       tierTitle: '主要结果 × 敏感性分析',
-      tierP: '第4阶段为每篇入选文献的质量打分（0-6分，六个项目）。得分最高的三分之二构成荟萃分析的主要结果；得分最低的三分之一仍属入选文献，但只用于敏感性分析。切换各组即可对比。',
+      tierP: '第4阶段为每篇入选文献的质量打分（0-7分，七个项目）。得分最高的三分之二构成荟萃分析的主要结果；得分最低的三分之一仍属入选文献，但只用于敏感性分析。在顶部固定栏（「质量」）中切换各组即可对比。',
       tierPrincipal: '质量最优三分之二（得分 ≥ 4.0）',
       tierSensibilidade: '质量最弱三分之一 —— 仅用于敏感性分析（得分 < 4.0）',
+      tierBarLabel: '质量',
+      tierPrincipalCurto: '质量较优（≥ 4.0）',
+      tierSensCurto: '最弱三分之一（< 4.0）',
       baseLabel: '胶凝材料基础',
       baseTodos: '全部材料',
       basePortland: '仅硅酸盐水泥',
       co2Label: '文章中的CO₂',
       co2Sem: '不扣减',
       co2Com: '扣减',
-      co2Note: '部分文章会从混凝土的CO₂中扣除并非来自生产的抵扣项：避免的负担（不再需要的水泥、骨料或填埋）、使用期碳化、储存的生物碳或寿命末期回收（模块D）。“不扣减”显示每个配合比的总CO₂；“扣减”应用文章自身声明的抵扣（旁边的数字为会改变的配合比数量）。若文章只公布扣减后的数值，则两种情景都显示该数值。',
+      co2Note: '部分文章会从混凝土的CO₂中扣除并非来自生产的抵扣项：避免的负担（不再需要的水泥、骨料或填埋）、使用期碳化、储存的生物碳或寿命末期回收（模块D）。“不扣减”显示每个配合比的总CO₂；“扣减”应用文章自身声明的抵扣（旁边的数字为会改变的配合比数量）。若文章只公布扣减后的数值，该配合比在“不扣减”情景中不显示，只在“扣减”情景中出现。',
       baseNote: '按每个配合比的胶凝材料筛选整个页面。"硅酸盐水泥"包括复合水泥、以掺合料（粉煤灰、矿渣、煅烧黏土、硅灰）部分替代水泥、UHPC、钢筋混凝土和再生骨料混凝土。不包括不以硅酸盐熟料为主要胶凝材料的配合比：地聚合物和碱激发胶凝材料、硫铝酸盐水泥、镁质水泥、石膏复合材料和木材。筛选漏斗统计的是文献而非配合比，不随筛选变化；试件体积曲线、置信区间曲线和单位图也是如此。',
       progressTitle: '提取进度',
       progressP: '数据提取分三条独立的战线推进，各有各的节奏——强度×CO₂数据对、试件体积，以及自2026年9月12日起新增的各研究置信区间。下方每张图都显示对应战线的累计总数。',
@@ -686,7 +702,7 @@
   function renderBaseCounts(lang) {
     var nAll = 0, nPort = 0;
     DATA.forEach(function (d) {
-      if (!tierVisible[d[3]]) return;
+      if (!tierVisible[d[3]] || !scenarioMatches(d)) return;
       nAll++;
       if (d[5] === 'P') nPort++;
     });
@@ -694,7 +710,9 @@
     document.getElementById('base-n-portland').textContent = fmtInt(nPort, lang);
     var nDesc = 0;
     DATA.forEach(function (d) {
-      if (tierVisible[d[3]] && baseMatches(d) && d[6] !== null && d[6] !== undefined && d[6] !== d[1]) nDesc++;
+      /* traços que mudam entre os cenários: valor diferente ou só com desconto */
+      if (tierVisible[d[3]] && baseMatches(d) &&
+          (d[7] === 1 || (d[6] !== null && d[6] !== undefined && d[6] !== d[1]))) nDesc++;
     });
     document.getElementById('co2-n-com').textContent = fmtInt(nDesc, lang);
   }
@@ -702,7 +720,7 @@
   function renderTierCounts(lang) {
     var nP = 0, nS = 0;
     DATA.forEach(function (d) {
-      if (!baseMatches(d)) return;
+      if (!baseMatches(d) || !scenarioMatches(d)) return;
       if (d[3] === 'p') nP++; else nS++;
     });
     document.getElementById('tier-n-p').textContent = fmtInt(nP, lang);
