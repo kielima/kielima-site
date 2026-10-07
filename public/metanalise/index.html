@@ -64,6 +64,7 @@
 
     <div class="base-filter-bar" id="base-filter-bar">
       <div class="base-filter-inner">
+        <div class="base-filter-group">
         <span class="section-label" data-i18n="baseLabel"></span>
         <div class="tier-filter base-filter" role="radiogroup">
           <label class="tier-chip">
@@ -77,11 +78,27 @@
             <span class="tier-n" id="base-n-portland">—</span>
           </label>
         </div>
+        </div>
+        <div class="base-filter-group">
+        <span class="section-label" data-i18n="co2Label"></span>
+        <div class="tier-filter base-filter" role="radiogroup">
+          <label class="tier-chip">
+            <input type="radio" name="co2-filter" value="sem" id="co2-radio-sem" checked>
+            <span data-i18n="co2Sem"></span>
+          </label>
+          <label class="tier-chip">
+            <input type="radio" name="co2-filter" value="com" id="co2-radio-com">
+            <span data-i18n="co2Com"></span>
+            <span class="tier-n" id="co2-n-com">—</span>
+          </label>
+        </div>
+        </div>
       </div>
     </div>
 
     <section class="meta-section base-note-section">
       <p class="base-note" data-i18n="baseNote"></p>
+      <p class="base-note" data-i18n="co2Note"></p>
     </section>
 
     <section class="meta-section" aria-label="Indicadores">

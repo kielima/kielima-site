@@ -385,6 +385,15 @@
   margin-top: 0;
 }
 
+/* 2026-10-07: dois grupos na barra (base do ligante e cenário do CO₂); cada
+   rótulo fica sempre junto das suas opções quando a linha quebra. */
+.base-filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+
 .base-filter .tier-chip {
   padding: 8px 14px;
 }
@@ -400,6 +409,10 @@
   .base-filter-inner .section-label,
   .base-filter .tier-n {
     display: none;
+  }
+
+  .base-filter-group {
+    width: 100%;
   }
 
   .tier-filter.base-filter {
