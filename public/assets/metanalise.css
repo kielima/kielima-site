@@ -162,6 +162,12 @@
   line-height: 1;
 }
 
+.kpi-value-sub {
+  font-size: 0.62em;
+  color: var(--ink-65);
+  white-space: nowrap;
+}
+
 .kpi-label {
   font-family: var(--mono);
   font-size: 10.5px;
