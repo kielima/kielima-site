@@ -300,6 +300,20 @@ const navegador = await chromium.launch({
   const aindaAberta = await meta.pagina.evaluate(() => document.querySelectorAll('.forest-item.is-open').length);
   if (aindaAberta !== 0) problemas.push('/metanalise/: clicar de novo na família não recolheu o forest plot');
 
+  // F12: a família do cimento Portland abre em subfamílias (CEM I, CP II-E…),
+  // cada uma com um botão (i) que mostra a norma de referência.
+  const subfam = await meta.pagina.evaluate(() => {
+    const item = [...document.querySelectorAll('.forest-item')].find((el) => el.querySelector(':scope > .forest-detail > .forest-subfam-list'));
+    if (!item) return { n: 0 };
+    item.querySelector(':scope > .forest-head').click();
+    return { n: document.querySelectorAll('.forest-subfam').length };
+  });
+  if (subfam.n < 2) problemas.push(`/metanalise/: a família do cimento Portland não mostrou subfamílias (${subfam.n})`);
+  await meta.pagina.click('.forest-info-btn');
+  await meta.pagina.waitForTimeout(150);
+  const infoTexto = await meta.pagina.evaluate(() => document.querySelector('.forest-info')?.textContent ?? '');
+  if (infoTexto.length < 20) problemas.push('/metanalise/: o botão (i) da subfamília não mostrou a explicação');
+
   await meta.ctx.close();
   await abrir(navegador, '/metanalise/', { tema: 'dark' }).then((r) => r.ctx.close());
   await abrir(navegador, '/metanalise/', { viewport: { width: 390, height: 844 } }).then((r) => r.ctx.close());
