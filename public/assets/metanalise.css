@@ -602,7 +602,8 @@
   transition: transform 0.15s ease;
 }
 
-.forest-item.is-open .forest-chevron {
+.forest-item.is-open > .forest-head .forest-chevron,
+.forest-subfam.is-open > .forest-subfam-top .forest-chevron {
   transform: rotate(90deg);
 }
 
@@ -650,8 +651,97 @@
   border-left: 2px solid var(--line);
 }
 
-.forest-item.is-open .forest-detail {
+.forest-item.is-open > .forest-detail {
   display: block;
+}
+
+/* F12: subfamílias do cimento Portland dentro da família opc — cada uma com
+   botão (i) (texto com a norma de referência) e os estudos por baixo. */
+.forest-subfam-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.forest-subfam {
+  border-top: 1px solid var(--line);
+}
+
+.forest-subfam:first-child {
+  border-top: none;
+}
+
+.forest-subfam-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.forest-subfam-head {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 1fr 180px 104px;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 6px 6px 0;
+  border: none;
+  background: none;
+  margin: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.forest-subfam-head:hover .forest-sub-name {
+  color: var(--ink);
+}
+
+.forest-subfam-head:hover .forest-chevron {
+  color: var(--green);
+}
+
+.forest-subfam-head .forest-sub-value {
+  white-space: nowrap;
+}
+
+.forest-subfam-label {
+  font-size: 12.5px;
+  color: var(--ink-78);
+}
+
+.forest-info-btn {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 1px solid var(--ink-40);
+  border-radius: 50%;
+  background: none;
+  color: var(--ink-65);
+  font: italic 600 11px/16px Georgia, serif;
+  text-align: center;
+  cursor: pointer;
+}
+
+.forest-info-btn:hover,
+.forest-subfam.info-open .forest-info-btn {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.forest-info {
+  margin: 0 0 8px 24px;
+  padding: 8px 10px;
+  border-left: 2px solid var(--green);
+  background: var(--line);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-78);
+}
+
+.forest-subfam > .forest-detail {
+  margin: 0 0 8px 24px;
+  padding: 4px 0 4px 12px;
 }
 
 .forest-item-overall .forest-head {
@@ -744,6 +834,20 @@
 
   .forest-detail {
     padding-left: 12px;
+  }
+
+  .forest-subfam-head {
+    grid-template-columns: 1fr 52px 78px;
+    gap: 6px;
+  }
+
+  .forest-subfam-head .forest-sub-value {
+    font-size: 10.5px;
+  }
+
+  .forest-info,
+  .forest-subfam > .forest-detail {
+    margin-left: 10px;
   }
 }
 
