@@ -196,7 +196,7 @@
      duplicatas e sem-acesso); da Etapa 1 em diante contam-se só linhas
      com status_triagem diferente de Duplicado (desde 2026-09-27: antes
      entravam 6-7 duplicatas com E1 preenchido); cada etapa seguinte é
-     sempre um subconjunto Aceito da anterior. e4.principal + e4.sensibilidade = e4.n = os 527
+     sempre um subconjunto Aceito da anterior. e4.principal + e4.sensibilidade = e4.n = os 521
      artigos Elegíveis (2 terços de melhor qualidade formam o resultado
      principal); as 58 revisões sem ACV própria que também sobrevivem à
      Etapa 3 ficam fora desta barra — ver funnelRevisaoNote. */
@@ -249,13 +249,13 @@
       lead: 'Este painel acompanha, em tempo real, a extração de dados da revisão sistemática de literatura por trás da minha dissertação — comparando resistência à compressão e pegada de carbono em concretos de baixo carbono, agregado reciclado e UHPC. Os números mudam conforme a leitura de cada artigo avança.',
       navBack: '← kielima.com',
       navDb: 'Banco de dados',
-      kpiFunilLabel: 'artigos aceitos (passaram as 4 etapas)',
+      kpiFunilLabel: 'artigos aceitos (passaram as 4 etapas) → dos quais de melhor qualidade (≥ 4,0)',
       kpiParesLabel: 'pares resistência × CO₂ extraídos',
       kpiVidaLabel: 'com vida útil de projeto declarada',
       kpiReleituraLabel: 'lotes da releitura integral concluídos',
       kpiCompletoLabel: 'dos artigos aceitos com resistência e CO₂ já extraídos',
       funnelLabel: 'TRIAGEM',
-      funnelTitle: 'O funil da triagem: de 5.093 registos a 527 artigos',
+      funnelTitle: 'O funil da triagem: de 5.093 registos a 521 artigos',
       funnelP: 'A revisão sistemática passa por quatro etapas antes de um artigo entrar na metanálise: metadados, leitura do PDF completo, restrição geográfica do material e, por fim, qualidade metodológica. Cada barra mostra quantos artigos sobrevivem a cada etapa, a partir do banco completo de registos recolhidos nas buscas.',
       funnelStages: {
         universo: 'Banco completo (buscas + duplicatas removidas)',
@@ -379,13 +379,13 @@
       lead: 'This dashboard tracks, in real time, the data extraction behind the systematic literature review under my dissertation — comparing compressive strength and carbon footprint across low-carbon, recycled-aggregate and ultra-high-performance (UHPC) concretes. The numbers change as each article gets read.',
       navBack: '← kielima.com',
       navDb: 'Database',
-      kpiFunilLabel: 'articles accepted (passed all 4 stages)',
+      kpiFunilLabel: 'articles accepted (passed all 4 stages) → of which higher quality (≥ 4.0)',
       kpiParesLabel: 'strength × CO₂ pairs extracted',
       kpiVidaLabel: 'with declared design service life',
       kpiReleituraLabel: 'batches of the full re-read completed',
       kpiCompletoLabel: 'of accepted articles with strength and CO₂ already extracted',
       funnelLabel: 'SCREENING',
-      funnelTitle: 'The screening funnel: from 5,093 records to 527 articles',
+      funnelTitle: 'The screening funnel: from 5,093 records to 521 articles',
       funnelP: "The systematic review runs through four stages before an article enters the meta-analysis: metadata, full-PDF reading, the material's geographic restriction, and finally methodological quality. Each bar shows how many articles survive each stage, starting from the full pool of records collected in the searches.",
       funnelStages: {
         universo: 'Full database (searches + duplicates removed)',
@@ -509,13 +509,13 @@
       lead: '本面板实时展示我硕士论文所依托的系统性文献综述的数据提取进度——比较低碳混凝土、再生骨料混凝土与超高性能混凝土（UHPC）的抗压强度与碳足迹。数字会随着每篇文献的阅读而更新。',
       navBack: '← kielima.com',
       navDb: '数据库',
-      kpiFunilLabel: '已通过全部4个阶段的入选文献',
+      kpiFunilLabel: '已通过全部4个阶段的入选文献 → 其中质量较高（≥ 4.0）',
       kpiParesLabel: '已提取的强度×CO₂数据对',
       kpiVidaLabel: '已注明设计使用寿命',
       kpiReleituraLabel: '完整复读批次已完成',
       kpiCompletoLabel: '已入选文献中强度与CO₂均已提取的比例',
       funnelLabel: '筛选',
-      funnelTitle: '筛选漏斗：从5,093条记录到527篇文献',
+      funnelTitle: '筛选漏斗：从5,093条记录到521篇文献',
       funnelP: '系统综述在文献进入荟萃分析之前要经过四个阶段：元数据、通读全文PDF、材料的地域限制，最后是方法学质量。每一条柱状图显示从检索收集到的全部记录出发，有多少文献在每个阶段存活下来。',
       funnelStages: {
         universo: '完整数据库（检索结果，已去重）',
@@ -700,12 +700,25 @@
        dados_fck.
        Atualizar à mão sempre que um lote de extração ou uma promoção
        Inconclusivo→Elegível avançar, mesmo espírito das demais
-       KPI_VALUES. */
-    completo: 86
+       KPI_VALUES.
+       Snapshot 2026-10-11 (Kiê perguntou porque 86%): o 86% era o de
+       26/09 e ficou desactualizado. Ao vivo: 392 dos 521 Elegível têm pelo
+       menos um par no painel = 75%; os outros 129 têm fck e CO2 no artigo
+       mas sem forma de chegar a kg CO2-eq/m3 sem assumir nada (CO2 por
+       tonelada/kg sem massa volúmica, por m2 ou edifício inteiro, CO2 só
+       de parte do betão…) -- ver metanalise/DECISOES_METANALISE.md, F13. */
+    completo: 75
   };
 
   function renderKPIs(lang) {
-    document.getElementById('kpi-funil').textContent = fmtInt(KPI_VALUES.funil, lang);
+    /* Kiê (2026-10-11): ao lado dos 521 aceites, os 409 que ficaram depois
+       da análise de qualidade (Etapa 4, score ≥ 4,0) -- mesmo número do funil. */
+    var kf = document.getElementById('kpi-funil');
+    kf.textContent = fmtInt(KPI_VALUES.funil, lang);
+    var kfSub = document.createElement('span');
+    kfSub.className = 'kpi-value-sub';
+    kfSub.textContent = ' → ' + fmtInt(FUNNEL[FUNNEL.length - 1].principal, lang);
+    kf.appendChild(kfSub);
     document.getElementById('kpi-pares').textContent = fmtInt(currentData().length, lang);
     document.getElementById('kpi-vida').textContent = fmtInt(KPI_VALUES.vida, lang);
     document.getElementById('kpi-releitura').textContent = KPI_VALUES.releitura;
@@ -934,7 +947,12 @@
         bar.style.width = Math.max(16, (stage.n / base) * 100) + '%';
       }
 
-      if (stage.principal != null) {
+      /* Kiê (2026-10-11): o filtro de qualidade da barra fixa também vale
+         para a Etapa 4 -- com o terço mais fraco desligado só fica o 409
+         (e vice-versa). */
+      var showP = stage.principal != null && tierVisible.p;
+      var showS = stage.principal != null && tierVisible.s;
+      if (showP) {
         var segP = document.createElement('div');
         segP.className = 'funnel-bar-seg funnel-bar-seg-principal';
         segP.style.flex = '1 1 auto';
@@ -943,15 +961,18 @@
         segPVal.textContent = fmtInt(stage.principal, lang);
         segP.appendChild(segPVal);
         bar.appendChild(segP);
+      }
+      if (showS) {
         var segS = document.createElement('div');
         segS.className = 'funnel-bar-seg funnel-bar-seg-sensibilidade';
         segS.style.flex = '0 0 auto';
         var segSVal = document.createElement('span');
         segSVal.className = 'funnel-bar-count';
-        segSVal.textContent = '+' + fmtInt(stage.sensibilidade, lang);
+        segSVal.textContent = (showP ? '+' : '') + fmtInt(stage.sensibilidade, lang);
         segS.appendChild(segSVal);
         bar.appendChild(segS);
-      } else {
+      }
+      if (stage.principal == null) {
         var seg = document.createElement('div');
         seg.className = 'funnel-bar-seg funnel-bar-seg-full';
         seg.style.flex = '1';
@@ -979,7 +1000,7 @@
         var pLbl = document.createElement('span');
         pLbl.textContent = strings.tierPrincipal + ' — ' + fmtInt(stage.principal, lang);
         pItem.appendChild(pLbl);
-        legend.appendChild(pItem);
+        if (showP) legend.appendChild(pItem);
 
         var sItem = document.createElement('span');
         sItem.className = 'unit-legend-item';
@@ -989,7 +1010,7 @@
         var sLbl = document.createElement('span');
         sLbl.textContent = strings.tierSensibilidade + ' — ' + fmtInt(stage.sensibilidade, lang);
         sItem.appendChild(sLbl);
-        legend.appendChild(sItem);
+        if (showS) legend.appendChild(sItem);
 
         row.appendChild(legend);
       }
