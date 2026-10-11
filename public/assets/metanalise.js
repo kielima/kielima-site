@@ -700,8 +700,14 @@
        dados_fck.
        Atualizar à mão sempre que um lote de extração ou uma promoção
        Inconclusivo→Elegível avançar, mesmo espírito das demais
-       KPI_VALUES. */
-    completo: 86
+       KPI_VALUES.
+       Snapshot 2026-10-11 (Kiê perguntou porque 86%): o 86% era o de
+       26/09 e ficou desactualizado. Ao vivo: 392 dos 521 Elegível têm pelo
+       menos um par no painel = 75%; os outros 129 têm fck e CO2 no artigo
+       mas sem forma de chegar a kg CO2-eq/m3 sem assumir nada (CO2 por
+       tonelada/kg sem massa volúmica, por m2 ou edifício inteiro, CO2 só
+       de parte do betão…) -- ver metanalise/DECISOES_METANALISE.md, F13. */
+    completo: 75
   };
 
   function renderKPIs(lang) {
