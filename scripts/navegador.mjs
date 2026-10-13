@@ -313,6 +313,19 @@ const navegador = await chromium.launch({
   await meta.pagina.waitForTimeout(150);
   const infoTexto = await meta.pagina.evaluate(() => document.querySelector('.forest-info')?.textContent ?? '');
   if (infoTexto.length < 20) problemas.push('/metanalise/: o botão (i) da subfamília não mostrou a explicação');
+  // Kiê (2026-10-13): a barra «kg/m³ excluído» abre a lista das linhas excluídas com o motivo.
+  const excl = await meta.pagina.evaluate(() => {
+    const btn = document.querySelector('.unit-row-btn');
+    if (!btn) return { btn: false };
+    btn.click();
+    const linhas = document.querySelectorAll('.unit-excl-table tbody tr');
+    const motivo = linhas.length ? linhas[0].lastElementChild.textContent.trim() : '';
+    return { btn: true, aberto: btn.getAttribute('aria-expanded') === 'true', n: linhas.length, motivo };
+  });
+  if (!excl.btn) problemas.push('/metanalise/: falta a barra clicável das linhas em kg/m³ excluídas');
+  else if (!excl.aberto || excl.n < 1 || excl.motivo.length < 10) problemas.push(`/metanalise/: a barra das excluídas não abriu a lista com motivo (${excl.n} linhas)`);
+  const outros = await meta.pagina.evaluate(() => [...document.querySelectorAll('.unit-name')].some((el) => /não classificado/.test(el.textContent)));
+  if (outros) problemas.push('/metanalise/: o gráfico de unidades ainda tem a barra «outro / não classificado»');
 
   await meta.ctx.close();
   await abrir(navegador, '/metanalise/', { tema: 'dark' }).then((r) => r.ctx.close());
