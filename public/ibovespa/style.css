@@ -373,6 +373,26 @@ td.empresas-cell .ticker-ref,
   color: var(--green);
 }
 
+.familia-fonte {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+
+.familia-fonte-cvm {
+  background: var(--bar-bg);
+  color: var(--green);
+}
+
+.familia-fonte-pesquisa {
+  background: var(--ink-20);
+  color: var(--ink-70);
+}
+
 .familia-detalhe td {
   background: var(--bar-bg);
   padding: 14px 16px 16px 30px;

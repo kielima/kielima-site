@@ -332,6 +332,7 @@ function construirSubEntidades(acionistasPorNome, estrutura) {
           porChaveFamilia.set(chave, {
             nome: item.nome,
             chaveNormalizada: chave,
+            fonte: 'pesquisa_aberta',
             empresas: [],
             resumo: item.familia.resumo || '',
             membros: item.familia.membros || [],
@@ -362,6 +363,137 @@ function construirSubEntidades(acionistasPorNome, estrutura) {
   }
 
   return { acionistas: finalizar(porChaveAcionista), familias: finalizar(porChaveFamilia) };
+}
+
+/* ---- Famílias reais: detectadas automaticamente por sobrenome na própria --
+   aba Pessoas (dado direto da CVM/FRE — não pesquisa aberta). O mesmo
+   sobrenome (última palavra do nome, descontando sufixos geracionais) em
+   2+ pessoas distintas vira uma família; sobrenomes genéricos demais pra
+   confiar na coincidência (Silva, Santos, Oliveira…) só entram via um
+   trecho mais específico (as 3 últimas palavras). Confirmado por amostragem
+   via pesquisa aberta em 2026-10-15 — um falso positivo encontrado (ver
+   SOBRENOMES_EXCLUIDOS) e descartado. ------------------------------------ */
+
+const SUFIXOS_GERACIONAIS = new Set(['FILHO', 'JUNIOR', 'JÚNIOR', 'NETO', 'SOBRINHO', 'II', 'III', 'IV']);
+const SOBRENOMES_GENERICOS = new Set([
+  'SILVA', 'SANTOS', 'OLIVEIRA', 'SOUZA', 'SOUSA', 'RODRIGUES', 'FERREIRA', 'ALVES', 'PEREIRA',
+  'LIMA', 'GOMES', 'COSTA', 'RIBEIRO', 'MARTINS', 'CARVALHO', 'ALMEIDA', 'LOPES', 'SOARES',
+  'FERNANDES', 'VIEIRA', 'BARBOSA', 'ROCHA', 'DIAS', 'NASCIMENTO', 'ANDRADE', 'MOREIRA', 'NUNES',
+  'MARQUES', 'MACHADO', 'MENDES', 'FREITAS', 'BARROS', 'PINTO', 'MOURA', 'CAVALCANTI', 'PINHEIRO',
+  'CARDOSO', 'CORREIA', 'CORREA', 'TEIXEIRA', 'MELO', 'MELLO', 'MONTEIRO', 'NOGUEIRA', 'AZEVEDO',
+  'REIS', 'ARAUJO', 'ARAÚJO', 'CASTRO', 'CAMPOS', 'CUNHA', 'FONSECA', 'RAMOS', 'GONÇALVES',
+  'BATISTA', 'GARCIA', 'PEREZ', 'DUARTE', 'SANTANA', 'MATTOS', 'PASSOS',
+]);
+// "Porto": pesquisa confirmou que são duas pessoas sem nenhum parentesco
+// (Antonio Carlos Canto Porto Filho, sócio do BTG Pactual, e Luis Fernando
+// Memória Porto, cofundador da Localiza) — coincidência de sobrenome, não família.
+const SOBRENOMES_EXCLUIDOS = new Set(['PORTO']);
+const PREPOSICOES_SOBRENOME = new Set(['DE', 'DA', 'DO', 'DOS', 'DAS', 'E']);
+
+// Famílias com fonte externa que confirma a relação (pesquisa feita em
+// 2026-10-15) — as demais entram só com a ressalva do agrupamento automático.
+const FONTES_FAMILIAS_REAIS = {
+  'SETUBAL': [{ titulo: 'Acordo de Acionistas da IUPAR (Itaú)', url: 'https://www.itau.com.br/download-file/v2/d/42787847-4cf6-4461-94a5-40ed237dca33/3b3d1813-0316-47e2-9887-2415532d142d?origin=1' }],
+  'VILLELA': [{ titulo: 'Acordo de Acionistas da IUPAR (Itaú)', url: 'https://www.itau.com.br/download-file/v2/d/42787847-4cf6-4461-94a5-40ed237dca33/3b3d1813-0316-47e2-9887-2415532d142d?origin=1' }],
+  'MARINO': [{ titulo: 'Acordo de Acionistas da IUPAR (Itaú)', url: 'https://www.itau.com.br/download-file/v2/d/42787847-4cf6-4461-94a5-40ed237dca33/3b3d1813-0316-47e2-9887-2415532d142d?origin=1' }],
+  'SALLES': [{ titulo: 'Acordo de Acionistas da IUPAR (Itaú)', url: 'https://www.itau.com.br/download-file/v2/d/42787847-4cf6-4461-94a5-40ed237dca33/3b3d1813-0316-47e2-9887-2415532d142d?origin=1' }],
+  'MORAES': [{ titulo: 'Forbes — Lista de Bilionários Brasileiros (Votorantim/Ermírio de Moraes)', url: 'https://forbes.com.br/listas/bilionarios-brasileiros-2025/pg/4/' }],
+  'KLABIN': [{ titulo: 'Exame — Klabin propõe retrocesso em governança', url: 'https://exame.com/insight/klabin-propoe-retrocesso-em-governanca-mas-bndes-pode-reduzir-problema/p' }],
+  'GALVÃO': [{ titulo: 'Forbes — Lista de Bilionários Brasileiros (família Galvão, Klabin/Raia Drogasil)', url: 'https://forbes.com.br/listas/bilionarios-brasileiros-2025/pg/8/' }],
+  'JOHANNPETER': [{ titulo: 'Forbes — Lista de Bilionários Brasileiros (família Johannpeter/Gerdau)', url: 'https://forbes.com.br/listas/bilionarios-brasileiros-2021/' }],
+  'FEFFER': [{ titulo: 'Forbes — Lista de Bilionários Brasileiros (família Feffer/Suzano)', url: 'https://forbes.com.br/listas/bilionarios-brasileiros-2025/pg/9/' }],
+  'GUPER': [{ titulo: 'Forbes — Lista de Bilionários Brasileiros (Janet Guper, neta de Leon Feffer/Suzano)', url: 'https://forbes.com.br/listas/bilionarios-brasileiros-2025/pg/9/' }],
+  'QUEIROZ': [{ titulo: 'Exame — No agronegócio, chegou a vez do Minerva Foods (família Queiroz)', url: 'https://exame.com/revista-exame/chegou-a-vez-dele/' }],
+  'PIPPONZI': [{ titulo: 'Suno — Antônio Carlos Pipponzi (RD Saúde/RaiaDrogasil)', url: 'https://www.suno.com.br/tudo-sobre/antonio-carlos-pipponzi/' }],
+  'MOLL': [{ titulo: 'Seu Dinheiro — Jorge Neval Moll Filho, fundador da Rede D\'Or', url: 'https://www.seudinheiro.com/2019/candido-pinheiro/candido-pinheiro-bilionario-brasileiro/' }],
+  'KOREN DE LIMA': [{ titulo: 'Seu Dinheiro — Candido Pinheiro Koren de Lima, fundador da Hapvida', url: 'https://www.seudinheiro.com/2019/candido-pinheiro/candido-pinheiro-bilionario-brasileiro/' }],
+  'BIRMAN': [{ titulo: 'InfoMoney — Arezzo vira Azzas 2154 (bloco de controle de Alexandre Birman)', url: 'https://www.infomoney.com.br/business/arezzo-vai-se-chamar-azzas-2154-apos-fusao-com-grupo-soma/' }],
+  'STEINBRUCH': [{ titulo: 'Forbes — Lista de Bilionários Brasileiros (família Steinbruch/CSN)', url: 'https://forbes.com.br/listas/bilionarios-brasileiros-2025/' }],
+  'HORN': [{ titulo: 'InfoMoney — Elie Horn, fundador da Cyrela', url: 'https://www.infomoney.com.br/perfil/elie-horn/' }],
+  'LEMANN': [{ titulo: 'Wikipedia — Jorge Paulo Lemann (3G Capital/Ambev)', url: 'https://en.wikipedia.org/wiki/Jorge_Paulo_Lemann' }],
+  'JEREISSATI': [{ titulo: 'Forbes — Lista de Bilionários Brasileiros (família Jereissati/Iguatemi)', url: 'https://forbes.com.br/listas/bilionarios-brasileiros-2025/' }],
+  'VOIGT': [{ titulo: 'ND Mais — Fábrica de bilionários: quem é quem na família Voigt (WEG)', url: 'https://ndmais.com.br/cidadania/fabrica-de-bilionarios-quem-e-quem-na-familia-voigt-dona-da-multinacional-catarinense-weg/' }],
+  'TREJES': [{ titulo: 'ND Mais — Fábrica de bilionários: quem é quem na família Voigt (WEG)', url: 'https://ndmais.com.br/cidadania/fabrica-de-bilionarios-quem-e-quem-na-familia-voigt-dona-da-multinacional-catarinense-weg/' }],
+  'WERNINGHAUS': [{ titulo: 'NSC Total — Como a fábrica de bilionários de SC fez herdeiros escalarem no ranking dos super-ricos (WEG)', url: 'https://www.nsctotal.com.br/colunistas/pedro-machado/como-a-fabrica-de-bilionarios-de-sc-fez-herdeiros-escalarem-no-ranking-dos-super-ricos' }],
+  'WERNINGHAUS DE CARVALHO': [{ titulo: 'NSC Total — Como a fábrica de bilionários de SC fez herdeiros escalarem no ranking dos super-ricos (WEG)', url: 'https://www.nsctotal.com.br/colunistas/pedro-machado/como-a-fabrica-de-bilionarios-de-sc-fez-herdeiros-escalarem-no-ranking-dos-super-ricos' }],
+  'BEHNKE': [{ titulo: 'NSC Total — Como a fábrica de bilionários de SC fez herdeiros escalarem no ranking dos super-ricos (WEG)', url: 'https://www.nsctotal.com.br/colunistas/pedro-machado/como-a-fabrica-de-bilionarios-de-sc-fez-herdeiros-escalarem-no-ranking-dos-super-ricos' }],
+};
+
+function sobrenomeChave(nomeCompleto) {
+  let nome = nomeCompleto.replace(/\([^)]*\)/g, ' '); // remove parênteses (ex.: veículos trust)
+  nome = nome.replace(/^esp[óo]lio de\s+/i, '');
+  const partes = nome.trim().toUpperCase().split(/\s+/).filter(Boolean);
+  while (partes.length && SUFIXOS_GERACIONAIS.has(partes[partes.length - 1])) partes.pop();
+  if (!partes.length) return null;
+  const ultima = partes[partes.length - 1];
+  if (SOBRENOMES_EXCLUIDOS.has(ultima)) return null;
+  if (!SOBRENOMES_GENERICOS.has(ultima)) return ultima;
+  if (partes.length < 3) return null;
+  const composto = partes.slice(-3).join(' ');
+  return SOBRENOMES_EXCLUIDOS.has(composto) ? null : composto;
+}
+
+function tituloSobrenome(chave) {
+  return chave
+    .split(' ')
+    .map((p, i) => (i > 0 && PREPOSICOES_SOBRENOME.has(p) ? p.toLowerCase() : p.charAt(0) + p.slice(1).toLowerCase()))
+    .join(' ');
+}
+
+function detectarFamiliasReais(pessoas, pesoPorTicker, empresaPorTicker) {
+  const porChave = new Map();
+  for (const p of pessoas) {
+    const chave = sobrenomeChave(p.nome);
+    if (!chave) continue;
+    if (!porChave.has(chave)) porChave.set(chave, new Map());
+    const porPessoa = porChave.get(chave);
+    if (!porPessoa.has(p.nome)) porPessoa.set(p.nome, []);
+    porPessoa.get(p.nome).push(p);
+  }
+
+  const familias = [];
+  for (const [chave, porPessoa] of porChave) {
+    if (porPessoa.size < 2) continue;
+
+    const membros = [];
+    const empresasMap = new Map();
+    let pctIndice = 0;
+    let patrimonioRs = 0;
+
+    for (const [nome, linhas] of porPessoa) {
+      const partes = [];
+      for (const l of linhas) {
+        const peso = pesoPorTicker.get(l.ticker);
+        if (l.percentual_efetivo_na_empresa_pct != null && peso != null) {
+          pctIndice += (l.percentual_efetivo_na_empresa_pct * peso) / 100;
+        }
+        if (l.patrimonio_rs != null) patrimonioRs += l.patrimonio_rs;
+        partes.push(`${l.ticker} (${fmtPct(l.percentual_efetivo_na_empresa_pct)})`);
+        if (!empresasMap.has(l.ticker)) {
+          empresasMap.set(l.ticker, { tipo: 'ticker', ticker: l.ticker, empresa: empresaPorTicker.get(l.ticker) || l.empresa, badge: {} });
+        }
+      }
+      membros.push({ nome, relacao: partes.join(', ') });
+    }
+    membros.sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+
+    familias.push({
+      nome: `Família ${tituloSobrenome(chave)}`,
+      chaveNormalizada: chave,
+      fonte: 'cvm',
+      resumo:
+        'Agrupamento automático pelo sobrenome comum entre linhas da aba Pessoas — dado direto da CVM/FRE, ' +
+        'não pesquisa de imprensa. Os mesmos percentuais e valores já aparecem individualmente na aba Pessoas.',
+      membros,
+      fontes: FONTES_FAMILIAS_REAIS[chave] || [],
+      empresas: [...empresasMap.values()],
+      qtdEmpresas: empresasMap.size,
+      pctIndice,
+      patrimonioRs,
+    });
+  }
+
+  return familias;
 }
 
 function markSortedHeader(name, key) {
@@ -396,6 +528,12 @@ function montarDetalheFamilia(row) {
   return `<p class="pie-resumo">${row.resumo || ''}</p>${membros}${fontesHtml(row.fontes)}`;
 }
 
+function selodeFonte(row) {
+  return row.fonte === 'cvm'
+    ? '<span class="familia-fonte familia-fonte-cvm" title="Agrupamento automático por sobrenome, a partir de dado direto da CVM/FRE">CVM</span>'
+    : '<span class="familia-fonte familia-fonte-pesquisa" title="Pesquisa aberta (imprensa financeira), não é dado da CVM">pesquisa aberta</span>';
+}
+
 function renderFamilias() {
   const rows = filtrarAgrupado(state.data.familiasPorNome, state.filter.familias);
   const { key, dir } = state.sort.familias;
@@ -413,7 +551,8 @@ function renderFamilias() {
     toggle.className = 'familia-toggle';
     toggle.textContent = '▸';
     tdNome.appendChild(toggle);
-    tdNome.appendChild(document.createTextNode(' ' + row.nome));
+    tdNome.appendChild(document.createTextNode(' ' + row.nome + ' '));
+    tdNome.insertAdjacentHTML('beforeend', selodeFonte(row));
     tr.appendChild(tdNome);
 
     const tdIndice = document.createElement('td');
@@ -428,7 +567,9 @@ function renderFamilias() {
 
     const tdVia = document.createElement('td');
     tdVia.className = 'empresas-cell';
-    for (const e of row.empresas) tdVia.appendChild(entidadeBadge(e.nome, e.chave, e.badge));
+    for (const e of row.empresas) {
+      tdVia.appendChild(e.tipo === 'ticker' ? tickerRef(e.ticker, e.badge) : entidadeBadge(e.nome, e.chave, e.badge));
+    }
     tr.appendChild(tdVia);
 
     const trDetalhe = document.createElement('tr');
@@ -725,7 +866,10 @@ async function main() {
 
   const subEntidades = construirSubEntidades(state.data.acionistasPorNome, state.data.estruturaAcionistas);
   state.data.acionistasPorNome = [...state.data.acionistasPorNome, ...subEntidades.acionistas];
-  state.data.familiasPorNome = subEntidades.familias;
+
+  const empresaPorTicker = new Map(state.data.empresas.map((e) => [e.ticker, e.empresa]));
+  const familiasReais = detectarFamiliasReais(state.data.pessoas, pesoPorTicker, empresaPorTicker);
+  state.data.familiasPorNome = [...subEntidades.familias, ...familiasReais];
 
   renderKpis();
   for (const name of TABLE_NAMES) renderTableFor(name);
