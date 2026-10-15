@@ -355,6 +355,61 @@ td.empresas-cell .ticker-ref,
   color: inherit;
 }
 
+/* ---- Aba Famílias: linha clicável expande os integrantes ------------------ */
+
+.familia-row {
+  cursor: pointer;
+}
+
+.familia-toggle {
+  display: inline-block;
+  width: 1em;
+  color: var(--ink-40);
+  font-size: 10px;
+}
+
+.familia-row.is-expandida .familia-toggle,
+.familia-row.is-expandida td {
+  color: var(--green);
+}
+
+.familia-detalhe td {
+  background: var(--bar-bg);
+  padding: 14px 16px 16px 30px;
+  white-space: normal;
+  cursor: default;
+}
+
+.familia-detalhe .pie-resumo {
+  max-width: 720px;
+}
+
+.familia-membros {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 6px 16px;
+  max-width: 720px;
+}
+
+.familia-membros li {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.familia-membro-nome {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.familia-membro-relacao {
+  display: block;
+  color: var(--ink-50);
+  font-size: 11px;
+}
+
 /* ---- Popover com o gráfico de pizza dos acionistas ------------------------- */
 
 .pie-popover {

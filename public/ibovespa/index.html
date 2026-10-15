@@ -51,6 +51,7 @@
       <button class="tab is-active" role="tab" aria-selected="true" data-tab="empresas">Empresas</button>
       <button class="tab" role="tab" aria-selected="false" data-tab="acionistas">Acionistas</button>
       <button class="tab" role="tab" aria-selected="false" data-tab="pessoas">Pessoas</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="familias">Famílias</button>
     </nav>
 
     <p class="section-note">
@@ -104,7 +105,10 @@
         é sócio (não um ticker), com o mesmo popover; a <strong>% do Ibovespa</strong> dele
         já vem multiplicada pela cadeia (participação dentro do acionista-pai × % do
         Ibovespa do acionista-pai). Quando esse sócio já tem linha própria com dado real da
-        CVM (ex.: Itaúsa, sócia da IUPAR), ele não é duplicado aqui.
+        CVM (ex.: Itaúsa, sócia da IUPAR), ele não é duplicado aqui. Quando o sócio é uma
+        <strong>família</strong> (ex.: as três famílias fundadoras dentro da WPA
+        Participações, acionista da WEG), ele não aparece nesta aba — vai para a aba
+        <strong>Famílias</strong>, ao lado.
       </p>
       <input type="search" class="search" data-table="acionistas" placeholder="Buscar por nome ou empresa…" />
       <div class="table-wrap">
@@ -147,6 +151,34 @@
       </div>
     </section>
 
+    <section class="panel" id="panel-familias" role="tabpanel">
+      <p class="section-note">
+        Quando um acionista-pai curado (aba Acionistas) é dividido entre famílias — não
+        entre pessoas ou entidades individuais — cada família vira uma linha aqui em vez de
+        lá. <strong>% do Ibovespa</strong> é a mesma conta em cadeia da aba Acionistas
+        (participação da família dentro do acionista-pai × % do Ibovespa do acionista-pai).
+        <strong>Clique numa linha para expandir</strong> e ver os integrantes nomeados —
+        pesquisa aberta (imprensa financeira, não CVM), publicada com confirmação explícita
+        do dono deste site; cada família traz o link da reportagem de onde os nomes vieram.
+        Quando a pesquisa não encontrou a participação individual de cada herdeiro dentro da
+        família, isso fica dito no resumo — a lista de integrantes não implica percentual
+        igual entre eles.
+      </p>
+      <input type="search" class="search" data-table="familias" placeholder="Buscar por família ou acionista…" />
+      <div class="table-wrap">
+        <table id="table-familias">
+          <thead>
+            <tr>
+              <th data-sort="nome">Família</th>
+              <th data-sort="pctIndice" class="num">% do Ibovespa</th>
+              <th>Via</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
     <footer class="notes">
       <h2>Metodologia e limitações</h2>
       <ul>
@@ -178,6 +210,14 @@
           pesquisa (ex.: só um herdeiro nomeado numa holding familiar) — o restante fica de
           fora, sem virar linha própria. Dado sujeito a ficar desatualizado sem aviso; ver
           as fontes citadas em cada popover.</li>
+        <li><strong>Aba Famílias:</strong> nomes de herdeiros/integrantes de famílias
+          controladoras (ex.: as três famílias fundadoras da WEG) vêm de imprensa
+          financeira já amplamente publicada (Forbes, colunas de economia) sobre bilionários
+          identificados justamente por essa participação societária — não são pessoas
+          privadas sem relação com o mercado. Ainda assim é pesquisa aberta compilada, não
+          CVM: cada família lista as reportagens-fonte na própria aba, e a publicação dessas
+          informações foi uma decisão explícita do dono deste site (confirmada em
+          2026-10-15), não um padrão automático do dashboard.</li>
         <li>Recorte de uso pessoal, dados públicos, sem garantia de atualização
           contínua. Não é recomendação de investimento.</li>
       </ul>

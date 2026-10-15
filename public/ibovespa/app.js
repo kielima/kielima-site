@@ -5,7 +5,7 @@
 const fmtPct = (v) => (v == null || Number.isNaN(v) ? '—' : `${Number(v).toFixed(2)}%`);
 const fmtNum = (v) => (v == null ? '—' : Number(v).toLocaleString('pt-BR'));
 
-const TABLE_NAMES = ['empresas', 'acionistas', 'pessoas'];
+const TABLE_NAMES = ['empresas', 'acionistas', 'pessoas', 'familias'];
 const PIE_CORES = ['pie-1', 'pie-2', 'pie-3', 'pie-4', 'pie-5', 'pie-6'];
 const NOMES_RESIDUO = new Set(['Outros', 'Ações Tesouraria']);
 
@@ -15,8 +15,9 @@ const state = {
     empresas: { key: 'peso_ibov_pct', dir: -1 },
     acionistas: { key: 'pctIndice', dir: -1 },
     pessoas: { key: 'qtdEmpresas', dir: -1 },
+    familias: { key: 'pctIndice', dir: -1 },
   },
-  filter: { empresas: '', acionistas: '', pessoas: '' },
+  filter: { empresas: '', acionistas: '', pessoas: '', familias: '' },
 };
 
 const COLS = {
@@ -270,12 +271,15 @@ function agruparAcionistas(acionistas, pesoPorTicker) {
    um acionista curado (estrutura-acionistas.json) vira linha própria. Some
    quando o mesmo sub-acionista aparece sob mais de um acionista-pai; pula
    quando o sub-acionista já é ele mesmo um acionista com linha própria (dado
-   real da CVM) — nesse caso a linha existente já responde por ele. ------- */
+   real da CVM) — nesse caso a linha existente já responde por ele. Itens
+   marcados como "familia" não viram linha na aba Acionistas — viram linha
+   na aba Famílias, expansível para mostrar os integrantes nomeados. ------- */
 
-function construirSubAcionistas(acionistasPorNome, estrutura) {
-  if (!estrutura) return [];
+function construirSubEntidades(acionistasPorNome, estrutura) {
+  if (!estrutura) return { acionistas: [], familias: [] };
   const chavesExistentes = new Set(acionistasPorNome.map((r) => r.chaveNormalizada));
-  const porChave = new Map();
+  const porChaveAcionista = new Map();
+  const porChaveFamilia = new Map();
 
   for (const pai of acionistasPorNome) {
     const info = estrutura[pai.chaveNormalizada];
@@ -284,26 +288,46 @@ function construirSubAcionistas(acionistasPorNome, estrutura) {
       if (RESIDUO_GENERICO.test(item.nome)) continue;
       const chave = normalizarNomeAcionista(item.nome);
       if (chavesExistentes.has(chave)) continue;
-      if (!porChave.has(chave)) porChave.set(chave, { nome: item.nome, chaveNormalizada: chave, empresas: [] });
       const pctAqui = numeric(item.pct) ?? 0;
-      porChave.get(chave).empresas.push({
+      const linkPai = {
         tipo: 'entidade',
         chave: pai.chaveNormalizada,
         nome: pai.nome,
         pct: pctAqui,
         badge: { pct: fmtPct(pctAqui) },
-      });
+      };
+
+      if (item.familia) {
+        if (!porChaveFamilia.has(chave)) {
+          porChaveFamilia.set(chave, {
+            nome: item.nome,
+            chaveNormalizada: chave,
+            empresas: [],
+            resumo: item.familia.resumo || '',
+            membros: item.familia.membros || [],
+            fontes: item.familia.fontes || [],
+          });
+        }
+        porChaveFamilia.get(chave).empresas.push(linkPai);
+      } else {
+        if (!porChaveAcionista.has(chave)) porChaveAcionista.set(chave, { nome: item.nome, chaveNormalizada: chave, empresas: [] });
+        porChaveAcionista.get(chave).empresas.push(linkPai);
+      }
     }
   }
 
-  return [...porChave.values()].map((r) => ({
-    ...r,
-    qtdEmpresas: r.empresas.length,
-    pctIndice: r.empresas.reduce((soma, e) => {
-      const pai = acionistasPorNome.find((p) => p.chaveNormalizada === e.chave);
-      return soma + (pai ? (e.pct * pai.pctIndice) / 100 : 0);
-    }, 0),
-  }));
+  function finalizar(mapa) {
+    return [...mapa.values()].map((r) => ({
+      ...r,
+      qtdEmpresas: r.empresas.length,
+      pctIndice: r.empresas.reduce((soma, e) => {
+        const pai = acionistasPorNome.find((p) => p.chaveNormalizada === e.chave);
+        return soma + (pai ? (e.pct * pai.pctIndice) / 100 : 0);
+      }, 0),
+    }));
+  }
+
+  return { acionistas: finalizar(porChaveAcionista), familias: finalizar(porChaveFamilia) };
 }
 
 function markSortedHeader(name, key) {
@@ -315,7 +339,79 @@ function markSortedHeader(name, key) {
 function renderTableFor(name) {
   if (name === 'pessoas') renderAgrupado('pessoas', true);
   else if (name === 'acionistas') renderAgrupado('acionistas', true);
+  else if (name === 'familias') renderFamilias();
   else renderTable(name);
+}
+
+/* ---- Famílias: holdings de família (ex.: as 3 famílias fundadoras da WEG --
+   dentro da WPA Participações) — clique na linha expande e mostra os
+   integrantes nomeados, pesquisados abertamente (não são dado da CVM). --- */
+
+function montarDetalheFamilia(row) {
+  const membros =
+    row.membros && row.membros.length
+      ? `<ul class="familia-membros">${row.membros
+          .map(
+            (m) =>
+              `<li><span class="familia-membro-nome">${m.nome}</span>${
+                m.relacao ? `<span class="familia-membro-relacao">${m.relacao}</span>` : ''
+              }</li>`
+          )
+          .join('')}</ul>`
+      : '<p class="pie-resumo">Integrantes não identificados publicamente.</p>';
+  return `<p class="pie-resumo">${row.resumo || ''}</p>${membros}${fontesHtml(row.fontes)}`;
+}
+
+function renderFamilias() {
+  const rows = filtrarAgrupado(state.data.familiasPorNome, state.filter.familias);
+  const { key, dir } = state.sort.familias;
+  const sorted = sortRows(rows, key, dir);
+  const tbody = document.querySelector('#table-familias tbody');
+  const frag = document.createDocumentFragment();
+
+  for (const row of sorted) {
+    const tr = document.createElement('tr');
+    tr.className = 'familia-row';
+    tr.tabIndex = 0;
+
+    const tdNome = document.createElement('td');
+    const toggle = document.createElement('span');
+    toggle.className = 'familia-toggle';
+    toggle.textContent = '▸';
+    tdNome.appendChild(toggle);
+    tdNome.appendChild(document.createTextNode(' ' + row.nome));
+    tr.appendChild(tdNome);
+
+    const tdIndice = document.createElement('td');
+    tdIndice.className = 'num';
+    tdIndice.textContent = fmtPct(row.pctIndice);
+    tr.appendChild(tdIndice);
+
+    const tdVia = document.createElement('td');
+    tdVia.className = 'empresas-cell';
+    for (const e of row.empresas) tdVia.appendChild(entidadeBadge(e.nome, e.chave, e.badge));
+    tr.appendChild(tdVia);
+
+    const trDetalhe = document.createElement('tr');
+    trDetalhe.className = 'familia-detalhe';
+    trDetalhe.hidden = true;
+    const tdDetalhe = document.createElement('td');
+    tdDetalhe.colSpan = 3;
+    tdDetalhe.innerHTML = montarDetalheFamilia(row);
+    trDetalhe.appendChild(tdDetalhe);
+
+    tr.addEventListener('click', () => {
+      const abrindo = trDetalhe.hidden;
+      trDetalhe.hidden = !abrindo;
+      toggle.textContent = abrindo ? '▾' : '▸';
+      tr.classList.toggle('is-expandida', abrindo);
+    });
+
+    frag.appendChild(tr);
+    frag.appendChild(trDetalhe);
+  }
+  tbody.replaceChildren(frag);
+  markSortedHeader('familias', key);
 }
 
 function renderKpis() {
@@ -581,8 +677,9 @@ async function main() {
   state.data.acionistasPorNome = agruparAcionistas(state.data.acionistas, pesoPorTicker);
   state.data.acionistasPorTicker = agruparAcionistasPorTicker(state.data.acionistas);
 
-  const subAcionistas = construirSubAcionistas(state.data.acionistasPorNome, state.data.estruturaAcionistas);
-  state.data.acionistasPorNome = [...state.data.acionistasPorNome, ...subAcionistas];
+  const subEntidades = construirSubEntidades(state.data.acionistasPorNome, state.data.estruturaAcionistas);
+  state.data.acionistasPorNome = [...state.data.acionistasPorNome, ...subEntidades.acionistas];
+  state.data.familiasPorNome = subEntidades.familias;
 
   renderKpis();
   for (const name of TABLE_NAMES) renderTableFor(name);
