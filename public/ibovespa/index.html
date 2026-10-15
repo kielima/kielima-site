@@ -45,6 +45,10 @@
         <span class="kpi-value" id="kpi-mais-concentrada">—</span>
         <span class="kpi-label">mais concentrada</span>
       </div>
+      <div class="kpi-tile">
+        <span class="kpi-value" id="kpi-valor-total">—</span>
+        <span class="kpi-label">valor de mercado do recorte</span>
+      </div>
     </section>
 
     <nav class="tabs" role="tablist" aria-label="Seções do banco de dados">
@@ -64,7 +68,9 @@
         <strong>Dispersos %</strong> = % da empresa que não está com o controlador, a
         administração, a tesouraria nem nenhum investidor individualmente nomeado (ex.:
         BlackRock, BNDESPAR) — é a linha "Outros" do item 15.1/2 do Formulário de
-        Referência. Quanto maior, mais pulverizada.
+        Referência. Quanto maior, mais pulverizada. <strong>Valor de mercado</strong> vem de
+        uma API pública de cotações (ver rodapé) — é o valor de mercado da companhia inteira
+        (preço × ações totais), não só do capital que circula.
       </p>
       <input type="search" class="search" data-table="empresas" placeholder="Buscar por ticker, empresa ou setor…" />
       <div class="table-wrap">
@@ -77,6 +83,7 @@
               <th data-sort="peso_ibov_pct" class="num">Peso Ibov %</th>
               <th data-sort="free_float_cvm_pct" class="num">Free float CVM %</th>
               <th data-sort="pct_acionistas_dispersos" class="num">Dispersos %</th>
+              <th data-sort="valor_mercado_rs" class="num">Valor de mercado</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -108,7 +115,9 @@
         CVM (ex.: Itaúsa, sócia da IUPAR), ele não é duplicado aqui. Quando o sócio é uma
         <strong>família</strong> (ex.: as três famílias fundadoras dentro da WPA
         Participações, acionista da WEG), ele não aparece nesta aba — vai para a aba
-        <strong>Famílias</strong>, ao lado.
+        <strong>Famílias</strong>, ao lado. <strong>Patrimônio (R$)</strong> multiplica a %
+        declarada em cada empresa pelo valor de mercado dela, e soma entre as empresas —
+        mesma lógica do % do Ibovespa, mas em reais em vez de fatia do índice.
       </p>
       <input type="search" class="search" data-table="acionistas" placeholder="Buscar por nome ou empresa…" />
       <div class="table-wrap">
@@ -118,6 +127,7 @@
               <th data-sort="nome">Nome</th>
               <th data-sort="qtdEmpresas" class="num">Nº empresas</th>
               <th data-sort="pctIndice" class="num">% do Ibovespa</th>
+              <th data-sort="patrimonioRs" class="num">Patrimônio (R$)</th>
               <th>Empresas</th>
             </tr>
           </thead>
@@ -132,9 +142,12 @@
         societária inteira (do topo, que é % da empresa, até a pessoa) — não é o
         percentual de um elo isolado (diferente da aba Acionistas, que traz o percentual
         direto declarado). <strong>Nº empresas</strong> conta em quantas empresas do
-        recorte a pessoa tem participação. Passe o mouse sobre o código de cada empresa
-        para ver o percentual efetivo dela ali, o número de veículos societários, se é
-        controladora, e o gráfico de acionistas da empresa.
+        recorte a pessoa tem participação. <strong>Patrimônio (R$)</strong> multiplica
+        esse percentual efetivo pelo valor de mercado de cada empresa e soma entre elas —
+        é uma estimativa do valor das ações que a pessoa teria nessa cadeia, ao valor de
+        mercado capturado (ver rodapé), não um patrimônio total declarado. Passe o mouse
+        sobre o código de cada empresa para ver o percentual efetivo dela ali, o número de
+        veículos societários, se é controladora, e o gráfico de acionistas da empresa.
       </p>
       <input type="search" class="search" data-table="pessoas" placeholder="Buscar por nome ou empresa…" />
       <div class="table-wrap">
@@ -143,6 +156,7 @@
             <tr>
               <th data-sort="nome">Nome</th>
               <th data-sort="qtdEmpresas" class="num">Nº empresas</th>
+              <th data-sort="patrimonioRs" class="num">Patrimônio (R$)</th>
               <th>Empresas</th>
             </tr>
           </thead>
@@ -162,7 +176,8 @@
         do dono deste site; cada família traz o link da reportagem de onde os nomes vieram.
         Quando a pesquisa não encontrou a participação individual de cada herdeiro dentro da
         família, isso fica dito no resumo — a lista de integrantes não implica percentual
-        igual entre eles.
+        igual entre eles. <strong>Patrimônio (R$)</strong> segue a mesma cadeia: % da
+        família dentro do acionista-pai × patrimônio em R$ já calculado do acionista-pai.
       </p>
       <input type="search" class="search" data-table="familias" placeholder="Buscar por família ou acionista…" />
       <div class="table-wrap">
@@ -171,6 +186,7 @@
             <tr>
               <th data-sort="nome">Família</th>
               <th data-sort="pctIndice" class="num">% do Ibovespa</th>
+              <th data-sort="patrimonioRs" class="num">Patrimônio (R$)</th>
               <th>Via</th>
             </tr>
           </thead>
@@ -194,8 +210,15 @@
           jurídica como pessoa física por erro de preenchimento da empresa (ex.: um
           investidor institucional estrangeiro aparecendo na lista de pessoas). Sem
           curadoria manual nesta versão.</li>
-        <li><strong>Patrimônio em R$</strong> ainda não foi calculado — exige valor de
-          mercado de cada empresa, fonte ainda não integrada.</li>
+        <li><strong>Patrimônio em R$</strong> usa o valor de mercado de cada empresa
+          (preço de fechamento × ações totais) vindo da API pública e gratuita da
+          <a href="https://brapi.dev" target="_blank" rel="noopener">brapi.dev</a>,
+          capturado em <span id="valor-mercado-capturado">—</span> — é uma foto de um
+          momento, não um valor ao vivo, e some/sobe com a bolsa de um dia pro outro.
+          Não existe free float aqui: o valor de mercado é da companhia inteira, incluindo
+          as ações que não circulam. Para empresas com "units" (código terminado em 11,
+          ex.: BPAC11), o valor vem das classes de ação que a compõem, que bateram entre
+          si na captura.</li>
         <li><strong>Aba Acionistas:</strong> o mesmo acionista (ex.: BlackRock) às vezes é
           grafado de formas diferentes em empresas diferentes (maiúsculas, pontuação,
           "Fundos administrados por X"). O dashboard normaliza essas variações pra
