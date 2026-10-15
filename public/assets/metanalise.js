@@ -201,16 +201,16 @@
      duplicatas e sem-acesso); da Etapa 1 em diante contam-se só linhas
      com status_triagem diferente de Duplicado (desde 2026-09-27: antes
      entravam 6-7 duplicatas com E1 preenchido); cada etapa seguinte é
-     sempre um subconjunto Aceito da anterior. e4.principal + e4.sensibilidade = e4.n = os 470
+     sempre um subconjunto Aceito da anterior. e4.principal + e4.sensibilidade = e4.n = os 468
      artigos Elegíveis (2 terços de melhor qualidade formam o resultado
      principal); as 58 revisões sem ACV própria que também sobrevivem à
      Etapa 3 ficam fora desta barra — ver funnelRevisaoNote. */
   var FUNNEL = [
     { key: 'universo', n: 5093 },
     { key: 'e1', n: 2193 },
-    { key: 'e2', n: 546 },
-    { key: 'e3', n: 528 },
-    { key: 'e4', n: 470, principal: 366, sensibilidade: 104 }
+    { key: 'e2', n: 544 },
+    { key: 'e3', n: 526 },
+    { key: 'e4', n: 468, principal: 365, sensibilidade: 103 }
   ];
 
   /* Registos por base de dados, antes da remoção de duplicatas -- mesmos
@@ -260,7 +260,7 @@
       kpiReleituraLabel: 'lotes da releitura integral concluídos',
       kpiCompletoLabel: 'dos artigos aceitos com resistência e CO₂ já extraídos',
       funnelLabel: 'TRIAGEM',
-      funnelTitle: 'O funil da triagem: de 5.093 registos a 470 artigos',
+      funnelTitle: 'O funil da triagem: de 5.093 registos a 468 artigos',
       funnelP: 'A revisão sistemática passa por quatro etapas antes de um artigo entrar na metanálise: metadados, leitura do PDF completo, restrição geográfica do material e, por fim, qualidade metodológica. Cada barra mostra quantos artigos sobrevivem a cada etapa, a partir do banco completo de registos recolhidos nas buscas.',
       funnelStages: {
         universo: 'Banco completo (buscas + duplicatas removidas)',
@@ -283,11 +283,11 @@
         QG: { label: 'Dispersão/intervalo de confiança declarado', desc: 'O artigo dá meio de calcular um intervalo de confiança do ci daquela mistura — só conta dispersão medida pelo próprio artigo, nunca citada de outro estudo.' }
       },
       funnelDetails: {
-        universo: '5.093 registos recolhidos nas buscas. 2.628 (51,6%) eram duplicados, removidos antes de qualquer triagem. 1.930 foram rejeitados ao longo das quatro etapas seguintes — ver o detalhe em cada barra abaixo. 7 nunca tiveram o texto completo disponível (sem acesso). Os 528 restantes — 470 elegíveis + 58 revisões sem ACV própria — chegam todos à Etapa 4.',
+        universo: '5.093 registos recolhidos nas buscas. 2.628 (51,6%) eram duplicados, removidos antes de qualquer triagem. 1.932 foram rejeitados ao longo das quatro etapas seguintes — ver o detalhe em cada barra abaixo. 7 nunca tiveram o texto completo disponível (sem acesso). Os 528 restantes — 470 elegíveis + 58 revisões sem ACV própria — chegam todos à Etapa 4.',
         e1: 'Dos 2.465 registos avaliados nos metadados (ano, tipo de documento, material moldável, aplicação em construção), 2.193 foram aceites. Os 272 excluídos falharam por: aplicação em construção (190), material não moldável (71), tipo de documento (9), ano de publicação (1) — um registo pode falhar mais de um critério.',
-        e2: 'Dos 2.187 artigos com PDF lido na íntegra, 546 foram aceites. Dos 1.641 excluídos: 1.303 não relatavam resistência à compressão própria pareável a um CO₂ próprio, 440 não relatavam CO₂/ACV com resultado absoluto — alguns falham nos dois critérios.',
-        e3: 'Dos 542 artigos avaliados quanto à restrição geográfica do material, 528 foram aceites; 14 foram excluídos por o material principal ser geograficamente restrito (ex.: resíduo de produção regional concentrada).',
-        e4: 'Dos 528 artigos avaliados na Etapa 4 (checklist de 7 itens, 0 a 7 pontos): 366 formam o resultado principal (score ≥ 4,0), 104 entram só na análise de sensibilidade (score < 4,0), e 58 são revisões sem avaliação de ciclo de vida própria — não pontuam para o indicador ci, mas alimentam o ramo de citação do PRISMA (fontes primárias descobertas por essas revisões).'
+        e2: 'Dos 2.187 artigos com PDF lido na íntegra, 544 foram aceites. Dos 1.643 excluídos: 1.303 não relatavam resistência à compressão própria pareável a um CO₂ próprio, 442 não relatavam CO₂/ACV com resultado absoluto — alguns falham nos dois critérios.',
+        e3: 'Dos 540 artigos avaliados quanto à restrição geográfica do material, 526 foram aceites; 14 foram excluídos por o material principal ser geograficamente restrito (ex.: resíduo de produção regional concentrada).',
+        e4: 'Dos 526 artigos avaliados na Etapa 4 (checklist de 7 itens, 0 a 7 pontos): 365 formam o resultado principal (score ≥ 4,0), 103 entram só na análise de sensibilidade (score < 4,0), e 58 são revisões sem avaliação de ciclo de vida própria — não pontuam para o indicador ci, mas alimentam o ramo de citação do PRISMA (fontes primárias descobertas por essas revisões).'
       },
       tierLabel: 'ESTRATIFICAÇÃO POR QUALIDADE',
       tierTitle: 'Resultado principal × análise de sensibilidade',
@@ -419,7 +419,7 @@
       kpiReleituraLabel: 'batches of the full re-read completed',
       kpiCompletoLabel: 'of accepted articles with strength and CO₂ already extracted',
       funnelLabel: 'SCREENING',
-      funnelTitle: 'The screening funnel: from 5,093 records to 470 articles',
+      funnelTitle: 'The screening funnel: from 5,093 records to 468 articles',
       funnelP: "The systematic review runs through four stages before an article enters the meta-analysis: metadata, full-PDF reading, the material's geographic restriction, and finally methodological quality. Each bar shows how many articles survive each stage, starting from the full pool of records collected in the searches.",
       funnelStages: {
         universo: 'Full database (searches + duplicates removed)',
@@ -442,11 +442,11 @@
         QG: { label: 'Declared dispersion / confidence interval', desc: 'The article gives a way to compute a confidence interval for that mixture’s ci — only counts dispersion measured by the article itself, never cited from a different study.' }
       },
       funnelDetails: {
-        universo: "5,093 records collected in the searches. 2,628 (51.6%) were duplicates, removed before any screening. 1,930 were rejected across the four stages that follow — see the detail in each bar below. 7 never had the full text available (no access). The remaining 528 — 470 eligible + 58 reviews without their own LCA — all reach Stage 4.",
+        universo: "5,093 records collected in the searches. 2,628 (51.6%) were duplicates, removed before any screening. 1,932 were rejected across the four stages that follow — see the detail in each bar below. 7 never had the full text available (no access). The remaining 528 — 470 eligible + 58 reviews without their own LCA — all reach Stage 4.",
         e1: 'Of the 2,465 records screened on metadata (year, document type, moldable material, construction application), 2,193 were accepted. The 272 excluded failed on: construction application (190), non-moldable material (71), document type (9), publication year (1) — a record can fail more than one criterion.',
-        e2: 'Of the 2,187 articles fully read as PDF, 546 were accepted. Of the 1,641 excluded: 1,303 did not report their own compressive strength paired with their own CO₂, 440 did not report CO₂/LCA with an absolute result — some fail both criteria.',
-        e3: "Of the 542 articles assessed for the material's geographic restriction, 528 were accepted; 14 were excluded because the main material is geographically restricted (e.g. a regionally concentrated production by-product).",
-        e4: "Of the 528 articles assessed in Stage 4 (a 7-item checklist, 0 to 7 points): 366 form the main result (score ≥ 4.0), 104 enter only the sensitivity analysis (score < 4.0), and 58 are reviews without their own life-cycle assessment — they don't score toward the ci indicator, but feed the PRISMA citation branch (primary sources discovered through those reviews)."
+        e2: 'Of the 2,187 articles fully read as PDF, 544 were accepted. Of the 1,643 excluded: 1,303 did not report their own compressive strength paired with their own CO₂, 442 did not report CO₂/LCA with an absolute result — some fail both criteria.',
+        e3: "Of the 540 articles assessed for the material's geographic restriction, 526 were accepted; 14 were excluded because the main material is geographically restricted (e.g. a regionally concentrated production by-product).",
+        e4: "Of the 526 articles assessed in Stage 4 (a 7-item checklist, 0 to 7 points): 365 form the main result (score ≥ 4.0), 103 enter only the sensitivity analysis (score < 4.0), and 58 are reviews without their own life-cycle assessment — they don't score toward the ci indicator, but feed the PRISMA citation branch (primary sources discovered through those reviews)."
       },
       tierLabel: 'QUALITY STRATIFICATION',
       tierTitle: 'Main result × sensitivity analysis',
@@ -578,7 +578,7 @@
       kpiReleituraLabel: '完整复读批次已完成',
       kpiCompletoLabel: '已入选文献中强度与CO₂均已提取的比例',
       funnelLabel: '筛选',
-      funnelTitle: '筛选漏斗：从5,093条记录到470篇文献',
+      funnelTitle: '筛选漏斗：从5,093条记录到468篇文献',
       funnelP: '系统综述在文献进入荟萃分析之前要经过四个阶段：元数据、通读全文PDF、材料的地域限制，最后是方法学质量。每一条柱状图显示从检索收集到的全部记录出发，有多少文献在每个阶段存活下来。',
       funnelStages: {
         universo: '完整数据库（检索结果，已去重）',
@@ -601,11 +601,11 @@
         QG: { label: '已声明的离散程度/置信区间', desc: '文章提供了计算该配方ci置信区间所需的信息——只计入文章本身测量得到的离散程度，不计入引用自其他研究的数值。' }
       },
       funnelDetails: {
-        universo: '检索共收集5,093条记录。其中2,628条（51.6%）为重复记录，在任何筛选之前已被移除。1,930条在随后四个阶段中被剔除——详见下方各阶段柱状图。7条从未能获取全文（无法访问）。剩余528条——470篇入选文献+58篇无自身生命周期评估的综述——全部进入第4阶段。',
+        universo: '检索共收集5,093条记录。其中2,628条（51.6%）为重复记录，在任何筛选之前已被移除。1,932条在随后四个阶段中被剔除——详见下方各阶段柱状图。7条从未能获取全文（无法访问）。剩余528条——470篇入选文献+58篇无自身生命周期评估的综述——全部进入第4阶段。',
         e1: '在按元数据（年份、文献类型、可模塑材料、建筑用途）筛选的2,465条记录中，2,193条被接受。被排除的272条中：190条因不属于建筑用途，71条因材料不可模塑，9条因文献类型，1条因发表年份——同一记录可能同时不符合多项标准。',
-        e2: '在通读全文PDF的2,187篇文献中，546篇被接受。被排除的1,641篇中：1,303篇未报告可与自身CO₂配对的自身抗压强度，440篇未报告有绝对数值的CO₂/生命周期评估结果——部分文献两项标准都未满足。',
-        e3: '在评估材料地域限制的542篇文献中，528篇被接受；14篇因主要材料受地域限制（例如某地区高度集中的生产副产品）而被排除。',
-        e4: '在第4阶段（7项清单，0至7分）评估的528篇文献中：366篇构成主要结果（得分≥4.0），104篇仅用于敏感性分析（得分<4.0），58篇是没有自身生命周期评估的综述——不计入ci指标得分，但作为PRISMA引文分支的来源（这些综述引用的原始研究）。'
+        e2: '在通读全文PDF的2,187篇文献中，544篇被接受。被排除的1,643篇中：1,303篇未报告可与自身CO₂配对的自身抗压强度，442篇未报告有绝对数值的CO₂/生命周期评估结果——部分文献两项标准都未满足。',
+        e3: '在评估材料地域限制的540篇文献中，526篇被接受；14篇因主要材料受地域限制（例如某地区高度集中的生产副产品）而被排除。',
+        e4: '在第4阶段（7项清单，0至7分）评估的526篇文献中：365篇构成主要结果（得分≥4.0），103篇仅用于敏感性分析（得分<4.0），58篇是没有自身生命周期评估的综述——不计入ci指标得分，但作为PRISMA引文分支的来源（这些综述引用的原始研究）。'
       },
       tierLabel: '质量分层',
       tierTitle: '主要结果 × 敏感性分析',
@@ -771,7 +771,7 @@
   /* -------------------------------------------------------- gráfico: kpi */
 
   var KPI_VALUES = {
-    funil: 470,
+    funil: 468,
     vida: 118,
     releitura: '64/68',
     /* % de artigos Elegível com pelo menos um par fck+CO2 completo em
@@ -807,7 +807,10 @@
        sem volume, CO2 parcial ou sem kg) rejeitados em E2_co2 -> 471
        Elegivel; 403 com par no painel = 86%. vida = 119 Elegivel com
        vida_util_anos. 5046 SILVA verificada depois (F18) -> 470 Elegivel,
-       vida 118, 403/470 = 86%. */
+       vida 118, 403/470 = 86%.
+       Snapshot 2026-10-15 (F20): CHOI 4620 e MITOULIS 3691 rejeitados em
+       E2_co2 (factor generico ICE, sem volume de betao) -> 468 Elegivel,
+       vida 118, 403/468 = 86%. */
     completo: 86
   };
 
