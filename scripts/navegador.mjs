@@ -218,7 +218,7 @@ const navegador = await chromium.launch({
 /* ---- Hub de links -------------------------------------------------------- */
 {
   const tree = await abrir(navegador, '/tree/');
-  await conferirIdiomas(tree, { '.tree-links a': 5, '.tree-link': 1 });
+  await conferirIdiomas(tree, { '.tree-links a': 5, '.tree-link': 2 });
   await conferirPix(tree);
 
   // O avatar é a única imagem do site: se o arquivo sumir num rename, a página
