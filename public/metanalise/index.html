@@ -222,6 +222,64 @@
       </div>
     </section>
 
+    <section class="meta-section" id="mapa-section">
+      <h2 data-i18n="mapaTitle"></h2>
+      <p data-i18n="mapaP"></p>
+      <div class="univ-filter" role="radiogroup" aria-labelledby="univ-mapa-label">
+        <span class="section-label" id="univ-mapa-label" data-i18n="univLabel"></span>
+        <div class="tier-filter base-filter">
+          <label class="tier-chip">
+            <input type="radio" name="univ-mapa" value="todos" id="univ-mapa-todos" checked>
+            <span data-i18n="univTodos"></span>
+            <span class="tier-n" id="univ-mapa-n-todos">—</span>
+          </label>
+          <label class="tier-chip">
+            <input type="radio" name="univ-mapa" value="meta" id="univ-mapa-meta">
+            <span data-i18n="univMeta"></span>
+            <span class="tier-n" id="univ-mapa-n-meta">—</span>
+          </label>
+        </div>
+      </div>
+      <div class="meta-card mapa-wrap" id="mapa-wrap">
+        <svg class="mapa-svg" id="mapa-svg" role="img" aria-label="Mapa"></svg>
+        <div class="mapa-legend" id="mapa-legend"></div>
+        <div class="scatter-tooltip" id="mapa-tooltip"></div>
+      </div>
+      <div class="meta-card pais-card">
+        <p class="pais-resumo" id="mapa-resumo"></p>
+        <ol class="pais-list" id="pais-list"></ol>
+        <button type="button" class="pais-mais" id="pais-mais" aria-controls="pais-list" hidden></button>
+      </div>
+    </section>
+
+    <section class="meta-section" id="rede-section">
+      <h2 data-i18n="redeTitle"></h2>
+      <p data-i18n="redeP"></p>
+      <div class="univ-filter" role="radiogroup" aria-labelledby="univ-rede-label">
+        <span class="section-label" id="univ-rede-label" data-i18n="univLabel"></span>
+        <div class="tier-filter base-filter">
+          <label class="tier-chip">
+            <input type="radio" name="univ-rede" value="todos" id="univ-rede-todos" checked>
+            <span data-i18n="univTodos"></span>
+            <span class="tier-n" id="univ-rede-n-todos">—</span>
+          </label>
+          <label class="tier-chip">
+            <input type="radio" name="univ-rede" value="meta" id="univ-rede-meta">
+            <span data-i18n="univMeta"></span>
+            <span class="tier-n" id="univ-rede-n-meta">—</span>
+          </label>
+        </div>
+      </div>
+      <div class="meta-card rede-wrap" id="rede-wrap">
+        <div class="rede-scroll">
+          <svg class="rede-svg" id="rede-svg" role="img" aria-label="Rede"></svg>
+        </div>
+        <div class="mapa-legend" id="rede-legend"></div>
+        <p class="pais-resumo" id="rede-resumo"></p>
+        <div class="scatter-tooltip" id="rede-tooltip"></div>
+      </div>
+    </section>
+
     <section class="meta-section">
       <span class="section-label" data-i18n="noteTitle"></span>
       <p class="meta-note" data-i18n="noteP"></p>

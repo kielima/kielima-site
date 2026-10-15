@@ -326,6 +326,30 @@ const navegador = await chromium.launch({
   else if (!excl.aberto || excl.n < 1 || excl.motivo.length < 10) problemas.push(`/metanalise/: a barra das excluídas não abriu a lista com motivo (${excl.n} linhas)`);
   const outros = await meta.pagina.evaluate(() => [...document.querySelectorAll('.unit-name')].some((el) => /não classificado/.test(el.textContent)));
   if (outros) problemas.push('/metanalise/: o gráfico de unidades ainda tem a barra «outro / não classificado»');
+  // Kiê (2026-10-13/14): mapa de países e rede temporal de citações, com os dois universos.
+  await meta.pagina.waitForFunction(() => document.querySelectorAll('#mapa-svg path.tem').length > 10, null, { timeout: 10000 })
+    .catch(() => problemas.push('/metanalise/: o mapa de países não desenhou os países com artigos'));
+  const mapa = await meta.pagina.evaluate(() => ({
+    paises: document.querySelectorAll('#mapa-svg path').length,
+    lista: document.querySelectorAll('#pais-list .pais-row').length,
+    nos: document.querySelectorAll('#rede-svg .rede-no').length,
+    ligs: document.querySelectorAll('#rede-svg .rede-lig').length,
+  }));
+  if (mapa.paises < 150) problemas.push(`/metanalise/: o mapa tem só ${mapa.paises} países desenhados`);
+  if (mapa.lista < 10) problemas.push(`/metanalise/: a lista de países tem só ${mapa.lista} linhas`);
+  if (mapa.nos < 300 || mapa.ligs < 100) problemas.push(`/metanalise/: a rede de citações tem ${mapa.nos} pontos e ${mapa.ligs} ligações`);
+  await meta.pagina.hover('#mapa-svg path.tem');
+  const tipMapa = await meta.pagina.evaluate(() => document.getElementById('mapa-tooltip').textContent);
+  if (!/\d/.test(tipMapa)) problemas.push('/metanalise/: o tooltip do mapa não mostrou o número de artigos');
+  await meta.pagina.click('#univ-rede-meta');
+  await meta.pagina.waitForTimeout(150);
+  const meta2 = await meta.pagina.evaluate(() => ({
+    nos: document.querySelectorAll('#rede-svg .rede-no').length,
+    outro: document.getElementById('univ-mapa-meta').checked,
+  }));
+  if (!(meta2.nos < mapa.nos)) problemas.push('/metanalise/: o botão «só metanálise» não reduziu a rede');
+  if (!meta2.outro) problemas.push('/metanalise/: os botões de universo do mapa e da rede não ficaram sincronizados');
+  await meta.pagina.click('#univ-rede-todos');
 
   await meta.ctx.close();
   await abrir(navegador, '/metanalise/', { tema: 'dark' }).then((r) => r.ctx.close());
