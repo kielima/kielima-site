@@ -13,7 +13,8 @@
   /* O destino e o ícone não são texto traduzível — ficam aqui para não haver
      três lugares onde errar uma URL. `icon` casa com um <template> no HTML. */
   var CARDS = [
-    { id: 'ppt', href: '/ppt', icon: 'deck' }
+    { id: 'ppt', href: '/ppt', icon: 'deck' },
+    { id: 'ibovespa', href: '/ibovespa', icon: 'chart' }
   ];
 
   var COPY = {
@@ -34,6 +35,10 @@
         ppt: {
           title: 'Apresentações',
           desc: 'Apresentações interativas, abertas no navegador de qualquer dispositivo.'
+        },
+        ibovespa: {
+          title: 'Banco de dados Ibovespa',
+          desc: 'Quem controla cada empresa do índice: acionistas, pulverização e free float, a partir de dados públicos da CVM e da B3.'
         }
       }
     },
@@ -55,6 +60,10 @@
         ppt: {
           title: 'Presentations',
           desc: 'Interactive presentations, opened in the browser on any device.'
+        },
+        ibovespa: {
+          title: 'Ibovespa Shareholder Database',
+          desc: 'Who controls each index company: shareholders, free float and dispersion, from public CVM and B3 data.'
         }
       }
     },
@@ -76,6 +85,10 @@
         ppt: {
           title: '演示文稿',
           desc: '交互式演示文稿，可在任何设备的浏览器中打开。'
+        },
+        ibovespa: {
+          title: 'Ibovespa 股权数据库',
+          desc: '巴西Ibovespa指数各公司的股东结构、股权分散度与自由流通股比例，数据来自巴西证券委员会（CVM）与B3交易所的公开资料。'
         }
       }
     }
