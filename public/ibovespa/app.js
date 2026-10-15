@@ -5,6 +5,17 @@
 const fmtPct = (v) => (v == null || Number.isNaN(v) ? '—' : `${Number(v).toFixed(2)}%`);
 const fmtNum = (v) => (v == null ? '—' : Number(v).toLocaleString('pt-BR'));
 
+// Valores em R$ no recorte vão de milhões a bilhões — compacta pra caber na
+// tabela. Fonte do valor de mercado: ver rodapé "Metodologia e limitações".
+function fmtMoeda(v) {
+  if (v == null || Number.isNaN(v)) return '—';
+  const abs = Math.abs(v);
+  if (abs >= 1e9) return `R$ ${(v / 1e9).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} bi`;
+  if (abs >= 1e6) return `R$ ${(v / 1e6).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} mi`;
+  if (abs >= 1e3) return `R$ ${(v / 1e3).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} mil`;
+  return `R$ ${v.toLocaleString('pt-BR', { maximumFractionDigits: 0 })}`;
+}
+
 const TABLE_NAMES = ['empresas', 'acionistas', 'pessoas', 'familias'];
 const PIE_CORES = ['pie-1', 'pie-2', 'pie-3', 'pie-4', 'pie-5', 'pie-6'];
 const NOMES_RESIDUO = new Set(['Outros', 'Ações Tesouraria']);
@@ -28,6 +39,7 @@ const COLS = {
     peso_ibov_pct: (r) => fmtPct(r.peso_ibov_pct),
     free_float_cvm_pct: (r) => fmtPct(r.free_float_cvm_pct),
     pct_acionistas_dispersos: (r) => fmtPct(r.pct_acionistas_dispersos),
+    valor_mercado_rs: (r) => fmtMoeda(r.valor_mercado_rs),
   },
 };
 
@@ -105,7 +117,7 @@ function renderTable(name) {
       } else {
         td.textContent = render(row);
       }
-      if (col.includes('pct') || col === 'peso_ibov_pct') td.classList.add('num');
+      if (col.includes('pct') || col === 'peso_ibov_pct' || col === 'valor_mercado_rs') td.classList.add('num');
       tr.appendChild(td);
     }
     frag.appendChild(tr);
@@ -175,6 +187,11 @@ function renderAgrupado(name, dadosOrdenadosPorPct) {
       tr.appendChild(tdIndice);
     }
 
+    const tdPatrimonio = document.createElement('td');
+    tdPatrimonio.className = 'num';
+    tdPatrimonio.textContent = fmtMoeda(row.patrimonioRs);
+    tr.appendChild(tdPatrimonio);
+
     const tdEmpresas = document.createElement('td');
     tdEmpresas.className = 'empresas-cell';
     const empresasOrdenadas = dadosOrdenadosPorPct
@@ -194,19 +211,25 @@ function renderAgrupado(name, dadosOrdenadosPorPct) {
 /* ---- Pessoas: cadeia societária do FRE, percentual efetivo já calculado --- */
 
 function agruparPessoas(pessoas) {
-  return agruparPorEntidade(
+  const agrupado = agruparPorEntidade(
     pessoas,
     (p) => ({
       ticker: p.ticker,
       empresa: p.empresa,
       pct: p.percentual_efetivo_na_empresa_pct,
+      patrimonioRs: p.patrimonio_rs,
       badge: {
         efetivo: fmtPct(p.percentual_efetivo_na_empresa_pct),
         veiculos: fmtNum(p.num_veiculos_societarios),
         controlador: p.acionista_controlador === 'S' ? 'Sim' : 'Não',
+        patrimonio: p.patrimonio_rs != null ? fmtMoeda(p.patrimonio_rs) : null,
       },
     })
   );
+  return agrupado.map((r) => ({
+    ...r,
+    patrimonioRs: r.empresas.reduce((soma, e) => soma + (e.patrimonioRs ?? 0), 0),
+  }));
 }
 
 /* ---- Acionistas: todo mundo nomeado no item 15.1/2, PF e PJ --------------- */
@@ -246,11 +269,13 @@ function agruparAcionistas(acionistas, pesoPorTicker) {
     ticker: a.ticker,
     empresa: a.empresa,
     pct: numeric(a.percentual_total_pct),
+    patrimonioRs: a.patrimonio_rs,
     badge: {
       pct: fmtPct(a.percentual_total_pct),
       tipo: a.tipo_pessoa === 'PJ' ? 'Pessoa jurídica' : a.tipo_pessoa === 'PF' ? 'Pessoa física' : null,
       controlador: a.acionista_controlador === 'S' ? 'Sim' : a.acionista_controlador === 'N' ? 'Não' : null,
       cargo: a.cargo || null,
+      patrimonio: a.patrimonio_rs != null ? fmtMoeda(a.patrimonio_rs) : null,
     },
   }));
 
@@ -259,11 +284,13 @@ function agruparAcionistas(acionistas, pesoPorTicker) {
     // que ela tem lá pelo peso daquela empresa no índice, e soma tudo — é a
     // fatia do índice inteiro atribuível a essa entidade, na proporção dos pesos.
     let pctIndice = 0;
+    let patrimonioRs = 0;
     for (const e of r.empresas) {
       const peso = pesoPorTicker.get(e.ticker);
       if (e.pct != null && peso != null) pctIndice += (e.pct * peso) / 100;
+      if (e.patrimonioRs != null) patrimonioRs += e.patrimonioRs;
     }
-    return { ...r, chaveNormalizada: r.nome, nome: grafiaExibicao.get(r.nome), pctIndice };
+    return { ...r, chaveNormalizada: r.nome, nome: grafiaExibicao.get(r.nome), pctIndice, patrimonioRs };
   });
 }
 
@@ -294,7 +321,10 @@ function construirSubEntidades(acionistasPorNome, estrutura) {
         chave: pai.chaveNormalizada,
         nome: pai.nome,
         pct: pctAqui,
-        badge: { pct: fmtPct(pctAqui) },
+        badge: {
+          pct: fmtPct(pctAqui),
+          patrimonio: pai.patrimonioRs != null ? fmtMoeda((pctAqui * pai.patrimonioRs) / 100) : null,
+        },
       };
 
       if (item.familia) {
@@ -323,6 +353,10 @@ function construirSubEntidades(acionistasPorNome, estrutura) {
       pctIndice: r.empresas.reduce((soma, e) => {
         const pai = acionistasPorNome.find((p) => p.chaveNormalizada === e.chave);
         return soma + (pai ? (e.pct * pai.pctIndice) / 100 : 0);
+      }, 0),
+      patrimonioRs: r.empresas.reduce((soma, e) => {
+        const pai = acionistasPorNome.find((p) => p.chaveNormalizada === e.chave);
+        return soma + (pai && pai.patrimonioRs != null ? (e.pct * pai.patrimonioRs) / 100 : 0);
       }, 0),
     }));
   }
@@ -387,6 +421,11 @@ function renderFamilias() {
     tdIndice.textContent = fmtPct(row.pctIndice);
     tr.appendChild(tdIndice);
 
+    const tdPatrimonio = document.createElement('td');
+    tdPatrimonio.className = 'num';
+    tdPatrimonio.textContent = fmtMoeda(row.patrimonioRs);
+    tr.appendChild(tdPatrimonio);
+
     const tdVia = document.createElement('td');
     tdVia.className = 'empresas-cell';
     for (const e of row.empresas) tdVia.appendChild(entidadeBadge(e.nome, e.chave, e.badge));
@@ -396,7 +435,7 @@ function renderFamilias() {
     trDetalhe.className = 'familia-detalhe';
     trDetalhe.hidden = true;
     const tdDetalhe = document.createElement('td');
-    tdDetalhe.colSpan = 3;
+    tdDetalhe.colSpan = 4;
     tdDetalhe.innerHTML = montarDetalheFamilia(row);
     trDetalhe.appendChild(tdDetalhe);
 
@@ -426,6 +465,12 @@ function renderKpis() {
     `${maisPulverizada.tickers} (${fmtPct(maisPulverizada.pct_acionistas_dispersos)})`;
   document.getElementById('kpi-mais-concentrada').textContent =
     `${maisConcentrada.tickers} (${fmtPct(maisConcentrada.pct_acionistas_dispersos)})`;
+
+  const valorTotal = empresas.reduce((soma, e) => soma + (e.valor_mercado_rs ?? 0), 0);
+  document.getElementById('kpi-valor-total').textContent = fmtMoeda(valorTotal);
+
+  const spanCaptura = document.getElementById('valor-mercado-capturado');
+  if (spanCaptura) spanCaptura.textContent = state.data.valor_mercado_capturado_em || '—';
 }
 
 function setupTabs() {
@@ -539,6 +584,7 @@ function linhaInfoBadge(dataset) {
   const partes = [];
   if (dataset.efetivo) partes.push(`% efetivo aqui: <strong>${dataset.efetivo}</strong>`);
   if (dataset.pct) partes.push(`Participação aqui: <strong>${dataset.pct}</strong>`);
+  if (dataset.patrimonio) partes.push(`Patrimônio aqui: <strong>${dataset.patrimonio}</strong>`);
   if (dataset.veiculos) partes.push(`${dataset.veiculos} veículo(s) societário(s)`);
   if (dataset.tipo) partes.push(dataset.tipo);
   if (dataset.cargo) partes.push(`Cargo: ${dataset.cargo}`);
