@@ -201,16 +201,16 @@
      duplicatas e sem-acesso); da Etapa 1 em diante contam-se só linhas
      com status_triagem diferente de Duplicado (desde 2026-09-27: antes
      entravam 6-7 duplicatas com E1 preenchido); cada etapa seguinte é
-     sempre um subconjunto Aceito da anterior. e4.principal + e4.sensibilidade = e4.n = os 471
+     sempre um subconjunto Aceito da anterior. e4.principal + e4.sensibilidade = e4.n = os 470
      artigos Elegíveis (2 terços de melhor qualidade formam o resultado
      principal); as 58 revisões sem ACV própria que também sobrevivem à
      Etapa 3 ficam fora desta barra — ver funnelRevisaoNote. */
   var FUNNEL = [
     { key: 'universo', n: 5093 },
     { key: 'e1', n: 2193 },
-    { key: 'e2', n: 547 },
-    { key: 'e3', n: 529 },
-    { key: 'e4', n: 471, principal: 367, sensibilidade: 104 }
+    { key: 'e2', n: 546 },
+    { key: 'e3', n: 528 },
+    { key: 'e4', n: 470, principal: 366, sensibilidade: 104 }
   ];
 
   /* Registos por base de dados, antes da remoção de duplicatas -- mesmos
@@ -260,7 +260,7 @@
       kpiReleituraLabel: 'lotes da releitura integral concluídos',
       kpiCompletoLabel: 'dos artigos aceitos com resistência e CO₂ já extraídos',
       funnelLabel: 'TRIAGEM',
-      funnelTitle: 'O funil da triagem: de 5.093 registos a 471 artigos',
+      funnelTitle: 'O funil da triagem: de 5.093 registos a 470 artigos',
       funnelP: 'A revisão sistemática passa por quatro etapas antes de um artigo entrar na metanálise: metadados, leitura do PDF completo, restrição geográfica do material e, por fim, qualidade metodológica. Cada barra mostra quantos artigos sobrevivem a cada etapa, a partir do banco completo de registos recolhidos nas buscas.',
       funnelStages: {
         universo: 'Banco completo (buscas + duplicatas removidas)',
@@ -283,11 +283,11 @@
         QG: { label: 'Dispersão/intervalo de confiança declarado', desc: 'O artigo dá meio de calcular um intervalo de confiança do ci daquela mistura — só conta dispersão medida pelo próprio artigo, nunca citada de outro estudo.' }
       },
       funnelDetails: {
-        universo: '5.093 registos recolhidos nas buscas. 2.628 (51,6%) eram duplicados, removidos antes de qualquer triagem. 1.929 foram rejeitados ao longo das quatro etapas seguintes — ver o detalhe em cada barra abaixo. 7 nunca tiveram o texto completo disponível (sem acesso). Os 529 restantes — 471 elegíveis + 58 revisões sem ACV própria — chegam todos à Etapa 4.',
+        universo: '5.093 registos recolhidos nas buscas. 2.628 (51,6%) eram duplicados, removidos antes de qualquer triagem. 1.930 foram rejeitados ao longo das quatro etapas seguintes — ver o detalhe em cada barra abaixo. 7 nunca tiveram o texto completo disponível (sem acesso). Os 528 restantes — 470 elegíveis + 58 revisões sem ACV própria — chegam todos à Etapa 4.',
         e1: 'Dos 2.465 registos avaliados nos metadados (ano, tipo de documento, material moldável, aplicação em construção), 2.193 foram aceites. Os 272 excluídos falharam por: aplicação em construção (190), material não moldável (71), tipo de documento (9), ano de publicação (1) — um registo pode falhar mais de um critério.',
-        e2: 'Dos 2.187 artigos com PDF lido na íntegra, 547 foram aceites. Dos 1.640 excluídos: 1.303 não relatavam resistência à compressão própria pareável a um CO₂ próprio, 439 não relatavam CO₂/ACV com resultado absoluto — alguns falham nos dois critérios.',
-        e3: 'Dos 543 artigos avaliados quanto à restrição geográfica do material, 529 foram aceites; 14 foram excluídos por o material principal ser geograficamente restrito (ex.: resíduo de produção regional concentrada).',
-        e4: 'Dos 529 artigos avaliados na Etapa 4 (checklist de 7 itens, 0 a 7 pontos): 367 formam o resultado principal (score ≥ 4,0), 104 entram só na análise de sensibilidade (score < 4,0), e 58 são revisões sem avaliação de ciclo de vida própria — não pontuam para o indicador ci, mas alimentam o ramo de citação do PRISMA (fontes primárias descobertas por essas revisões).'
+        e2: 'Dos 2.187 artigos com PDF lido na íntegra, 546 foram aceites. Dos 1.641 excluídos: 1.303 não relatavam resistência à compressão própria pareável a um CO₂ próprio, 440 não relatavam CO₂/ACV com resultado absoluto — alguns falham nos dois critérios.',
+        e3: 'Dos 542 artigos avaliados quanto à restrição geográfica do material, 528 foram aceites; 14 foram excluídos por o material principal ser geograficamente restrito (ex.: resíduo de produção regional concentrada).',
+        e4: 'Dos 528 artigos avaliados na Etapa 4 (checklist de 7 itens, 0 a 7 pontos): 366 formam o resultado principal (score ≥ 4,0), 104 entram só na análise de sensibilidade (score < 4,0), e 58 são revisões sem avaliação de ciclo de vida própria — não pontuam para o indicador ci, mas alimentam o ramo de citação do PRISMA (fontes primárias descobertas por essas revisões).'
       },
       tierLabel: 'ESTRATIFICAÇÃO POR QUALIDADE',
       tierTitle: 'Resultado principal × análise de sensibilidade',
@@ -361,6 +361,29 @@
         concreto_armado: 'Elemento de concreto armado — o valor inclui a contribuição do aço de reforço, não só do concreto.'
       },
       tooltipCi: 'ci',
+      mapaTitle: "De onde vêm os artigos incluídos",
+      mapaP: "País do autor de correspondência de cada artigo aceite na revisão (Web of Science, BDTD, Crossref ou a própria primeira página do PDF). Quanto mais escuro, mais artigos. Passe o cursor sobre um país para ver o número.",
+      univLabel: "Universo",
+      univTodos: "Todos os artigos aceites",
+      univMeta: "Só os estudos da metanálise",
+      mapaAria: "Mapa-múndi com o número de artigos por país do autor de correspondência",
+      mapaLegenda: "Artigos por país",
+      mapaTipN: "{n} artigos",
+      mapaTipMeta: "{n} com par fck × CO₂ no painel",
+      mapaResumo: "{n} artigos de {p} países.",
+      mapaErro: "Não foi possível carregar os dados do mapa.",
+      mapaVerTodos: "Mostrar os {n} países",
+      mapaVerMenos: "Mostrar só os 15 primeiros",
+      redeTitle: "Linha temporal e citações entre os artigos",
+      redeP: "Cada ponto é um artigo, colocado no ano de publicação. Cada linha liga um artigo a outro artigo desta mesma revisão que ele cita na sua lista de referências (fonte: Crossref). Passe o cursor sobre um ponto para destacar quem ele cita e quem o cita.",
+      redeAria: "Linha temporal dos artigos incluídos com as ligações de citação entre eles",
+      redeTipCita: "cita {n} desta revisão",
+      redeTipCitado: "citado por {n}",
+      redeTipSemRefs: "Sem lista de referências no Crossref (ex.: teses).",
+      redeResumo: "{n} artigos e {l} ligações de citação. {s} artigos não têm lista de referências no Crossref (sobretudo teses e dissertações) e por isso não podem mostrar quem citam.",
+      redeLegMeta: "com par no painel",
+      redeLegOutro: "sem par no painel",
+      redeLegLig: "cita",
       unitChartTitle: 'Unidades de CO₂ relatadas',
       unitChartP: 'Como cada estudo reporta a pegada de carbono — nem sempre em kg CO₂-eq por m³. "Nativo" é o valor já publicado assim pelo autor; "convertido por nós" é calculado a partir de outra grandeza que o próprio artigo imprime (ex. um total dividido pelo volume do elemento). As barras cinzentas são unidades que não se deixam converter em kg CO₂-eq/m³ sem assumir um dado que o artigo não imprime (massa volúmica, volume, traço); foram relidas na íntegra e ficam fora da metanálise. A barra tracejada reúne os valores já em kg/m³ que foram excluídos — clique nela para ver cada linha e o motivo.',
       unitChartKindNativo: 'kg CO₂-eq/m³ — nativo (publicado assim)',
@@ -396,7 +419,7 @@
       kpiReleituraLabel: 'batches of the full re-read completed',
       kpiCompletoLabel: 'of accepted articles with strength and CO₂ already extracted',
       funnelLabel: 'SCREENING',
-      funnelTitle: 'The screening funnel: from 5,093 records to 471 articles',
+      funnelTitle: 'The screening funnel: from 5,093 records to 470 articles',
       funnelP: "The systematic review runs through four stages before an article enters the meta-analysis: metadata, full-PDF reading, the material's geographic restriction, and finally methodological quality. Each bar shows how many articles survive each stage, starting from the full pool of records collected in the searches.",
       funnelStages: {
         universo: 'Full database (searches + duplicates removed)',
@@ -419,11 +442,11 @@
         QG: { label: 'Declared dispersion / confidence interval', desc: 'The article gives a way to compute a confidence interval for that mixture’s ci — only counts dispersion measured by the article itself, never cited from a different study.' }
       },
       funnelDetails: {
-        universo: "5,093 records collected in the searches. 2,628 (51.6%) were duplicates, removed before any screening. 1,929 were rejected across the four stages that follow — see the detail in each bar below. 7 never had the full text available (no access). The remaining 529 — 471 eligible + 58 reviews without their own LCA — all reach Stage 4.",
+        universo: "5,093 records collected in the searches. 2,628 (51.6%) were duplicates, removed before any screening. 1,930 were rejected across the four stages that follow — see the detail in each bar below. 7 never had the full text available (no access). The remaining 528 — 470 eligible + 58 reviews without their own LCA — all reach Stage 4.",
         e1: 'Of the 2,465 records screened on metadata (year, document type, moldable material, construction application), 2,193 were accepted. The 272 excluded failed on: construction application (190), non-moldable material (71), document type (9), publication year (1) — a record can fail more than one criterion.',
-        e2: 'Of the 2,187 articles fully read as PDF, 547 were accepted. Of the 1,640 excluded: 1,303 did not report their own compressive strength paired with their own CO₂, 439 did not report CO₂/LCA with an absolute result — some fail both criteria.',
-        e3: "Of the 543 articles assessed for the material's geographic restriction, 529 were accepted; 14 were excluded because the main material is geographically restricted (e.g. a regionally concentrated production by-product).",
-        e4: "Of the 529 articles assessed in Stage 4 (a 7-item checklist, 0 to 7 points): 367 form the main result (score ≥ 4.0), 104 enter only the sensitivity analysis (score < 4.0), and 58 are reviews without their own life-cycle assessment — they don't score toward the ci indicator, but feed the PRISMA citation branch (primary sources discovered through those reviews)."
+        e2: 'Of the 2,187 articles fully read as PDF, 546 were accepted. Of the 1,641 excluded: 1,303 did not report their own compressive strength paired with their own CO₂, 440 did not report CO₂/LCA with an absolute result — some fail both criteria.',
+        e3: "Of the 542 articles assessed for the material's geographic restriction, 528 were accepted; 14 were excluded because the main material is geographically restricted (e.g. a regionally concentrated production by-product).",
+        e4: "Of the 528 articles assessed in Stage 4 (a 7-item checklist, 0 to 7 points): 366 form the main result (score ≥ 4.0), 104 enter only the sensitivity analysis (score < 4.0), and 58 are reviews without their own life-cycle assessment — they don't score toward the ci indicator, but feed the PRISMA citation branch (primary sources discovered through those reviews)."
       },
       tierLabel: 'QUALITY STRATIFICATION',
       tierTitle: 'Main result × sensitivity analysis',
@@ -497,6 +520,29 @@
         concreto_armado: 'Reinforced concrete element — the value includes the contribution of reinforcing steel, not just the concrete.'
       },
       tooltipCi: 'ci',
+      mapaTitle: "Where the included articles come from",
+      mapaP: "Country of the corresponding author of each article accepted in the review (Web of Science, BDTD, Crossref or the PDF's own first page). Darker means more articles. Hover over a country to see the count.",
+      univLabel: "Universe",
+      univTodos: "All accepted articles",
+      univMeta: "Meta-analysis studies only",
+      mapaAria: "World map with the number of articles per country of the corresponding author",
+      mapaLegenda: "Articles per country",
+      mapaTipN: "{n} articles",
+      mapaTipMeta: "{n} with an fck × CO₂ pair in the panel",
+      mapaResumo: "{n} articles from {p} countries.",
+      mapaErro: "Could not load the map data.",
+      mapaVerTodos: "Show all {n} countries",
+      mapaVerMenos: "Show only the top 15",
+      redeTitle: "Timeline and citations between the articles",
+      redeP: "Each dot is an article, placed in its publication year. Each line links an article to another article of this same review that it cites in its reference list (source: Crossref). Hover over a dot to highlight what it cites and who cites it.",
+      redeAria: "Timeline of the included articles with the citation links between them",
+      redeTipCita: "cites {n} in this review",
+      redeTipCitado: "cited by {n}",
+      redeTipSemRefs: "No reference list in Crossref (e.g. theses).",
+      redeResumo: "{n} articles and {l} citation links. {s} articles have no reference list in Crossref (mostly theses and dissertations), so they cannot show what they cite.",
+      redeLegMeta: "with a pair in the panel",
+      redeLegOutro: "without a pair in the panel",
+      redeLegLig: "cites",
       unitChartTitle: 'Reported CO₂ units',
       unitChartP: "How each study reports its carbon footprint — not always in kg CO₂-eq per m³. \"Native\" is the value as the author already published it; \"converted by us\" is computed from a different quantity the article itself prints (e.g. a total divided by the element's volume). The grey bars are units that cannot be turned into kg CO₂-eq/m³ without assuming a figure the article does not print (density, volume, mix design); they were reread in full and stay outside the meta-analysis. The hatched bar gathers values already in kg/m³ that were excluded — click it to see each row and the reason.",
       unitChartKindNativo: 'kg CO₂-eq/m³ — native (published as such)',
@@ -532,7 +578,7 @@
       kpiReleituraLabel: '完整复读批次已完成',
       kpiCompletoLabel: '已入选文献中强度与CO₂均已提取的比例',
       funnelLabel: '筛选',
-      funnelTitle: '筛选漏斗：从5,093条记录到471篇文献',
+      funnelTitle: '筛选漏斗：从5,093条记录到470篇文献',
       funnelP: '系统综述在文献进入荟萃分析之前要经过四个阶段：元数据、通读全文PDF、材料的地域限制，最后是方法学质量。每一条柱状图显示从检索收集到的全部记录出发，有多少文献在每个阶段存活下来。',
       funnelStages: {
         universo: '完整数据库（检索结果，已去重）',
@@ -555,11 +601,11 @@
         QG: { label: '已声明的离散程度/置信区间', desc: '文章提供了计算该配方ci置信区间所需的信息——只计入文章本身测量得到的离散程度，不计入引用自其他研究的数值。' }
       },
       funnelDetails: {
-        universo: '检索共收集5,093条记录。其中2,628条（51.6%）为重复记录，在任何筛选之前已被移除。1,929条在随后四个阶段中被剔除——详见下方各阶段柱状图。7条从未能获取全文（无法访问）。剩余529条——471篇入选文献+58篇无自身生命周期评估的综述——全部进入第4阶段。',
+        universo: '检索共收集5,093条记录。其中2,628条（51.6%）为重复记录，在任何筛选之前已被移除。1,930条在随后四个阶段中被剔除——详见下方各阶段柱状图。7条从未能获取全文（无法访问）。剩余528条——470篇入选文献+58篇无自身生命周期评估的综述——全部进入第4阶段。',
         e1: '在按元数据（年份、文献类型、可模塑材料、建筑用途）筛选的2,465条记录中，2,193条被接受。被排除的272条中：190条因不属于建筑用途，71条因材料不可模塑，9条因文献类型，1条因发表年份——同一记录可能同时不符合多项标准。',
-        e2: '在通读全文PDF的2,187篇文献中，547篇被接受。被排除的1,640篇中：1,303篇未报告可与自身CO₂配对的自身抗压强度，439篇未报告有绝对数值的CO₂/生命周期评估结果——部分文献两项标准都未满足。',
-        e3: '在评估材料地域限制的543篇文献中，529篇被接受；14篇因主要材料受地域限制（例如某地区高度集中的生产副产品）而被排除。',
-        e4: '在第4阶段（7项清单，0至7分）评估的529篇文献中：367篇构成主要结果（得分≥4.0），104篇仅用于敏感性分析（得分<4.0），58篇是没有自身生命周期评估的综述——不计入ci指标得分，但作为PRISMA引文分支的来源（这些综述引用的原始研究）。'
+        e2: '在通读全文PDF的2,187篇文献中，546篇被接受。被排除的1,641篇中：1,303篇未报告可与自身CO₂配对的自身抗压强度，440篇未报告有绝对数值的CO₂/生命周期评估结果——部分文献两项标准都未满足。',
+        e3: '在评估材料地域限制的542篇文献中，528篇被接受；14篇因主要材料受地域限制（例如某地区高度集中的生产副产品）而被排除。',
+        e4: '在第4阶段（7项清单，0至7分）评估的528篇文献中：366篇构成主要结果（得分≥4.0），104篇仅用于敏感性分析（得分<4.0），58篇是没有自身生命周期评估的综述——不计入ci指标得分，但作为PRISMA引文分支的来源（这些综述引用的原始研究）。'
       },
       tierLabel: '质量分层',
       tierTitle: '主要结果 × 敏感性分析',
@@ -633,6 +679,29 @@
         concreto_armado: '钢筋混凝土构件——数值包含钢筋的贡献，不仅是混凝土本身。'
       },
       tooltipCi: 'ci',
+      mapaTitle: "纳入文献的来源国家",
+      mapaP: "每篇纳入综述的文献的通讯作者所在国家（来源：Web of Science、BDTD、Crossref或PDF首页）。颜色越深，文献越多。将鼠标悬停在国家上可查看数量。",
+      univLabel: "范围",
+      univTodos: "所有纳入文献",
+      univMeta: "仅荟萃分析研究",
+      mapaAria: "按通讯作者国家统计文献数量的世界地图",
+      mapaLegenda: "各国文献数",
+      mapaTipN: "{n}篇文献",
+      mapaTipMeta: "其中{n}篇在面板中有fck × CO₂数据对",
+      mapaResumo: "来自{p}个国家的{n}篇文献。",
+      mapaErro: "无法加载地图数据。",
+      mapaVerTodos: "显示全部{n}个国家",
+      mapaVerMenos: "仅显示前15个",
+      redeTitle: "时间线与文献间的引用关系",
+      redeP: "每个点代表一篇文献，按发表年份排列。每条线连接一篇文献与其参考文献中引用的本综述内另一篇文献（来源：Crossref）。将鼠标悬停在点上可突出显示其引用和被引用关系。",
+      redeAria: "纳入文献的时间线及其相互引用关系",
+      redeTipCita: "引用本综述中{n}篇",
+      redeTipCitado: "被引用{n}次",
+      redeTipSemRefs: "Crossref中无参考文献列表（如学位论文）。",
+      redeResumo: "{n}篇文献，{l}条引用关系。{s}篇文献在Crossref中没有参考文献列表（主要是学位论文），因此无法显示其引用。",
+      redeLegMeta: "面板中有数据对",
+      redeLegOutro: "面板中无数据对",
+      redeLegLig: "引用",
       unitChartTitle: '报告的CO₂单位',
       unitChartP: '每项研究报告碳足迹的方式并不总是每立方米kg CO₂当量。"原始"指作者本身就是这样公布的数值；"我们换算的"是根据文章本身给出的另一个量计算得出（例如总量除以构件体积）。灰色各栏是不假设文章未给出的数据（密度、体积、配合比）就无法换算为每立方米kg CO₂当量的单位；均已全文重读，不纳入荟萃分析。斜纹栏汇总了已为kg/m³但被排除的数值——点击即可查看每一条记录及原因。',
       unitChartKindNativo: 'kg CO₂-eq/m³ —— 原始（本就这样公布）',
@@ -702,8 +771,8 @@
   /* -------------------------------------------------------- gráfico: kpi */
 
   var KPI_VALUES = {
-    funil: 471,
-    vida: 119,
+    funil: 470,
+    vida: 118,
     releitura: '64/68',
     /* % de artigos Elegível com pelo menos um par fck+CO2 completo em
        dados_fck, sobre o total de artigos Elegível que ainda podem vir a
@@ -737,7 +806,8 @@
        48 artigos cujo CO2 nao se converte para o betao (edificio/sistema
        sem volume, CO2 parcial ou sem kg) rejeitados em E2_co2 -> 471
        Elegivel; 403 com par no painel = 86%. vida = 119 Elegivel com
-       vida_util_anos. */
+       vida_util_anos. 5046 SILVA verificada depois (F18) -> 470 Elegivel,
+       vida 118, 403/470 = 86%. */
     completo: 86
   };
 
@@ -1668,6 +1738,316 @@
     return wrap;
   }
 
+  /* ------------------------------------------- mapa de países + rede de citações
+
+     Kiê (2026-10-13/14): mapa de publicações pelo país do autor de
+     correspondência e linha temporal com as citações entre os artigos
+     incluídos. Dois universos (F17-5): todos os Elegíveis (por omissão) ou só
+     os estudos com par no painel. Dados em /metanalise/dados/mapa.json
+     (metanalise-export-mapa.py no repositório da RSL) e geometria em
+     /metanalise/dados/mundo.json (Natural Earth 1:110m, Equal Earth). Os dois
+     ficheiros só são pedidos quando a página abre, uma vez. */
+
+  var UNIV_KEY = 'kl-meta-universo';
+  var universo = 'todos';
+  try {
+    var savedU = window.localStorage.getItem(UNIV_KEY);
+    if (savedU === 'meta') universo = 'meta';
+  } catch (e) {}
+  var MAPA = { mundo: null, dados: null, pedido: null, erro: false };
+  var paisListaAberta = false;
+
+  function carregarMapa(onReady) {
+    if (MAPA.mundo && MAPA.dados) { onReady(); return; }
+    if (!MAPA.pedido) {
+      MAPA.pedido = Promise.all([
+        fetch('/metanalise/dados/mundo.json').then(function (r) { return r.json(); }),
+        fetch('/metanalise/dados/mapa.json').then(function (r) { return r.json(); })
+      ]).then(function (res) {
+        MAPA.mundo = res[0];
+        MAPA.dados = res[1];
+      }).catch(function () { MAPA.erro = true; });
+    }
+    MAPA.pedido.then(onReady);
+  }
+
+  function artigosUniverso() {
+    var arts = MAPA.dados.artigos;
+    return universo === 'meta' ? arts.filter(function (a) { return a.meta; }) : arts;
+  }
+
+  var DISPLAY_LANG = { PT: 'pt-PT', EN: 'en', ZH: 'zh-Hans' };
+  function nomePais(iso2, lang, fallback) {
+    try {
+      var dn = new Intl.DisplayNames([DISPLAY_LANG[lang] || 'pt'], { type: 'region' });
+      return dn.of(iso2) || fallback;
+    } catch (e) {
+      return fallback;
+    }
+  }
+
+  /* 6 classes de um só tom (verde do site), do claro ao escuro. */
+  var MAPA_CLASSES = [1, 2, 5, 10, 20, 40];
+  var MAPA_ALPHA = [0.16, 0.3, 0.45, 0.62, 0.8, 1];
+  function classeDe(n) {
+    var c = -1;
+    for (var i = 0; i < MAPA_CLASSES.length; i++) if (n >= MAPA_CLASSES[i]) c = i;
+    return c;
+  }
+  function fillClasse(c) {
+    return c < 0 ? 'var(--ink-16)' : 'rgba(var(--spec-rgb), ' + MAPA_ALPHA[c] + ')';
+  }
+
+  function syncUniversoRadios(lang) {
+    ['mapa', 'rede'].forEach(function (onde) {
+      ['todos', 'meta'].forEach(function (u) {
+        var r = document.getElementById('univ-' + onde + '-' + u);
+        if (r) r.checked = universo === u;
+      });
+    });
+    if (!MAPA.dados) return;
+    var nT = MAPA.dados.n, nM = MAPA.dados.n_meta;
+    ['mapa', 'rede'].forEach(function (onde) {
+      var a = document.getElementById('univ-' + onde + '-n-todos');
+      var b = document.getElementById('univ-' + onde + '-n-meta');
+      if (a) a.textContent = fmtInt(nT, lang);
+      if (b) b.textContent = fmtInt(nM, lang);
+    });
+  }
+
+  function tooltipLinhas(tooltip, linhas) {
+    tooltip.textContent = '';
+    linhas.forEach(function (l, i) {
+      if (i) tooltip.appendChild(document.createElement('br'));
+      if (l.b) {
+        var b = document.createElement('b');
+        b.textContent = l.b;
+        tooltip.appendChild(b);
+        if (l.t) tooltip.appendChild(document.createTextNode(' ' + l.t));
+      } else {
+        tooltip.appendChild(document.createTextNode(l.t));
+      }
+    });
+  }
+
+  function renderMapa(strings, lang) {
+    var svg = document.getElementById('mapa-svg');
+    if (!svg) return;
+    carregarMapa(function () {
+      if (MAPA.erro) { document.getElementById('mapa-wrap').textContent = strings.mapaErro; return; }
+      syncUniversoRadios(lang);
+      var arts = artigosUniverso();
+      var cont = {}, contMeta = {}, iso2 = {};
+      arts.forEach(function (a) {
+        if (!a.iso3) return;
+        cont[a.iso3] = (cont[a.iso3] || 0) + 1;
+        if (a.meta) contMeta[a.iso3] = (contMeta[a.iso3] || 0) + 1;
+        iso2[a.iso3] = a.iso2;
+      });
+      var M = MAPA.mundo;
+      svg.setAttribute('viewBox', '0 0 ' + M.largura + ' ' + M.altura);
+      svg.textContent = '';
+      var wrap = document.getElementById('mapa-wrap');
+      var tooltip = document.getElementById('mapa-tooltip');
+      var desenhados = {};
+      M.paises.forEach(function (p) {
+        var n = p.iso3 ? (cont[p.iso3] || 0) : 0;
+        var path = svgEl('path', { d: p.d, 'class': 'mapa-pais' + (n ? ' tem' : '') });
+        path.style.fill = fillClasse(classeDe(n));
+        if (n) {
+          desenhados[p.iso3] = true;
+          path.addEventListener('mousemove', function (ev) {
+            var nome = nomePais(p.iso2, lang, p.nome);
+            var linhas = [{ b: nome }, { t: strings.mapaTipN.replace('{n}', fmtInt(n, lang)) }];
+            if (universo === 'todos') linhas.push({ t: strings.mapaTipMeta.replace('{n}', fmtInt(contMeta[p.iso3] || 0, lang)) });
+            tooltipLinhas(tooltip, linhas);
+            tooltip.classList.add('is-visible');
+            positionTooltip(tooltip, wrap, ev);
+          });
+          path.addEventListener('mouseleave', function () { tooltip.classList.remove('is-visible'); });
+        }
+        svg.appendChild(path);
+      });
+      svg.setAttribute('aria-label', strings.mapaAria);
+
+      /* legenda das classes */
+      var leg = document.getElementById('mapa-legend');
+      leg.textContent = '';
+      var tit = document.createElement('span');
+      tit.className = 'mapa-legend-titulo';
+      tit.textContent = strings.mapaLegenda;
+      leg.appendChild(tit);
+      MAPA_CLASSES.forEach(function (lo, i) {
+        var hi = i + 1 < MAPA_CLASSES.length ? MAPA_CLASSES[i + 1] - 1 : null;
+        var item = document.createElement('span');
+        item.className = 'mapa-legend-item';
+        var sw = document.createElement('span');
+        sw.className = 'mapa-swatch';
+        sw.style.background = fillClasse(i);
+        item.appendChild(sw);
+        item.appendChild(document.createTextNode(hi === null ? lo + '+' : (lo === hi ? String(lo) : lo + '–' + hi)));
+        leg.appendChild(item);
+      });
+
+      /* lista ordenada (vista em tabela, legível sem cor e no telemóvel) */
+      var lista = document.getElementById('pais-list');
+      lista.textContent = '';
+      var ordem = Object.keys(cont).sort(function (a, b) { return cont[b] - cont[a] || (a < b ? -1 : 1); });
+      var max = ordem.length ? cont[ordem[0]] : 1;
+      var TOPO = 15;
+      ordem.forEach(function (iso3, idx) {
+        if (!paisListaAberta && idx >= TOPO) return;
+        var li = document.createElement('li');
+        li.className = 'pais-row';
+        var nome = document.createElement('span');
+        nome.className = 'pais-nome';
+        nome.textContent = nomePais(iso2[iso3], lang, iso3);
+        var barWrap = document.createElement('span');
+        barWrap.className = 'pais-bar-wrap';
+        var bar = document.createElement('span');
+        bar.className = 'pais-bar';
+        bar.style.width = (100 * cont[iso3] / max) + '%';
+        barWrap.appendChild(bar);
+        var num = document.createElement('span');
+        num.className = 'pais-n';
+        num.textContent = fmtInt(cont[iso3], lang);
+        li.appendChild(nome);
+        li.appendChild(barWrap);
+        li.appendChild(num);
+        lista.appendChild(li);
+      });
+      var btn = document.getElementById('pais-mais');
+      btn.hidden = ordem.length <= TOPO;
+      btn.textContent = paisListaAberta ? strings.mapaVerMenos : strings.mapaVerTodos.replace('{n}', fmtInt(ordem.length, lang));
+      btn.setAttribute('aria-expanded', paisListaAberta ? 'true' : 'false');
+      btn.onclick = function () { paisListaAberta = !paisListaAberta; renderMapa(strings, lang); };
+      document.getElementById('mapa-resumo').textContent = strings.mapaResumo
+        .replace('{n}', fmtInt(arts.length, lang)).replace('{p}', fmtInt(ordem.length, lang));
+      void desenhados;
+    });
+  }
+
+  function renderRede(strings, lang) {
+    var svg = document.getElementById('rede-svg');
+    if (!svg) return;
+    carregarMapa(function () {
+      if (MAPA.erro) { document.getElementById('rede-wrap').textContent = strings.mapaErro; return; }
+      syncUniversoRadios(lang);
+      var arts = artigosUniverso();
+      var porId = {};
+      arts.forEach(function (a) { porId[a.id] = a; });
+      var anos = arts.map(function (a) { return a.ano; });
+      var a0 = Math.min.apply(null, anos), a1 = Math.max.apply(null, anos);
+      var nAnos = a1 - a0 + 1;
+      var porAno = {};
+      arts.forEach(function (a) { (porAno[a.ano] = porAno[a.ano] || []).push(a); });
+      var W = 960, ML = 8, MR = 8, MT = 14, PASSO = 9;
+      var banda = (W - ML - MR) / nAnos;
+      var colunas = Math.max(1, Math.floor((banda - 6) / PASSO));
+      var maxLinhas = 0;
+      Object.keys(porAno).forEach(function (k) {
+        maxLinhas = Math.max(maxLinhas, Math.ceil(porAno[k].length / colunas));
+      });
+      var altPlot = maxLinhas * PASSO + 10;
+      var H = MT + altPlot + 30;
+      var base = MT + altPlot;
+      var pos = {};
+      Object.keys(porAno).forEach(function (k) {
+        var lst = porAno[k];
+        var x0 = ML + (Number(k) - a0) * banda + (banda - colunas * PASSO) / 2 + PASSO / 2;
+        lst.forEach(function (a, i) {
+          var col = i % colunas, lin = Math.floor(i / colunas);
+          pos[a.id] = { x: x0 + col * PASSO, y: base - PASSO / 2 - lin * PASSO };
+        });
+      });
+      svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+      svg.textContent = '';
+      svg.setAttribute('aria-label', strings.redeAria);
+
+      /* eixo dos anos */
+      for (var y = a0; y <= a1; y++) {
+        var cx = ML + (y - a0 + 0.5) * banda;
+        if (nAnos > 12 && (y - a0) % 2 && y !== a1) continue;
+        var t = svgEl('text', { x: cx, y: base + 18, 'text-anchor': 'middle', 'class': 'rede-ano' });
+        t.textContent = y;
+        svg.appendChild(t);
+      }
+      svg.appendChild(svgEl('line', { x1: ML, x2: W - MR, y1: base + 3, y2: base + 3, 'class': 'rede-base' }));
+
+      /* ligações: de quem cita (mais recente) para o citado (anterior) */
+      var gLig = svgEl('g', { 'class': 'rede-ligacoes' });
+      var ligs = [];
+      var citadoPor = {};
+      arts.forEach(function (a) {
+        a.cita.forEach(function (b) {
+          if (!porId[b]) return;
+          citadoPor[b] = (citadoPor[b] || 0) + 1;
+          var p = pos[a.id], q = pos[b];
+          var mx = (p.x + q.x) / 2, dy = Math.max(18, Math.abs(p.x - q.x) * 0.35);
+          var my = Math.min(p.y, q.y) - dy;
+          var path = svgEl('path', { d: 'M' + p.x + ',' + p.y + 'Q' + mx + ',' + my + ' ' + q.x + ',' + q.y, 'class': 'rede-lig' });
+          gLig.appendChild(path);
+          ligs.push({ de: a.id, para: b, el: path });
+        });
+      });
+      svg.appendChild(gLig);
+
+      var wrap = document.getElementById('rede-wrap');
+      var tooltip = document.getElementById('rede-tooltip');
+      var gNos = svgEl('g', {});
+      arts.forEach(function (a) {
+        var p = pos[a.id];
+        var c = svgEl('circle', { cx: p.x, cy: p.y, r: 3.6, 'class': 'rede-no' + (a.meta ? ' meta' : '') + (a.refs ? '' : ' sem-refs') });
+        var hit = svgEl('circle', { cx: p.x, cy: p.y, r: 6, 'class': 'rede-hit' });
+        hit.addEventListener('mousemove', function (ev) {
+          svg.classList.add('is-foco');
+          ligs.forEach(function (l) {
+            l.el.classList.toggle('cita', l.de === a.id);
+            l.el.classList.toggle('citado', l.para === a.id);
+          });
+          c.classList.add('foco');
+          var cita = a.cita.filter(function (b) { return porId[b]; }).length;
+          var linhas = [
+            { b: a.rot, t: '· ' + nomePais(a.iso2, lang, a.iso3 || '') },
+            { t: a.titulo },
+            { t: strings.redeTipCita.replace('{n}', fmtInt(cita, lang)) + ' · ' +
+                 strings.redeTipCitado.replace('{n}', fmtInt(citadoPor[a.id] || 0, lang)) }
+          ];
+          if (!a.refs) linhas.push({ t: strings.redeTipSemRefs });
+          tooltipLinhas(tooltip, linhas);
+          tooltip.classList.add('is-visible');
+          positionTooltip(tooltip, wrap, ev);
+        });
+        hit.addEventListener('mouseleave', function () {
+          svg.classList.remove('is-foco');
+          ligs.forEach(function (l) { l.el.classList.remove('cita'); l.el.classList.remove('citado'); });
+          c.classList.remove('foco');
+          tooltip.classList.remove('is-visible');
+        });
+        gNos.appendChild(c);
+        gNos.appendChild(hit);
+      });
+      svg.appendChild(gNos);
+
+      var nSem = arts.filter(function (a) { return !a.refs; }).length;
+      document.getElementById('rede-resumo').textContent = strings.redeResumo
+        .replace('{n}', fmtInt(arts.length, lang)).replace('{l}', fmtInt(ligs.length, lang))
+        .replace('{s}', fmtInt(nSem, lang));
+      var leg = document.getElementById('rede-legend');
+      leg.textContent = '';
+      [['meta', strings.redeLegMeta], ['', strings.redeLegOutro], ['lig', strings.redeLegLig]].forEach(function (it) {
+        if (it[0] === '' && universo === 'meta') return;
+        var item = document.createElement('span');
+        item.className = 'mapa-legend-item';
+        var sw = document.createElement('span');
+        sw.className = it[0] === 'lig' ? 'rede-sw-lig' : 'rede-sw-no' + (it[0] ? ' meta' : '');
+        item.appendChild(sw);
+        item.appendChild(document.createTextNode(it[1]));
+        leg.appendChild(item);
+      });
+    });
+  }
+
   /* -------------------------------------------------------------- boot */
 
   function renderAll(strings, lang) {
@@ -1681,6 +2061,8 @@
     renderLegend(strings);
     renderForest(strings);
     renderUnitChart(strings);
+    renderMapa(strings, lang);
+    renderRede(strings, lang);
   }
 
   var themeCtl = null;
@@ -1738,6 +2120,22 @@
       }
       tierVisible[tier] = box.checked;
       renderAll(i18n.strings(), i18n.current());
+    });
+  });
+
+  /* Universo do mapa e da rede de citações: dois grupos de radios (um em cada
+     secção) que mexem no mesmo estado. */
+  ['mapa', 'rede'].forEach(function (onde) {
+    ['todos', 'meta'].forEach(function (u) {
+      var radio = document.getElementById('univ-' + onde + '-' + u);
+      if (!radio) return;
+      radio.addEventListener('change', function () {
+        if (!radio.checked) return;
+        universo = u;
+        try { window.localStorage.setItem(UNIV_KEY, u); } catch (e) {}
+        renderMapa(i18n.strings(), i18n.current());
+        renderRede(i18n.strings(), i18n.current());
+      });
     });
   });
 

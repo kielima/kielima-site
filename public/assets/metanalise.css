@@ -1833,3 +1833,234 @@ html.ficha-medir .ficha-sec {
     border-color: #ccc;
   }
 }
+
+/* ------------------------------------------------ mapa de países e rede de citações
+   (Kiê, 2026-10-13/14). Uma só cor (o verde do site) do claro ao escuro no mapa;
+   na rede, verde = estudo com par no painel, cinzento = sem par. */
+.univ-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin: 4px 0 14px;
+}
+
+.mapa-wrap,
+.rede-wrap {
+  position: relative;
+}
+
+.mapa-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.mapa-pais {
+  stroke: var(--bg);
+  stroke-width: 0.5;
+  stroke-linejoin: round;
+}
+
+.mapa-pais.tem:hover {
+  stroke: var(--ink);
+  stroke-width: 1;
+}
+
+.mapa-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--ink-65);
+}
+
+.mapa-legend-titulo {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+}
+
+.mapa-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+}
+
+.mapa-swatch {
+  width: 14px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.pais-card {
+  margin-top: 14px;
+}
+
+.pais-resumo {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: var(--ink-65);
+}
+
+.pais-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  columns: 2;
+  column-gap: 28px;
+}
+
+.pais-row {
+  display: grid;
+  grid-template-columns: minmax(96px, 150px) 1fr 34px;
+  align-items: center;
+  gap: 10px;
+  padding: 3px 0;
+  break-inside: avoid;
+  font-size: 13px;
+}
+
+.pais-nome {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pais-bar-wrap {
+  height: 8px;
+  background: var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.pais-bar {
+  display: block;
+  height: 100%;
+  background: var(--green);
+  border-radius: 4px;
+}
+
+.pais-n {
+  font-family: var(--mono);
+  font-size: 12px;
+  text-align: right;
+  color: var(--ink-78);
+}
+
+@media (max-width: 640px) {
+  .pais-list {
+    columns: 1;
+  }
+}
+
+.rede-scroll {
+  overflow-x: auto;
+}
+
+.rede-svg {
+  display: block;
+  width: 100%;
+  min-width: 620px;
+  height: auto;
+}
+
+.rede-ano {
+  font-family: var(--mono);
+  font-size: 11px;
+  fill: var(--ink-50);
+}
+
+.rede-base {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.rede-lig {
+  fill: none;
+  stroke: var(--ink-40);
+  stroke-width: 0.7;
+  opacity: 0.35;
+}
+
+.rede-svg.is-foco .rede-lig {
+  opacity: 0.06;
+}
+
+.rede-svg.is-foco .rede-lig.cita,
+.rede-svg.is-foco .rede-lig.citado {
+  opacity: 1;
+  stroke-width: 1.4;
+}
+
+.rede-svg.is-foco .rede-lig.cita {
+  stroke: var(--green);
+}
+
+.rede-svg.is-foco .rede-lig.citado {
+  stroke: var(--ink);
+}
+
+.rede-no {
+  fill: var(--ink-40);
+  stroke: var(--bg);
+  stroke-width: 1;
+}
+
+.rede-no.meta {
+  fill: var(--green);
+}
+
+.rede-no.sem-refs {
+  fill-opacity: 0.55;
+}
+
+.rede-no.foco {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+
+.rede-hit {
+  fill: transparent;
+  cursor: pointer;
+}
+
+.rede-sw-no {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ink-40);
+}
+
+.rede-sw-no.meta {
+  background: var(--green);
+}
+
+.rede-sw-lig {
+  width: 16px;
+  height: 0;
+  border-top: 1px solid var(--ink-40);
+}
+
+.pais-mais {
+  margin-top: 12px;
+  padding: 6px 12px;
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--ink-78);
+  background: transparent;
+  border: 1px solid var(--ink-16);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.pais-mais:hover {
+  border-color: var(--ink-40);
+  color: var(--ink);
+}
