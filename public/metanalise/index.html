@@ -66,6 +66,7 @@
       <div class="base-filter-inner">
         <div class="base-filter-group">
         <span class="section-label" data-i18n="baseLabel"></span>
+        <button type="button" class="filter-info-btn" id="base-info-btn" aria-expanded="false" aria-controls="base-info">i</button>
         <div class="tier-filter base-filter" role="radiogroup">
           <label class="tier-chip">
             <input type="radio" name="base-filter" value="todos" id="base-radio-todos" checked>
@@ -81,6 +82,7 @@
         </div>
         <div class="base-filter-group">
         <span class="section-label" data-i18n="co2Label"></span>
+        <button type="button" class="filter-info-btn" id="co2-info-btn" aria-expanded="false" aria-controls="co2-info">i</button>
         <div class="tier-filter base-filter" role="radiogroup">
           <label class="tier-chip">
             <input type="radio" name="co2-filter" value="sem" id="co2-radio-sem" checked>
@@ -110,13 +112,10 @@
           </label>
         </div>
         </div>
+        <p class="filter-info-pop" id="base-info" data-i18n="baseNote" hidden></p>
+        <p class="filter-info-pop" id="co2-info" data-i18n="co2Note" hidden></p>
       </div>
     </div>
-
-    <section class="meta-section base-note-section">
-      <p class="base-note" data-i18n="baseNote"></p>
-      <p class="base-note" data-i18n="co2Note"></p>
-    </section>
 
     <section class="meta-section" aria-label="Indicadores">
       <div class="kpi-grid">
