@@ -45,6 +45,13 @@
   var UNIT_STATS = [{"kind":"derivado","cat":"m3","n":501},{"kind":"excluido","cat":"m3","n":35},{"kind":"nativo","cat":"m3","n":1004},{"kind":"pendente","cat":"elemento","n":25},{"kind":"pendente","cat":"energia","n":4},{"kind":"pendente","cat":"ja_mpa","n":6},{"kind":"pendente","cat":"kg","n":23},{"kind":"pendente","cat":"m2","n":32},{"kind":"pendente","cat":"metro_linear","n":9},{"kind":"pendente","cat":"tonelada","n":42}];
 
   var UNIT_EXCLUDED = [{"row_id":2681,"estudo":"Habibi et al., 2024","material":"Concreto circular (RCA + sílica ativa + GGBS) vs concreto convencional","fck":33.4,"co2":249.0,"unidade":"kg CO2-eq/m3","motivo":"HABIBI 2681: 249 = GWP do circular com fim de vida escalado para a vida util do convencional (Tab.3 'Circular (38-Y SL)'; 354 x 37,9/53,7); a mesma mistura (fck 33,4) ja esta na linha 131 (297, berco-a-porta) -> duplicado com outra fronteira"},{"row_id":5050,"estudo":"Braga, 2018","material":"Estrutura de concreto armado VC com alvenaria ceramica fck=25 MPa","fck":25.0,"co2":267.0,"unidade":"kg CO2-eq/m3 de concreto","motivo":"E2: mesmo factor generico da DAP Votorantim (25 MPa x 267) da linha 62, aplicado a outro sistema"},{"row_id":5055,"estudo":"Isaia, 2021","material":"Concreto REF (referencia s/ filler calcario)","fck":127.2,"co2":597.24,"unidade":"kgCO2eq/m3","motivo":"E2: mesmo traco e mesmo CO2 da linha 65, com o fck aos 91 d; fica o par aos 28 d"},{"row_id":5055,"estudo":"Isaia, 2021","material":"Concreto FC50 (50% filler calcario)","fck":87.8,"co2":377.41,"unidade":"kgCO2eq/m3","motivo":"E2: mesmo traco e mesmo CO2 da linha 67, com o fck aos 91 d; fica o par aos 28 d"},{"row_id":5055,"estudo":"Isaia, 2021","material":"Concreto FC60 (60% filler calcario)","fck":65.7,"co2":325.09,"unidade":"kgCO2eq/m3","motivo":"E2: mesmo traco e mesmo CO2 da linha 69, com o fck aos 91 d; fica o par aos 28 d"},{"row_id":5055,"estudo":"Isaia, 2021","material":"Concreto FC60CH10 (60% filler + 10% cal hidratada)","fck":88.6,"co2":361.27,"unidade":"kgCO2eq/m3","motivo":"E2: mesmo traco e mesmo CO2 da linha 71, com o fck aos 91 d; fica o par aos 28 d"},{"row_id":5055,"estudo":"Isaia, 2021","material":"Concreto FC70CV10 (70% filler + 10% cinza volante)","fck":51.8,"co2":212.83,"unidade":"kgCO2eq/m3","motivo":"E2: mesmo traco e mesmo CO2 da linha 73, com o fck aos 91 d; fica o par aos 28 d"},{"row_id":5055,"estudo":"Isaia, 2021","material":"Concreto FC70CV10CH10 (70% filler + 10% CV + 10% CH)","fck":43.5,"co2":250.3,"unidade":"kgCO2eq/m3","motivo":"E2: mesmo traco e mesmo CO2 da linha 75, com o fck aos 91 d; fica o par aos 28 d"},{"row_id":2611,"estudo":"Cong et al., 2024","material":"GGBS-A (geopolimero base escoria de alto-forno, 30 MPa, traco A1)","fck":30.0,"co2":19.944,"unidade":"kg CO2-eq/m3 [RELABEL 2026-09-13: unidade original ja e por 1m3 de concreto (Tabela 14, coluna \"OC (kg/m3)\") -- valor nao alterado]","motivo":"E1: 19,944 (Table 14) e o CO2 do GPC dividido por 18 ciclos de 50 anos em acido sulfurico; o valor por m3 so existe na Fig.8"},{"row_id":2703,"estudo":"Kim et al., 2016","material":"Betao 100% OPC, medido fisicamente (Type 1)","fck":29.6,"co2":342.28,"unidade":"kg-CO2 eq/m3","motivo":"E2: duplica a linha 154 (mesmo traco 100% OPC, mesmo fck e CO2)"},{"row_id":2703,"estudo":"Kim et al., 2016","material":"Betao OPC+BFS (30%), medido fisicamente (Type 2)","fck":33.2,"co2":259.14,"unidade":"kg-CO2 eq/m3 [CORRIGIDO 2026-09-24, lote CI_MPA: co2 estava trocado com a linha 153. Tabela 11 do artigo: Type2=OPC+BFS-geral(30%) pareia com Case5=259.14 (nao ","motivo":"E2: duplica a linha 158 (mesmo traco OPC+BFS 30%, mesmo fck e CO2)"},{"row_id":2703,"estudo":"Kim et al., 2016","material":"Betao OPC+W-BFS (30%, aditivo residuo), medido fisicamente (Type 3)","fck":38.6,"co2":263.24,"unidade":"kg-CO2 eq/m3 [CORRIGIDO 2026-09-24, lote CI_MPA: co2 estava trocado com a linha 152. Tabela 11 do artigo: Type3(rotulado 4)=OPC+W-BFS(30%) pareia com Case4=263.","motivo":"E2: duplica a linha 157 (mesmo traco OPC+W-BFS 30%, mesmo fck e CO2)"},{"row_id":2891,"estudo":"Asensio et al., 2023","material":"TRC (textile-reinforced concrete), baseado no footbridge de referencia de Albstadt-Ebingen","fck":60.0,"co2":1029.5,"unidade":"kg CO2-eq/m3 [DERIVADO 2026-09-11: total CO2 (Tab.6) dividido pelo volume de betao (Tab.5) -- ver observacoes]","motivo":"revisao 2026-09-27: o total 2584 kg (Tab.6) inclui o guarda-corpo de aco galvanizado (\"increases emissions by 10% due to the production of the galvanized steel railing\", p.7717), cuja parcela nao e publicada; massa implicita 7,6 t/2,51 m3 = 3.028 kg/m3 vs 2.500 declarado. O unico percentual (10%) e incoerente com a Tab.6 (TRC emite 13% MENOS que 3DPC). Antes: 1029,5"},{"row_id":3215,"estudo":"Mekky et al., 2024","material":"concreto de controlo (CM) + cenario de aterro de lama de esgoto","fck":33.35,"co2":10300.0,"unidade":"kg CO2 eq (GWP, cenario 1: CM + aterro de lama de esgoto)","motivo":"revisao 2026-09-27 (leitura integral do PDF): incoerente com o proprio inventario (10.300 kg/m3 com 380 kg de cimento; cenario inclui deposicao de lamas)"},{"row_id":3215,"estudo":"Mekky et al., 2024","material":"concreto com 5% biochar de lama de esgoto (ASB) substituindo cimento","fck":31.9,"co2":6980.0,"unidade":"kg CO2 eq (GWP, cenario 2: 5% ASB - biochar de lama de esgoto)","motivo":"revisao 2026-09-27 (leitura integral do PDF): incoerente com o proprio inventario (10.300 kg/m3 com 380 kg de cimento; cenario inclui deposicao de lamas)"},{"row_id":3237,"estudo":"Kanagaraj et al., 2023","material":"SCLGC - concreto geopolimerico autocompactavel leve com agregado de argila expandida (ECA)","fck":47.0,"co2":231.2,"unidade":"kg CO2/m3 (convertido de 0,2312 t-CO2/m3, texto sec.6.3.3)","motivo":"KANAGARAJ 3237: 231,2 kg/m3 e um GPC generico 'segundo a proposta' de Alsalman 2021, nao corresponde a nenhuma mistura da Tab.2 (as ECA0 dao 168,6/315,2/461,0); o fck 47 e de uma mistura SCLGC com argila expandida, sem factor de CO2 -> par mistura duas misturas"},{"row_id":3818,"estudo":"Ye et al., 2024","material":"RC (concreto armado convencional, referencia com armadura, impressao 3D vs. betonagem)","fck":40.0,"co2":885.13,"unidade":"kg CO2-eq/m3","motivo":"E2/D1: RC com aco (885,13 = 318,13 + 567,01 do varao); o mesmo traco sem aco ja esta na linha 1107 (RC-0)"},{"row_id":3881,"estudo":"Han et al., 2019","material":"Concreto estrutural (media de corpos de prova de laboratorio, 7 anos de dados, Indonesia)","fck":35.0,"co2":63000.0,"unidade":"[DERIVADO] kg CO2/ano (pico 2017; = 20 m3 cimento (Fig.4) x 3,15 t/m3 densidade padrao)","motivo":"revisao 2026-09-27 (leitura integral do PDF): PAR_NAO_CONVERTIVEL: fck 35 MPa = media das resistencias registadas em 7 anos (usada para estimar o teor de cimento pelo ACI). O CO2 so existe em 'm3' (Eq.1 aplica factor massa/massa a um VOLUME de cimento; Fig.4 eixo 'CO2 emission (m3)'). Conversao para kg exige a massa volumica do cimento, que o artigo nao imprime. Pela excepcao 5b ja autorizada pela Kie para esta linha (3,15 t/m3), a intensidade por m3 sai directamente das constantes impressas, sem leitura de grafico: 0,204 m3 cimento/m3 betao x 3,15 t/m3 x 0,95 (clinquer) x 0,5 tCO2/t = 0,305 t"},{"row_id":4263,"estudo":"Mostafaei et al., 2025","material":"Concreto de barragem, resistencia de projeto de 20 MPa","fck":20.0,"co2":304.7,"unidade":"kg CO2-eq/m3 [DERIVADO 2026-09-11: rotulo impresso Fig.11 (ton CO2eq/m largura) x1000 / volume por m de largura (Secao 4.4) -- ver observacoes]","motivo":"MOSTAFAEI 4263 (decisao da Kie 2026-10-09, opcao a): a Fig.11 (303/348/422/497 t CO2/m de barragem) nao tem fronteira identificavel - caso-base: construcao 355 t, betao >305 t (p.8, Tab.3), Fig.3 341,2 kg/m3 (=305 t/895 m3, classe 30 MPa por deducao), mas a Fig.11 da 348 t aos 30 MPa; total/volume nao e o CO2 do betao"},{"row_id":4263,"estudo":"Mostafaei et al., 2025","material":"Concreto de barragem, resistencia de projeto de 30 MPa","fck":30.0,"co2":388.7,"unidade":"kg CO2-eq/m3 [DERIVADO 2026-09-11: rotulo impresso Fig.11 (ton CO2eq/m largura) x1000 / volume por m de largura (Secao 4.4) -- ver observacoes]","motivo":"MOSTAFAEI 4263 (decisao da Kie 2026-10-09, opcao a): a Fig.11 (303/348/422/497 t CO2/m de barragem) nao tem fronteira identificavel - caso-base: construcao 355 t, betao >305 t (p.8, Tab.3), Fig.3 341,2 kg/m3 (=305 t/895 m3, classe 30 MPa por deducao), mas a Fig.11 da 348 t aos 30 MPa; total/volume nao e o CO2 do betao"},{"row_id":4263,"estudo":"Mostafaei et al., 2025","material":"Concreto de barragem, resistencia de projeto de 40 MPa","fck":40.0,"co2":473.9,"unidade":"kg CO2-eq/m3 [DERIVADO 2026-09-11: rotulo impresso Fig.11 (ton CO2eq/m largura) x1000 / volume por m de largura (Secao 4.4) -- ver observacoes]","motivo":"MOSTAFAEI 4263 (decisao da Kie 2026-10-09, opcao a): a Fig.11 (303/348/422/497 t CO2/m de barragem) nao tem fronteira identificavel - caso-base: construcao 355 t, betao >305 t (p.8, Tab.3), Fig.3 341,2 kg/m3 (=305 t/895 m3, classe 30 MPa por deducao), mas a Fig.11 da 348 t aos 30 MPa; total/volume nao e o CO2 do betao"},{"row_id":4263,"estudo":"Mostafaei et al., 2025","material":"Concreto de barragem, resistencia de projeto de 50 MPa","fck":50.0,"co2":560.2,"unidade":"kg CO2-eq/m3 [DERIVADO 2026-09-11: rotulo impresso Fig.11 (ton CO2eq/m largura) x1000 / volume por m de largura (Secao 4.4) -- ver observacoes]","motivo":"MOSTAFAEI 4263 (decisao da Kie 2026-10-09, opcao a): a Fig.11 (303/348/422/497 t CO2/m de barragem) nao tem fronteira identificavel - caso-base: construcao 355 t, betao >305 t (p.8, Tab.3), Fig.3 341,2 kg/m3 (=305 t/895 m3, classe 30 MPa por deducao), mas a Fig.11 da 348 t aos 30 MPa; total/volume nao e o CO2 do betao"},{"row_id":4476,"estudo":"Faridmehr et al., 2021","material":"AAM argamassa alcali-ativada Mix 28: FA50%+GBFS50%","fck":80.46,"co2":54.55,"unidade":"kg CO2/m3","motivo":"E2: o proprio artigo repete a Mix 6 como Mix 28 (mesma composicao, fck e CO2) - fica a linha 1396"},{"row_id":4476,"estudo":"Faridmehr et al., 2021","material":"AAM argamassa alcali-ativada Mix 33: GBFS50%+POFA50%","fck":55.64,"co2":77.68,"unidade":"kg CO2/m3","motivo":"E2: o proprio artigo repete a Mix 15 como Mix 33 (mesma composicao, fck e CO2) - fica a linha 1405"},{"row_id":4706,"estudo":"Passoni et al., 2022","material":"Concreto C25/30 -- fundacoes do exoesqueleto de reforco sismico, solucoes Timber Shell e Steel Diagrid (67.29 m3)","fck":25.0,"co2":1297.4,"unidade":"[DERIVADO] kg CO2eq/m3 (concreto C25/30 das fundacoes, modulos A1-A3)","motivo":"revisao 2026-09-27 (leitura integral do PDF): PAR_NAO_CONVERTIVEL: Confirma a decisao da Kie de 2026-09-26. fck: betao C25/30 (classe de projecto) nas fundacoes (67,29 m3 Timber/Diagrid; 95,31 m3 Steel/RC Walls) e superestrutura RC Walls (70,88 m3) - Tab.A1 p.29. CO2 so em totais por solucao (GWP A1-A3: 0,21/1,07/1,64/2,27 x10^5 kgCO2eq, p.17) e na Fig.9(ii), onde a parcela 'concrete C25/30' e uma barra empilhada SEM rotulo proprio; os rotulos '8.73x10^4' e '8.54x10^4' estao no painel PERT (MJ), nao no GWP. O eixo GWP tem escala, mas a leitura da barra verde do betao da ~1,0x10^3 kgCO2eq/m3 (e"},{"row_id":4706,"estudo":"Passoni et al., 2022","material":"Concreto C25/30 -- fundacoes do exoesqueleto de reforco sismico, solucoes Steel Walls e RC Walls (95.31 m3)","fck":25.0,"co2":896.0,"unidade":"[DERIVADO] kg CO2eq/m3 (concreto C25/30 das fundacoes, modulos A1-A3)","motivo":"revisao 2026-09-27 (leitura integral do PDF): PAR_NAO_CONVERTIVEL: Confirma a decisao da Kie de 2026-09-26. fck: betao C25/30 (classe de projecto) nas fundacoes (67,29 m3 Timber/Diagrid; 95,31 m3 Steel/RC Walls) e superestrutura RC Walls (70,88 m3) - Tab.A1 p.29. CO2 so em totais por solucao (GWP A1-A3: 0,21/1,07/1,64/2,27 x10^5 kgCO2eq, p.17) e na Fig.9(ii), onde a parcela 'concrete C25/30' e uma barra empilhada SEM rotulo proprio; os rotulos '8.73x10^4' e '8.54x10^4' estao no painel PERT (MJ), nao no GWP. O eixo GWP tem escala, mas a leitura da barra verde do betao da ~1,0x10^3 kgCO2eq/m3 (e"},{"row_id":4754,"estudo":"Maury-Ramirez & De Belie, 2023","material":"Eco-concreto com 50% escoria de alto-forno (BFS) — vigas aereas e de fundacao, casa sustentavel, Santiago de Cali","fck":28.0,"co2":15.8,"unidade":"kg CO2/m3","motivo":"E1: 15,8 kg CO2/m3 impossivel para 182,6 kg de cimento/m3; o eixo da Fig.4 nao tem unidade"},{"row_id":4754,"estudo":"Maury-Ramirez & De Belie, 2023","material":"Eco-concreto com 50% escoria de alto-forno (BFS) — colunas, casa sustentavel, Santiago de Cali","fck":28.0,"co2":20.1,"unidade":"kg CO2/m3","motivo":"E1: 20,1 kg CO2/m3 impossivel para 182,6 kg de cimento/m3; o eixo da Fig.4 nao tem unidade"},{"row_id":4766,"estudo":"Ma et al., 2024","material":"Concreto estrutural — Mild Reinforced Beams and Slabs (edificio alto hibrido aco-concreto, Chicago, 60 andares)","fck":37.9,"co2":305.81,"unidade":"kg CO2eq/m3 (A-D, cradle-to-grave, base GaBi/NRMCA EPD via Tally)","motivo":"E2: mesma classe 5500 psi e mesmo factor da linha 1758 (dois elementos do mesmo edificio)"},{"row_id":5029,"estudo":"Hora, 2021","material":"Concreto usinado (cimento CP II-F, referencia) para pavimento de ciclovia -- producao apenas","fck":20.0,"co2":190.7,"unidade":"kg CO2-eq/m3 [PAR NOVO 2026-09-11, nao capturado nas extracoes anteriores por truncagem do read_file_content -- ver nota da linha 606 do mesmo row_id]. Valor im","motivo":"E1: as Tabelas 27-29 dao totais da ciclovia (588 m3) com os valores uma linha acima do rotulo; o numero gravado e a eutrofizacao, nao o GWP por m3"},{"row_id":5029,"estudo":"Hora, 2021","material":"Concreto usinado com cimento CP IV (menor teor de clinquer) para pavimento de ciclovia -- producao apenas","fck":20.0,"co2":112.3,"unidade":"kg CO2-eq/m3 [PAR NOVO 2026-09-11, nao capturado nas extracoes anteriores por truncagem do read_file_content -- ver nota da linha 606 do mesmo row_id]. Valor im","motivo":"E1: as Tabelas 27-29 dao totais da ciclovia (588 m3) com os valores uma linha acima do rotulo; o numero gravado e a eutrofizacao, nao o GWP por m3"},{"row_id":5029,"estudo":"Hora, 2021","material":"Concreto usinado com cimento CP V ARI (maior teor de clinquer) para pavimento de ciclovia -- producao apenas","fck":20.0,"co2":200.1,"unidade":"kg CO2-eq/m3 [PAR NOVO 2026-09-11, nao capturado nas extracoes anteriores por truncagem do read_file_content -- ver nota da linha 606 do mesmo row_id]. Valor im","motivo":"E1: as Tabelas 27-29 dao totais da ciclovia (588 m3) com os valores uma linha acima do rotulo; o numero gravado e a eutrofizacao, nao o GWP por m3"},{"row_id":5029,"estudo":"Hora, 2021","material":"Concreto usinado com 50% do agregado graudo substituido por reciclado de concreto (ARC-50%) -- producao+transporte","fck":20.0,"co2":175.0,"unidade":"kg CO2-eq/m3 [PAR NOVO 2026-09-11, nao capturado nas extracoes anteriores por truncagem do read_file_content -- ver nota da linha 606 do mesmo row_id]. Valor im","motivo":"E1: as Tabelas 27-29 dao totais da ciclovia (588 m3) com os valores uma linha acima do rotulo; o numero gravado e a eutrofizacao, nao o GWP por m3"},{"row_id":5029,"estudo":"Hora, 2021","material":"Concreto usinado com 100% do agregado graudo substituido por reciclado de concreto (ARC-100%) -- producao+transporte","fck":20.0,"co2":158.2,"unidade":"kg CO2-eq/m3 [PAR NOVO 2026-09-11, nao capturado nas extracoes anteriores por truncagem do read_file_content -- ver nota da linha 606 do mesmo row_id]. Valor im","motivo":"E1: as Tabelas 27-29 dao totais da ciclovia (588 m3) com os valores uma linha acima do rotulo; o numero gravado e a eutrofizacao, nao o GWP por m3"},{"row_id":5029,"estudo":"Hora, 2021","material":"Concreto 'Ideal' (cimento CP IV + 100% agregado graudo reciclado, combinados) -- producao+transporte","fck":20.0,"co2":79.81,"unidade":"kg CO2-eq/m3 [PAR NOVO 2026-09-11, nao capturado nas extracoes anteriores por truncagem do read_file_content -- ver nota da linha 606 do mesmo row_id]. Valor im","motivo":"E1: as Tabelas 27-29 dao totais da ciclovia (588 m3) com os valores uma linha acima do rotulo; o numero gravado e a eutrofizacao, nao o GWP por m3"}];
+  /* Resultados do modelo multinível (rma.mv REML, metafor) para o forest por
+     família — F28, Kiê 2026-10-16. Gerado no repositório da RSL por
+     metanalise/exportar_forest_site.R (metanalise/resultados/forest_site.json):
+     um ajuste por combinação de filtros, chave 'estrato|base|co2|indicador'
+     (estrato ps/p/s, base todos/portland, co2 sem/com, indicador ci/cit). */
+  var MODELO = {"gerado":"2026-10-16","metodo":"rma.mv REML, random = ~1 | estudo/obs_id (metafor)","pares":1505,"cenarios":{"ps|todos|sem|ci":{"k":1456,"estudos":391,"global":{"mu":10.1696,"lb":9.5973,"ub":10.7419,"pi_lb":0.376074,"pi_ub":19.9631,"i2":99.929},"familias":{"biobase":{"mu":4.608,"lb":-16.0477,"ub":25.2637,"k":1,"estudos":1},"concreto_armado":{"mu":15.2137,"lb":13.2986,"ub":17.1289,"k":91,"estudos":39},"geopolimero":{"mu":5.06179,"lb":3.91252,"ub":6.21105,"k":203,"estudos":57},"ligantes":{"mu":11.1961,"lb":8.29029,"ub":14.1018,"k":22,"estudos":10},"opc":{"mu":10.8339,"lb":10.1742,"ub":11.4937,"k":503,"estudos":247},"reciclado":{"mu":11.3206,"lb":10.4357,"ub":12.2056,"k":183,"estudos":70},"scm":{"mu":9.48988,"lb":8.73679,"ub":10.243,"k":414,"estudos":110},"uhpc":{"mu":8.27323,"lb":6.40119,"ub":10.1453,"k":39,"estudos":16}}},"p|todos|sem|ci":{"k":1117,"estudos":303,"global":{"mu":10.5207,"lb":9.83577,"ub":11.2057,"pi_lb":0.18279,"pi_ub":20.8586,"i2":99.9493},"familias":{"concreto_armado":{"mu":15.1365,"lb":12.9973,"ub":17.2757,"k":82,"estudos":34},"geopolimero":{"mu":4.60798,"lb":3.27458,"ub":5.94138,"k":166,"estudos":45},"ligantes":{"mu":11.9698,"lb":8.62024,"ub":15.3195,"k":17,"estudos":9},"opc":{"mu":11.2575,"lb":10.4709,"ub":12.0441,"k":404,"estudos":198},"reciclado":{"mu":11.5881,"lb":10.4971,"ub":12.6791,"k":132,"estudos":55},"scm":{"mu":9.95296,"lb":9.07287,"ub":10.833,"k":302,"estudos":85},"uhpc":{"mu":7.5101,"lb":3.74463,"ub":11.2756,"k":14,"estudos":7}}},"s|todos|sem|ci":{"k":339,"estudos":88,"global":{"mu":8.99399,"lb":8.15071,"ub":9.83728,"pi_lb":1.99578,"pi_ub":15.9922,"i2":98.5612},"familias":{"biobase":{"mu":4.608,"lb":-5.96716,"ub":15.1832,"k":1,"estudos":1},"concreto_armado":{"mu":16.1402,"lb":12.1913,"ub":20.0891,"k":9,"estudos":5},"geopolimero":{"mu":6.25904,"lb":4.4102,"ub":8.10788,"k":37,"estudos":12},"ligantes":{"mu":7.50173,"lb":2.36242,"ub":12.641,"k":5,"estudos":1},"opc":{"mu":9.73448,"lb":8.67472,"ub":10.7942,"k":99,"estudos":49},"reciclado":{"mu":10.3989,"lb":9.13412,"ub":11.6637,"k":51,"estudos":15},"scm":{"mu":7.79661,"lb":6.51447,"ub":9.07874,"k":112,"estudos":25},"uhpc":{"mu":7.6677,"lb":5.89048,"ub":9.44493,"k":25,"estudos":9}}},"ps|portland|sem|ci":{"k":1230,"estudos":353,"global":{"mu":10.3973,"lb":9.89348,"ub":10.9012,"pi_lb":2.44418,"pi_ub":18.3505,"i2":99.8692},"familias":{"concreto_armado":{"mu":15.0732,"lb":13.4725,"ub":16.674,"k":91,"estudos":39},"opc":{"mu":10.3051,"lb":9.75909,"ub":10.8512,"k":503,"estudos":247},"reciclado":{"mu":10.8888,"lb":10.1624,"ub":11.6153,"k":183,"estudos":70},"scm":{"mu":8.84474,"lb":8.22131,"ub":9.46818,"k":414,"estudos":110},"uhpc":{"mu":8.11157,"lb":6.52776,"ub":9.69537,"k":39,"estudos":16}}},"p|portland|sem|ci":{"k":934,"estudos":273,"global":{"mu":10.6999,"lb":10.1252,"ub":11.2745,"pi_lb":2.79429,"pi_ub":18.6054,"i2":99.8939},"familias":{"concreto_armado":{"mu":14.9353,"lb":13.2271,"ub":16.6436,"k":82,"estudos":34},"opc":{"mu":10.5758,"lb":9.95601,"ub":11.1955,"k":404,"estudos":198},"reciclado":{"mu":10.9893,"lb":10.139,"ub":11.8396,"k":132,"estudos":55},"scm":{"mu":9.13804,"lb":8.44664,"ub":9.82945,"k":302,"estudos":85},"uhpc":{"mu":7.39009,"lb":4.25144,"ub":10.5287,"k":14,"estudos":7}}},"s|portland|sem|ci":{"k":296,"estudos":80,"global":{"mu":9.44807,"lb":8.52551,"ub":10.3706,"pi_lb":2.18025,"pi_ub":16.7159,"i2":98.7624},"familias":{"concreto_armado":{"mu":16.2053,"lb":12.2292,"ub":20.1813,"k":9,"estudos":5},"opc":{"mu":9.75423,"lb":8.67331,"ub":10.8352,"k":99,"estudos":49},"reciclado":{"mu":10.4227,"lb":9.12488,"ub":11.7206,"k":51,"estudos":15},"scm":{"mu":7.76154,"lb":6.43376,"ub":9.08932,"k":112,"estudos":25},"uhpc":{"mu":7.60247,"lb":5.77297,"ub":9.43196,"k":25,"estudos":9}}},"ps|todos|com|ci":{"k":1505,"estudos":401,"global":{"mu":10.0174,"lb":9.44132,"ub":10.5934,"pi_lb":0.0233338,"pi_ub":20.0114,"i2":99.9353},"familias":{"biobase":{"mu":-3.776,"lb":-24.9657,"ub":17.4137,"k":1,"estudos":1},"concreto_armado":{"mu":15.3066,"lb":13.4613,"ub":17.152,"k":104,"estudos":43},"geopolimero":{"mu":4.16166,"lb":2.97902,"ub":5.3443,"k":219,"estudos":58},"ligantes":{"mu":10.8168,"lb":7.82152,"ub":13.812,"k":22,"estudos":10},"opc":{"mu":10.8248,"lb":10.1501,"ub":11.4995,"k":508,"estudos":252},"reciclado":{"mu":11.0341,"lb":10.1336,"ub":11.9345,"k":193,"estudos":75},"scm":{"mu":9.42755,"lb":8.6608,"ub":10.1943,"k":419,"estudos":113},"uhpc":{"mu":8.14171,"lb":6.18823,"ub":10.0952,"k":39,"estudos":16}}},"p|todos|com|ci":{"k":1162,"estudos":312,"global":{"mu":10.3781,"lb":9.68662,"ub":11.0696,"pi_lb":-0.252584,"pi_ub":21.0088,"i2":99.9544},"familias":{"concreto_armado":{"mu":15.3701,"lb":13.3072,"ub":17.4329,"k":95,"estudos":38},"geopolimero":{"mu":3.35656,"lb":1.97929,"ub":4.73383,"k":182,"estudos":46},"ligantes":{"mu":11.4523,"lb":7.98642,"ub":14.9181,"k":17,"estudos":9},"opc":{"mu":11.2955,"lb":10.4871,"ub":12.1039,"k":409,"estudos":203},"reciclado":{"mu":11.3573,"lb":10.2444,"ub":12.4702,"k":139,"estudos":59},"scm":{"mu":9.91678,"lb":9.01638,"ub":10.8172,"k":306,"estudos":87},"uhpc":{"mu":7.37207,"lb":3.36138,"ub":11.3828,"k":14,"estudos":7}}},"s|todos|com|ci":{"k":343,"estudos":89,"global":{"mu":8.68085,"lb":7.8611,"ub":9.50061,"pi_lb":2.0086,"pi_ub":15.3531,"i2":98.3988},"familias":{"biobase":{"mu":-3.776,"lb":-15.4635,"ub":7.91152,"k":1,"estudos":1},"concreto_armado":{"mu":15.9075,"lb":11.7004,"ub":20.1146,"k":9,"estudos":5},"geopolimero":{"mu":6.20591,"lb":4.37407,"ub":8.03776,"k":37,"estudos":12},"ligantes":{"mu":7.36687,"lb":2.26831,"ub":12.4654,"k":5,"estudos":1},"opc":{"mu":9.46016,"lb":8.38916,"ub":10.5312,"k":99,"estudos":49},"reciclado":{"mu":9.88815,"lb":8.64583,"ub":11.1305,"k":54,"estudos":16},"scm":{"mu":7.75014,"lb":6.48126,"ub":9.01901,"k":113,"estudos":26},"uhpc":{"mu":7.5074,"lb":5.74151,"ub":9.27329,"k":25,"estudos":9}}},"ps|portland|com|ci":{"k":1262,"estudos":362,"global":{"mu":10.2439,"lb":9.73985,"ub":10.7479,"pi_lb":2.24067,"pi_ub":18.2471,"i2":99.8692},"familias":{"concreto_armado":{"mu":15.0592,"lb":13.5355,"ub":16.5829,"k":103,"estudos":42},"opc":{"mu":10.1209,"lb":9.57306,"ub":10.6688,"k":508,"estudos":252},"reciclado":{"mu":10.4923,"lb":9.77032,"ub":11.2142,"k":193,"estudos":75},"scm":{"mu":8.71046,"lb":8.08946,"ub":9.33147,"k":419,"estudos":113},"uhpc":{"mu":7.98019,"lb":6.38242,"ub":9.57796,"k":39,"estudos":16}}},"p|portland|com|ci":{"k":962,"estudos":281,"global":{"mu":10.574,"lb":9.99435,"ub":11.1536,"pi_lb":2.49863,"pi_ub":18.6493,"i2":99.8967},"familias":{"concreto_armado":{"mu":15.0182,"lb":13.3924,"ub":16.644,"k":94,"estudos":37},"opc":{"mu":10.4055,"lb":9.78085,"ub":11.0301,"k":409,"estudos":203},"reciclado":{"mu":10.5993,"lb":9.75013,"ub":11.4484,"k":139,"estudos":59},"scm":{"mu":8.99925,"lb":8.3065,"ub":9.692,"k":306,"estudos":87},"uhpc":{"mu":7.36775,"lb":4.16907,"ub":10.5664,"k":14,"estudos":7}}},"s|portland|com|ci":{"k":300,"estudos":81,"global":{"mu":9.15896,"lb":8.26149,"ub":10.0564,"pi_lb":2.22615,"pi_ub":16.0918,"i2":98.6214},"familias":{"concreto_armado":{"mu":15.9972,"lb":11.8358,"ub":20.1586,"k":9,"estudos":5},"opc":{"mu":9.47717,"lb":8.38516,"ub":10.5692,"k":99,"estudos":49},"reciclado":{"mu":9.88831,"lb":8.61262,"ub":11.164,"k":54,"estudos":16},"scm":{"mu":7.72515,"lb":6.41267,"ub":9.03762,"k":113,"estudos":26},"uhpc":{"mu":7.4382,"lb":5.62169,"ub":9.25471,"k":25,"estudos":9}}},"ps|todos|sem|cit":{"k":285,"estudos":96,"global":{"mu":0.164852,"lb":0.143215,"ub":0.186489,"pi_lb":0.0108364,"pi_ub":0.318868,"i2":80.953},"familias":{"concreto_armado":{"mu":0.195556,"lb":0.148473,"ub":0.242639,"k":61,"estudos":24},"geopolimero":{"mu":0.176732,"lb":0.0713535,"ub":0.28211,"k":4,"estudos":3},"ligantes":{"mu":0.115247,"lb":-0.0227824,"ub":0.253277,"k":1,"estudos":1},"opc":{"mu":0.176942,"lb":0.15033,"ub":0.203554,"k":135,"estudos":63},"reciclado":{"mu":0.139656,"lb":0.0717073,"ub":0.207605,"k":10,"estudos":7},"scm":{"mu":0.120169,"lb":0.0892071,"ub":0.151132,"k":69,"estudos":21},"uhpc":{"mu":0.0978647,"lb":0.00778727,"ub":0.187942,"k":5,"estudos":2}}},"p|todos|sem|cit":{"k":273,"estudos":91,"global":{"mu":0.163103,"lb":0.142022,"ub":0.184184,"pi_lb":0.0179453,"pi_ub":0.308261,"i2":79.9789},"familias":{"concreto_armado":{"mu":0.193263,"lb":0.147335,"ub":0.239192,"k":61,"estudos":24},"geopolimero":{"mu":0.19151,"lb":0.0621758,"ub":0.320844,"k":3,"estudos":2},"ligantes":{"mu":0.119702,"lb":-0.0024623,"ub":0.241866,"k":1,"estudos":1},"opc":{"mu":0.17197,"lb":0.145648,"ub":0.198293,"k":128,"estudos":60},"reciclado":{"mu":0.139711,"lb":0.0733242,"ub":0.206098,"k":10,"estudos":7},"scm":{"mu":0.121134,"lb":0.0904946,"ub":0.151773,"k":68,"estudos":20},"uhpc":{"mu":0.139218,"lb":0.0412163,"ub":0.237219,"k":2,"estudos":1}}},"s|todos|sem|cit":{"k":12,"estudos":5,"global":{"mu":0.192513,"lb":0.0648737,"ub":0.320152,"pi_lb":-0.116022,"pi_ub":0.501048,"i2":99.9835},"familias":{"geopolimero":{"mu":0.144409,"lb":-0.0324261,"ub":0.321245,"k":1,"estudos":1},"opc":{"mu":0.303269,"lb":0.190562,"ub":0.415977,"k":7,"estudos":3},"scm":{"mu":0.246717,"lb":0.00357336,"ub":0.489862,"k":1,"estudos":1},"uhpc":{"mu":0.0176681,"lb":-0.131647,"ub":0.166983,"k":3,"estudos":1}}},"ps|portland|sem|cit":{"k":280,"estudos":95,"global":{"mu":0.164864,"lb":0.143486,"ub":0.186242,"pi_lb":0.0131753,"pi_ub":0.316552,"i2":80.6841},"familias":{"concreto_armado":{"mu":0.199916,"lb":0.154083,"ub":0.245749,"k":61,"estudos":24},"opc":{"mu":0.176534,"lb":0.150613,"ub":0.202454,"k":135,"estudos":63},"reciclado":{"mu":0.131634,"lb":0.0634156,"ub":0.199853,"k":10,"estudos":7},"scm":{"mu":0.118206,"lb":0.0877431,"ub":0.14867,"k":69,"estudos":21},"uhpc":{"mu":0.0958636,"lb":0.00673391,"ub":0.184993,"k":5,"estudos":2}}},"p|portland|sem|cit":{"k":269,"estudos":91,"global":{"mu":0.162789,"lb":0.142369,"ub":0.18321,"pi_lb":0.0216924,"pi_ub":0.303886,"i2":79.2957},"familias":{"concreto_armado":{"mu":0.198288,"lb":0.153826,"ub":0.24275,"k":61,"estudos":24},"opc":{"mu":0.171138,"lb":0.145703,"ub":0.196573,"k":128,"estudos":60},"reciclado":{"mu":0.129982,"lb":0.0638653,"ub":0.196098,"k":10,"estudos":7},"scm":{"mu":0.118669,"lb":0.088742,"ub":0.148596,"k":68,"estudos":20},"uhpc":{"mu":0.137152,"lb":0.0398698,"ub":0.234434,"k":2,"estudos":1}}},"s|portland|sem|cit":{"k":11,"estudos":4,"global":{"mu":0.205835,"lb":0.0460064,"ub":0.365663,"pi_lb":-0.146551,"pi_ub":0.55822,"i2":99.9879},"familias":{"opc":{"mu":0.303269,"lb":0.190562,"ub":0.415977,"k":7,"estudos":3},"scm":{"mu":0.246717,"lb":0.00357336,"ub":0.489862,"k":1,"estudos":1},"uhpc":{"mu":0.0176681,"lb":-0.131647,"ub":0.166983,"k":3,"estudos":1}}},"ps|todos|com|cit":{"k":296,"estudos":102,"global":{"mu":0.163684,"lb":0.142086,"ub":0.185282,"pi_lb":0.00511041,"pi_ub":0.322258,"i2":81.8217},"familias":{"concreto_armado":{"mu":0.2085,"lb":0.163482,"ub":0.253518,"k":65,"estudos":27},"geopolimero":{"mu":0.179071,"lb":0.0712531,"ub":0.286889,"k":4,"estudos":3},"ligantes":{"mu":0.109171,"lb":-0.0362237,"ub":0.254566,"k":1,"estudos":1},"opc":{"mu":0.169973,"lb":0.143438,"ub":0.196509,"k":140,"estudos":68},"reciclado":{"mu":0.136396,"lb":0.0709776,"ub":0.201814,"k":12,"estudos":8},"scm":{"mu":0.11581,"lb":0.0844643,"ub":0.147157,"k":69,"estudos":21},"uhpc":{"mu":0.0963659,"lb":0.00325201,"ub":0.18948,"k":5,"estudos":2}}},"p|todos|com|cit":{"k":284,"estudos":97,"global":{"mu":0.16217,"lb":0.140916,"ub":0.183424,"pi_lb":0.0106294,"pi_ub":0.313711,"i2":81.2409},"familias":{"concreto_armado":{"mu":0.20575,"lb":0.161588,"ub":0.249912,"k":65,"estudos":27},"geopolimero":{"mu":0.194132,"lb":0.0630261,"ub":0.325238,"k":3,"estudos":2},"ligantes":{"mu":0.113697,"lb":-0.0154144,"ub":0.242809,"k":1,"estudos":1},"opc":{"mu":0.165526,"lb":0.139187,"ub":0.191864,"k":133,"estudos":65},"reciclado":{"mu":0.13661,"lb":0.0726202,"ub":0.200599,"k":12,"estudos":8},"scm":{"mu":0.116719,"lb":0.0856178,"ub":0.14782,"k":68,"estudos":20},"uhpc":{"mu":0.136001,"lb":0.0345239,"ub":0.237478,"k":2,"estudos":1}}},"s|todos|com|cit":{"k":12,"estudos":5,"global":{"mu":0.192513,"lb":0.0648737,"ub":0.320152,"pi_lb":-0.116022,"pi_ub":0.501048,"i2":99.9835},"familias":{"geopolimero":{"mu":0.144409,"lb":-0.0324261,"ub":0.321245,"k":1,"estudos":1},"opc":{"mu":0.303269,"lb":0.190562,"ub":0.415977,"k":7,"estudos":3},"scm":{"mu":0.246717,"lb":0.00357336,"ub":0.489862,"k":1,"estudos":1},"uhpc":{"mu":0.0176681,"lb":-0.131647,"ub":0.166983,"k":3,"estudos":1}}},"ps|portland|com|cit":{"k":290,"estudos":100,"global":{"mu":0.163037,"lb":0.141783,"ub":0.184292,"pi_lb":0.00799033,"pi_ub":0.318084,"i2":81.3808},"familias":{"concreto_armado":{"mu":0.210935,"lb":0.167002,"ub":0.254868,"k":64,"estudos":26},"opc":{"mu":0.16963,"lb":0.143803,"ub":0.195456,"k":140,"estudos":68},"reciclado":{"mu":0.129485,"lb":0.0645022,"ub":0.194469,"k":12,"estudos":8},"scm":{"mu":0.113859,"lb":0.0830246,"ub":0.144693,"k":69,"estudos":21},"uhpc":{"mu":0.0942724,"lb":0.00217989,"ub":0.186365,"k":5,"estudos":2}}},"p|portland|com|cit":{"k":279,"estudos":96,"global":{"mu":0.161101,"lb":0.140597,"ub":0.181606,"pi_lb":0.01506,"pi_ub":0.307143,"i2":80.3549},"familias":{"concreto_armado":{"mu":0.208457,"lb":0.165574,"ub":0.251341,"k":64,"estudos":26},"opc":{"mu":0.164778,"lb":0.139326,"ub":0.19023,"k":133,"estudos":65},"reciclado":{"mu":0.128136,"lb":0.065079,"ub":0.191194,"k":12,"estudos":8},"scm":{"mu":0.114263,"lb":0.0838765,"ub":0.144649,"k":68,"estudos":20},"uhpc":{"mu":0.133954,"lb":0.0331487,"ub":0.234759,"k":2,"estudos":1}}},"s|portland|com|cit":{"k":11,"estudos":4,"global":{"mu":0.205835,"lb":0.0460064,"ub":0.365663,"pi_lb":-0.146551,"pi_ub":0.55822,"i2":99.9879},"familias":{"opc":{"mu":0.303269,"lb":0.190562,"ub":0.415977,"k":7,"estudos":3},"scm":{"mu":0.246717,"lb":0.00357336,"ub":0.489862,"k":1,"estudos":1},"uhpc":{"mu":0.0176681,"lb":-0.131647,"ub":0.166983,"k":3,"estudos":1}}}}};
+  var MODELO_MIN_ESTUDOS = 2;
   var tierVisible = { p: true, s: true };
 
   /* Filtro global da base do ligante (2026-09-28): 'todos' ou 'portland'.
@@ -225,13 +232,20 @@
       scatterXLabel: 'resistência à compressão (MPa)',
       scatterYLabel: 'CO₂ (kg/m³)',
       forestTitle: 'ci por família de material',
-      forestP: 'ci = CO₂ ÷ resistência, em kg CO₂-eq por m³·MPa — quanto menor, mais eficiente o material por unidade de resistência entregue. Mediana de cada família; ponto contra ponto no gráfico acima.',
+      forestP: 'ci = CO₂ ÷ resistência, em kg CO₂-eq por m³·MPa — quanto menor, mais eficiente o material por unidade de resistência entregue. Ponto contra ponto no gráfico acima.',
       forestToggleHint: 'toque numa família para ver os estudos que a compõem',
       forestTitleCit: 'ci_t por família de material',
-      forestPCit: 'ci_t = ci ÷ vida útil de projeto declarada pelo próprio artigo, em kg CO₂-eq por m³·MPa·ano — quanto menor, menos carbono por unidade de resistência e por ano de serviço. Só entram os pares cujo artigo declara a vida útil ({n} de {total} pares neste filtro); nunca se usa uma vida útil convencionada. Mediana de cada família.',
+      forestPCit: 'ci_t = ci ÷ vida útil de projeto declarada pelo próprio artigo, em kg CO₂-eq por m³·MPa·ano — quanto menor, menos carbono por unidade de resistência e por ano de serviço. Só entram os pares cujo artigo declara a vida útil ({n} de {total} pares neste filtro); nunca se usa uma vida útil convencionada.',
       forestMetricCi: 'ci',
       forestMetricCit: 'ci_t (÷ vida útil)',
       forestAnos: 'anos',
+      forestLegModelo: 'estimativa do modelo multinível com IC 95%',
+      forestLegMediana: 'mediana dos pares',
+      forestLegIP: 'intervalo de predição 95% (todos os materiais)',
+      forestModeloNota: 'O losango é a média ponderada do modelo multinível (rma.mv, REML, pacote metafor do R; estudos e traços como efeitos aleatórios), recalculada para os filtros escolhidos; a barra é o seu intervalo de confiança de 95%. O círculo vazio é a mediana simples dos pares. Modelo de {data}.',
+      forestSemModelo: 'sem estimativa do modelo para esta família neste filtro (poucos estudos)',
+      forestTipMediana: 'mediana',
+      forestTipIP: 'intervalo de predição 95%',
       forestOverall: 'TODOS OS MATERIAIS',
       forestSemLabel: 'estudo sem citação disponível',
       subfamLang: 'pt',
@@ -371,13 +385,20 @@
       scatterXLabel: 'compressive strength (MPa)',
       scatterYLabel: 'CO₂ (kg/m³)',
       forestTitle: 'ci by material family',
-      forestP: 'ci = CO₂ ÷ strength, in kg CO₂-eq per m³·MPa — the lower, the more efficient the material per unit of strength delivered. Median of each family; point against point in the chart above.',
+      forestP: 'ci = CO₂ ÷ strength, in kg CO₂-eq per m³·MPa — the lower, the more efficient the material per unit of strength delivered. Point against point in the chart above.',
       forestToggleHint: 'tap a family to see the studies behind it',
       forestTitleCit: 'ci_t by material family',
-      forestPCit: 'ci_t = ci ÷ the design service life declared by the article itself, in kg CO₂-eq per m³·MPa·year — the lower, the less carbon per unit of strength and per year of service. Only pairs whose article declares a service life are included ({n} of {total} pairs in this filter); no conventional service life is ever assumed. Median of each family.',
+      forestPCit: 'ci_t = ci ÷ the design service life declared by the article itself, in kg CO₂-eq per m³·MPa·year — the lower, the less carbon per unit of strength and per year of service. Only pairs whose article declares a service life are included ({n} of {total} pairs in this filter); no conventional service life is ever assumed.',
       forestMetricCi: 'ci',
       forestMetricCit: 'ci_t (÷ service life)',
       forestAnos: 'yr',
+      forestLegModelo: 'multilevel model estimate with 95% CI',
+      forestLegMediana: 'median of the pairs',
+      forestLegIP: '95% prediction interval (all materials)',
+      forestModeloNota: 'The diamond is the weighted mean of the multilevel model (rma.mv, REML, R package metafor; studies and mixes as random effects), refitted for the chosen filters; the bar is its 95% confidence interval. The open circle is the plain median of the pairs. Model of {data}.',
+      forestSemModelo: 'no model estimate for this family under this filter (too few studies)',
+      forestTipMediana: 'median',
+      forestTipIP: '95% prediction interval',
       forestOverall: 'ALL MATERIALS',
       forestSemLabel: 'study with no citation available',
       subfamLang: 'en',
@@ -517,13 +538,20 @@
       scatterXLabel: '抗压强度（MPa）',
       scatterYLabel: 'CO₂（kg/m³）',
       forestTitle: '各材料类别的ci指标',
-      forestP: 'ci = CO₂ ÷ 强度，单位为每 m³·MPa 的 kg CO₂ 当量——数值越低，材料每单位强度的效率越高。各类别的中位数，与上方图表逐点对应。',
+      forestP: 'ci = CO₂ ÷ 强度，单位为每 m³·MPa 的 kg CO₂ 当量——数值越低，材料每单位强度的效率越高。与上方图表逐点对应。',
       forestToggleHint: '点击某个类别，查看构成该类别的研究',
       forestTitleCit: '各材料类别的ci_t指标',
-      forestPCit: 'ci_t = ci ÷ 文献本身声明的设计使用年限，单位为每 m³·MPa·年的 kg CO₂ 当量——数值越低，每单位强度、每年服役的碳排放越少。仅纳入文献声明了使用年限的数据对（本筛选下 {n} / {total} 对）；从不采用约定的使用年限。各类别的中位数。',
+      forestPCit: 'ci_t = ci ÷ 文献本身声明的设计使用年限，单位为每 m³·MPa·年的 kg CO₂ 当量——数值越低，每单位强度、每年服役的碳排放越少。仅纳入文献声明了使用年限的数据对（本筛选下 {n} / {total} 对）；从不采用约定的使用年限。',
       forestMetricCi: 'ci',
       forestMetricCit: 'ci_t（÷ 使用年限）',
       forestAnos: '年',
+      forestLegModelo: '多层模型估计值及95%置信区间',
+      forestLegMediana: '数据对的中位数',
+      forestLegIP: '95%预测区间（所有材料）',
+      forestModeloNota: '菱形为多层模型的加权均值（rma.mv，REML，R语言metafor包；研究和配合比作为随机效应），按所选筛选条件重新拟合；横线为其95%置信区间。空心圆为数据对的简单中位数。模型日期：{data}。',
+      forestSemModelo: '此筛选下该类别无模型估计值（研究太少）',
+      forestTipMediana: '中位数',
+      forestTipIP: '95%预测区间',
       forestOverall: '所有材料',
       forestSemLabel: '无引用信息的研究',
       subfamLang: 'zh',
@@ -1125,27 +1153,85 @@
     document.getElementById('forest-n-ci').textContent = data.length;
     document.getElementById('forest-n-cit').textContent = nCit;
 
-    // escala: ci até 12 kg CO₂-eq/(m³·MPa); ci_t até 0,4 por ano (~p88 dos pares)
+    // F28: estimativa do modelo para o subconjunto que está no ecrã
+    var mod = modeloCenario();
+    renderForestLegenda(strings);
+
+    // escala: ci até 12 kg CO₂-eq/(m³·MPa); ci_t até 0,4 por ano (~p88 dos pares); alarga para caber
+    // o IC 95% de cada família do modelo (o intervalo de predição pode passar e fica com a ponta cortada)
     var maxCi = cit ? 0.4 : 12;
-    function pos(v) { return Math.min(v, maxCi) / maxCi * 100; }
+    if (mod && mod.familias) {
+      Object.keys(mod.familias).forEach(function (f) {
+        var m = mod.familias[f];
+        if (m && m.estudos >= MODELO_MIN_ESTUDOS && byCat[f] && byCat[f].length && m.ub !== null &&
+            m.ub !== undefined && m.ub > maxCi &&
+            m.ub < (cit ? 1.5 : 40)) maxCi = m.ub * 1.04;
+      });
+    }
+    function pos(v) { return Math.max(0, Math.min(v, maxCi)) / maxCi * 100; }
+    pos.max = maxCi;
 
     var rows = CATS.map(function (cat) {
       var items = byCat[cat];
-      return { cat: cat, med: median(items.map(function (it) { return it.ci; })), items: items };
+      var m = mod && mod.familias ? mod.familias[cat] : null;
+      // uma família com um só estudo não tem estimativa útil (o IC é só a variância entre estudos)
+      if (m && (m.mu === null || m.mu === undefined || !(m.estudos >= MODELO_MIN_ESTUDOS))) m = null;
+      return { cat: cat, med: median(items.map(function (it) { return it.ci; })), items: items, m: m };
     }).filter(function (r) { return r.med !== null; });
-    rows.sort(function (a, b) { return a.med - b.med; });
+    rows.sort(function (a, b) { return (a.m ? a.m.mu : a.med) - (b.m ? b.m.mu : b.med); });
 
     rows.forEach(function (r) {
       list.appendChild(buildForestItem(
-        'cat:' + r.cat, strings.cats[r.cat], r.med, 'var(--cat-' + r.cat + ')', pos, r.items, strings
+        'cat:' + r.cat, strings.cats[r.cat], r.med, 'var(--cat-' + r.cat + ')', pos, r.items, strings, r.m
       ));
     });
 
     if (!allItems.length) return;
     var overall = median(allItems.map(function (it) { return it.ci; }));
-    var item = buildForestItem('overall', strings.forestOverall, overall, 'var(--ink)', pos, allItems, strings);
+    var g = mod && mod.global && mod.global.mu !== null && mod.global.mu !== undefined ? mod.global : null;
+    var item = buildForestItem('overall', strings.forestOverall, overall, 'var(--ink)', pos, allItems, strings, g);
     item.classList.add('forest-item-overall');
     list.appendChild(item);
+  }
+
+  /* F28: chave do cenário do modelo a partir dos filtros do painel */
+  function modeloCenario() {
+    if (!MODELO || !MODELO.cenarios) return null;
+    var est = tierVisible.p && tierVisible.s ? 'ps' : (tierVisible.p ? 'p' : 's');
+    var key = [est, baseFilter, co2Scenario, forestMetric].join('|');
+    return MODELO.cenarios[key] || null;
+  }
+
+  function renderForestLegenda(strings) {
+    var box = document.getElementById('forest-legend');
+    if (!box) return;
+    box.textContent = '';
+    if (!MODELO) { box.hidden = true; return; }
+    box.hidden = false;
+    [['forest-leg-modelo', strings.forestLegModelo], ['forest-leg-mediana', strings.forestLegMediana],
+     ['forest-leg-ip', strings.forestLegIP]].forEach(function (l) {
+      var it = document.createElement('span');
+      it.className = 'forest-leg-item';
+      var sw = document.createElement('span');
+      sw.className = 'forest-leg-sw ' + l[0];
+      sw.setAttribute('aria-hidden', 'true');
+      it.appendChild(sw);
+      it.appendChild(document.createTextNode(l[1]));
+      box.appendChild(it);
+    });
+    var nota = document.getElementById('forest-modelo-nota');
+    if (nota) nota.textContent = strings.forestModeloNota.replace('{data}', MODELO.gerado || '');
+  }
+
+  /* barra do IC (ou do IP) entre lb e ub, cortada à escala, com seta quando passa do limite */
+  function forestIntervalo(track, lb, ub, pos, cls, color, maxCi) {
+    if (lb === null || lb === undefined || ub === null || ub === undefined) return;
+    var el = document.createElement('div');
+    el.className = cls + (ub > maxCi ? ' clip-r' : '') + (lb < 0 ? ' clip-l' : '');
+    el.style.left = pos(lb) + '%';
+    el.style.width = Math.max(0, pos(ub) - pos(lb)) + '%';
+    if (color) el.style.setProperty('--fc', color);
+    track.appendChild(el);
   }
 
   /* ci com 2 casas; ci_t (~0,01–1 por ano) com 3 */
@@ -1153,7 +1239,7 @@
     return v.toFixed(forestMetric === 'cit' ? 3 : 2);
   }
 
-  function buildForestItem(key, label, med, color, pos, items, strings) {
+  function buildForestItem(key, label, med, color, pos, items, strings, m) {
     var wrap = document.createElement('div');
     wrap.className = 'forest-item' + (forestOpen[key] ? ' is-open' : '');
 
@@ -1189,16 +1275,46 @@
     var bg = document.createElement('div');
     bg.className = 'forest-bar-bg';
     track.appendChild(bg);
-    var bar = document.createElement('div');
-    bar.className = 'forest-bar';
-    bar.style.left = pos(med) + '%';
-    bar.style.background = color;
-    track.appendChild(bar);
+    var maxCi = pos.max;
+    if (m) {
+      // F28: modelo (losango + IC 95%) e a mediana como círculo vazio
+      if (key === 'overall') forestIntervalo(track, m.pi_lb, m.pi_ub, pos, 'forest-ip', color, maxCi);
+      forestIntervalo(track, m.lb, m.ub, pos, 'forest-ci', color, maxCi);
+      var med0 = document.createElement('div');
+      med0.className = 'forest-bar forest-bar-mediana';
+      med0.style.left = pos(med) + '%';
+      med0.style.borderColor = color;
+      track.appendChild(med0);
+      var dia = document.createElement('div');
+      dia.className = 'forest-diamond';
+      dia.style.left = pos(m.mu) + '%';
+      dia.style.background = color;
+      track.appendChild(dia);
+    } else {
+      var bar = document.createElement('div');
+      bar.className = 'forest-bar';
+      bar.style.left = pos(med) + '%';
+      bar.style.background = color;
+      track.appendChild(bar);
+    }
     head.appendChild(track);
 
     var val = document.createElement('div');
     val.className = 'forest-value';
-    val.innerHTML = '<b>' + fmtCi(med) + '</b> · n=' + items.length;
+    if (m) {
+      val.innerHTML = '<b>' + fmtCi(m.mu) + '</b>' +
+        '<span class="forest-ic">[' + fmtCi(m.lb) + '–' + fmtCi(m.ub) + ']</span>' +
+        '<span class="forest-ic">n=' + items.length + '</span>';
+      var tip = strings.forestTipMediana + ' ' + fmtCi(med);
+      if (key === 'overall' && m.pi_lb !== null && m.pi_lb !== undefined) {
+        tip += ' · ' + strings.forestTipIP + ' ' + fmtCi(m.pi_lb) + '–' + fmtCi(m.pi_ub) +
+          (m.i2 !== null && m.i2 !== undefined ? ' · I² ' + m.i2.toFixed(1) + '%' : '');
+      }
+      head.title = tip;
+    } else {
+      val.innerHTML = '<b>' + fmtCi(med) + '</b> · n=' + items.length;
+      if (MODELO && key !== 'overall') head.title = strings.forestSemModelo;
+    }
     head.appendChild(val);
 
     wrap.appendChild(head);
