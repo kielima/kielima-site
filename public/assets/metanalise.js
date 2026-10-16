@@ -254,7 +254,8 @@
       lead: 'Este painel acompanha, em tempo real, a extração de dados da revisão sistemática de literatura por trás da minha dissertação — comparando resistência à compressão e pegada de carbono em concretos de baixo carbono, agregado reciclado e UHPC. Os números mudam conforme a leitura de cada artigo avança.',
       navBack: '← kielima.com',
       navDb: 'Banco de dados',
-      kpiFunilLabel: 'artigos aceitos (passaram as 4 etapas) → dos quais de melhor qualidade (≥ 4,0)',
+      kpiFunilLabel: 'artigos aceitos (passaram as 4 etapas)',
+      kpiQualidadeLabel: 'dos quais de melhor qualidade (≥ 4,0)',
       kpiParesLabel: 'pares resistência × CO₂ extraídos',
       kpiVidaLabel: 'com vida útil de projeto declarada',
       kpiReleituraLabel: 'lotes da releitura integral concluídos',
@@ -415,7 +416,8 @@
       lead: 'This dashboard tracks, in real time, the data extraction behind the systematic literature review under my dissertation — comparing compressive strength and carbon footprint across low-carbon, recycled-aggregate and ultra-high-performance (UHPC) concretes. The numbers change as each article gets read.',
       navBack: '← kielima.com',
       navDb: 'Database',
-      kpiFunilLabel: 'articles accepted (passed all 4 stages) → of which higher quality (≥ 4.0)',
+      kpiFunilLabel: 'articles accepted (passed all 4 stages)',
+      kpiQualidadeLabel: 'of which higher quality (≥ 4.0)',
       kpiParesLabel: 'strength × CO₂ pairs extracted',
       kpiVidaLabel: 'with declared design service life',
       kpiReleituraLabel: 'batches of the full re-read completed',
@@ -576,7 +578,8 @@
       lead: '本面板实时展示我硕士论文所依托的系统性文献综述的数据提取进度——比较低碳混凝土、再生骨料混凝土与超高性能混凝土（UHPC）的抗压强度与碳足迹。数字会随着每篇文献的阅读而更新。',
       navBack: '← kielima.com',
       navDb: '数据库',
-      kpiFunilLabel: '已通过全部4个阶段的入选文献 → 其中质量较高（≥ 4.0）',
+      kpiFunilLabel: '已通过全部4个阶段的入选文献',
+      kpiQualidadeLabel: '其中质量较高（≥ 4.0）',
       kpiParesLabel: '已提取的强度×CO₂数据对',
       kpiVidaLabel: '已注明设计使用寿命',
       kpiReleituraLabel: '完整复读批次已完成',
@@ -821,14 +824,11 @@
   };
 
   function renderKPIs(lang) {
-    /* Kiê (2026-10-11): ao lado dos 521 aceites, os 409 que ficaram depois
-       da análise de qualidade (Etapa 4, score ≥ 4,0) -- mesmo número do funil. */
-    var kf = document.getElementById('kpi-funil');
-    kf.textContent = fmtInt(KPI_VALUES.funil, lang);
-    var kfSub = document.createElement('span');
-    kfSub.className = 'kpi-value-sub';
-    kfSub.textContent = ' → ' + fmtInt(FUNNEL[FUNNEL.length - 1].principal, lang);
-    kf.appendChild(kfSub);
+    /* Kiê (2026-10-11): ao lado dos aceites, os que ficaram depois da análise de
+       qualidade (Etapa 4, score ≥ 4,0) -- mesmo número do funil. Desde 2026-10-16
+       (Kiê) cada um tem o seu quadrado: são seis indicadores. */
+    document.getElementById('kpi-funil').textContent = fmtInt(KPI_VALUES.funil, lang);
+    document.getElementById('kpi-qualidade').textContent = fmtInt(FUNNEL[FUNNEL.length - 1].principal, lang);
     document.getElementById('kpi-pares').textContent = fmtInt(currentData().length, lang);
     document.getElementById('kpi-vida').textContent = fmtInt(KPI_VALUES.vida, lang);
     document.getElementById('kpi-releitura').textContent = KPI_VALUES.releitura;
