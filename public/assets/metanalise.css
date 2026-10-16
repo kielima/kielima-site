@@ -375,6 +375,15 @@
   display: none;
 }
 
+/* Botão ci / ci_t do forest por família (2026-10-16) */
+.forest-metric {
+  margin: 4px 0 10px;
+}
+
+.forest-metric .tier-chip {
+  padding: 8px 14px;
+}
+
 /* ------------------------------------------------ filtro de estrato */
 
 .tier-filter {

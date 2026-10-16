@@ -176,8 +176,20 @@
     </section>
 
     <section class="meta-section">
-      <h2 data-i18n="forestTitle"></h2>
-      <p data-i18n="forestP" id="forest-desc"></p>
+      <h2 id="forest-title"></h2>
+      <p id="forest-desc"></p>
+      <div class="tier-filter forest-metric" role="radiogroup" id="forest-metric">
+        <label class="tier-chip">
+          <input type="radio" name="forest-metric" value="ci" id="forest-radio-ci" checked>
+          <span data-i18n="forestMetricCi"></span>
+          <span class="tier-n" id="forest-n-ci">—</span>
+        </label>
+        <label class="tier-chip">
+          <input type="radio" name="forest-metric" value="cit" id="forest-radio-cit">
+          <span data-i18n="forestMetricCit"></span>
+          <span class="tier-n" id="forest-n-cit">—</span>
+        </label>
+      </div>
       <span class="funnel-hint" data-i18n="forestToggleHint"></span>
       <div class="meta-card">
         <div class="forest-list" id="forest-list"></div>
