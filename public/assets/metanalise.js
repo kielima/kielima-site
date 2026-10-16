@@ -337,6 +337,8 @@
       forestSemLabel: 'estudo sem citação disponível',
       subfamLang: 'pt',
       subfamInfoLabel: 'O que é esta subfamília (norma de referência)',
+      baseInfoLabel: 'O que conta em cada opção da base do ligante',
+      co2InfoLabel: 'O que é o CO₂ sem e com desconto',
       noteTitle: 'Sobre o indicador',
       noteP: 'O desfecho oficial desta metanálise é ci_t = ci ÷ vida útil de projeto (kg CO₂-eq por m³·MPa·ano). A vida útil só é premissa declarada pelo próprio artigo em 118 dos 468 artigos (25%), por isso o painel mostra o indicador ci, que cobre todos os pares; o ci_t é estimado à parte no subconjunto com vida útil (média 0,163 kg CO₂-eq por m³·MPa·ano, 91 estudos). Metodologia de Damineli et al. (2010). Um modelo de efeitos aleatórios multinível (REML) trata cada formulação como observação própria, aninhada no estudo de origem.',
       footerCite: 'Parte da dissertação de mestrado em Sistemas de Infraestrutura Urbana (PUC-Campinas), sobre Avaliação de Ciclo de Vida do concreto de ultra alto desempenho (UHPC).',
@@ -496,6 +498,8 @@
       forestSemLabel: 'study with no citation available',
       subfamLang: 'en',
       subfamInfoLabel: 'What is this subfamily (reference standard)',
+      baseInfoLabel: 'What each binder-base option includes',
+      co2InfoLabel: 'What CO₂ without and with credits means',
       noteTitle: 'About the indicator',
       noteP: "This meta-analysis's official outcome is ci_t = ci ÷ design service life (kg CO₂-eq per m³·MPa·year). Service life is an assumption stated by the article itself in only 118 of the 468 articles (25%), so the dashboard shows the ci indicator, which covers every pair; ci_t is estimated separately on the subset with a service life (mean 0.163 kg CO₂-eq per m³·MPa·year, 91 studies). Methodology from Damineli et al. (2010). A multilevel (REML) random-effects model treats each formulation as its own observation, nested within its source study.",
       footerCite: "Part of a master's dissertation in Urban Infrastructure Systems (PUC-Campinas), on the Life Cycle Assessment of ultra-high-performance concrete (UHPC).",
@@ -655,6 +659,8 @@
       forestSemLabel: '无引用信息的研究',
       subfamLang: 'zh',
       subfamInfoLabel: '该子类说明（参考标准）',
+      baseInfoLabel: '胶凝材料基础各选项包含的内容',
+      co2InfoLabel: '不含与含抵扣的CO₂是什么意思',
       noteTitle: '关于该指标',
       noteP: '本荟萃分析的官方结果指标是 ci_t = ci ÷ 设计使用寿命（每 m³·MPa·年的 kg CO₂ 当量）。468篇文献中只有118篇（25%）将使用寿命作为自身假设明确给出，因此面板显示覆盖全部数据对的 ci 指标；ci_t 在有使用寿命的子集中单独估计（均值 0.163 kg CO₂ 当量/(m³·MPa·年)，91 项研究）。方法源自 Damineli 等（2010）。多层级（REML）随机效应模型将每个配方视为独立观测值，嵌套于其来源研究之下。',
       footerCite: '硕士论文（PUC-Campinas，城市基础设施系统专业）的一部分，研究超高性能混凝土（UHPC）的生命周期评估。',
@@ -2079,9 +2085,40 @@
       var dbLink = document.getElementById('db-link');
       dbLink.setAttribute('aria-label', strings.navDb);
       dbLink.setAttribute('title', strings.navDb);
+      [['base-info-btn', strings.baseInfoLabel], ['co2-info-btn', strings.co2InfoLabel]].forEach(function (b) {
+        var btn = document.getElementById(b[0]);
+        btn.setAttribute('aria-label', b[1]);
+        btn.setAttribute('title', b[1]);
+      });
       renderAll(strings, lang);
       if (themeCtl) themeCtl.sync();
     }
+  });
+
+  /* Botões (i) da barra de filtros (Kiê, 2026-10-16): cada um abre a nota do
+     seu filtro por baixo da barra; só uma fica aberta de cada vez. */
+  var infoBtns = ['base-info-btn', 'co2-info-btn'].map(function (id) { return document.getElementById(id); });
+  function fecharInfo(excepto) {
+    infoBtns.forEach(function (b) {
+      if (b === excepto) return;
+      b.setAttribute('aria-expanded', 'false');
+      document.getElementById(b.getAttribute('aria-controls')).hidden = true;
+    });
+  }
+  infoBtns.forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var aberto = btn.getAttribute('aria-expanded') !== 'true';
+      fecharInfo(btn);
+      btn.setAttribute('aria-expanded', aberto ? 'true' : 'false');
+      document.getElementById(btn.getAttribute('aria-controls')).hidden = !aberto;
+    });
+  });
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.filter-info-pop')) fecharInfo(null);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') fecharInfo(null);
   });
 
   /* Filtro da base do ligante: dois radios fixos no HTML. A escolha fica

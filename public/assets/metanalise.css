@@ -417,14 +417,21 @@
     display: none;
   }
 
+  /* sem o rótulo, o (i) passa para o fim da linha do seu filtro */
+  .filter-info-btn {
+    order: 1;
+  }
+
   .base-filter-group {
     width: 100%;
+    flex-wrap: nowrap;
   }
 
   .tier-filter.base-filter {
+    flex: 1 1 auto;
     flex-wrap: nowrap;
     gap: 8px;
-    width: 100%;
+    min-width: 0;
   }
 
   .base-filter .tier-chip {
@@ -436,15 +443,29 @@
   }
 }
 
-.base-note-section {
-  padding-top: 16px;
-  padding-bottom: 0;
+/* Kiê (2026-10-16): as notas da base do ligante e do CO₂ saíram do corpo da
+   página e passaram a um botão (i) ao lado do rótulo de cada filtro. O texto
+   abre por baixo da barra, ocupando a largura toda, e fecha com o mesmo botão,
+   com Esc ou com um clique fora. */
+.filter-info-btn[aria-expanded="true"] {
+  border-color: var(--green);
+  color: var(--green);
 }
 
-.base-note {
+.filter-info-pop {
+  flex: 1 1 100%;
+  margin: 2px 0 4px;
+  padding: 8px 12px;
+  border-left: 2px solid var(--green);
+  background: var(--line);
   font-size: 13px;
-  color: var(--ink-65);
+  line-height: 1.5;
+  color: var(--ink-78);
   max-width: 78ch;
+}
+
+.filter-info-pop[hidden] {
+  display: none;
 }
 
 /* ------------------------------------------------ filtro de estrato */
@@ -715,7 +736,8 @@
   color: var(--ink-78);
 }
 
-.forest-info-btn {
+.forest-info-btn,
+.filter-info-btn {
   flex: none;
   width: 18px;
   height: 18px;
@@ -730,6 +752,7 @@
 }
 
 .forest-info-btn:hover,
+.filter-info-btn:hover,
 .forest-subfam.info-open .forest-info-btn {
   border-color: var(--green);
   color: var(--green);

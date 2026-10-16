@@ -351,6 +351,24 @@ const navegador = await chromium.launch({
   if (!meta2.outro) problemas.push('/metanalise/: os botões de universo do mapa e da rede não ficaram sincronizados');
   await meta.pagina.click('#univ-rede-todos');
 
+  // botões (i) da barra de filtros: abrem a nota do seu filtro, só uma de cada vez
+  await meta.pagina.evaluate(() => window.scrollTo(0, 0));
+  await meta.pagina.click('#base-info-btn');
+  const info1 = await meta.pagina.evaluate(() => ({
+    base: !document.getElementById('base-info').hidden && document.getElementById('base-info').textContent.length,
+    co2: !document.getElementById('co2-info').hidden,
+  }));
+  await meta.pagina.click('#co2-info-btn');
+  const info2 = await meta.pagina.evaluate(() => ({
+    base: !document.getElementById('base-info').hidden,
+    co2: !document.getElementById('co2-info').hidden && document.getElementById('co2-info').textContent.length,
+  }));
+  await meta.pagina.keyboard.press('Escape');
+  const info3 = await meta.pagina.evaluate(() => document.getElementById('co2-info').hidden);
+  if (!(info1.base > 50) || info1.co2) problemas.push('/metanalise/: o (i) da base do ligante não abriu só a sua nota');
+  if (!(info2.co2 > 50) || info2.base) problemas.push('/metanalise/: o (i) do CO₂ não abriu só a sua nota');
+  if (!info3) problemas.push('/metanalise/: Esc não fechou a nota do filtro');
+
   await meta.ctx.close();
   await abrir(navegador, '/metanalise/', { tema: 'dark' }).then((r) => r.ctx.close());
   await abrir(navegador, '/metanalise/', { viewport: { width: 390, height: 844 } }).then((r) => r.ctx.close());
