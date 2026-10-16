@@ -417,14 +417,16 @@ const navegador = await chromium.launch({
   }
 
   // Pesquisar tem de filtrar as linhas; limpar a pesquisa, voltar a todas.
+  // Espera condicional, não um tempo fixo: no runner do CI filtrar e redesenhar
+  // as ~2.100 linhas pode passar dos 400 ms (falha de 2026-10-16, PR #145).
   await db.pagina.fill('#db-search', 'monorail');
-  await db.pagina.waitForTimeout(400);
+  await db.pagina.waitForFunction((n) => document.querySelectorAll('#db-body tr').length < n, totalLinhas, { timeout: 10000 }).catch(() => {});
   const filtradas = await db.pagina.evaluate(() => document.querySelectorAll('#db-body tr').length);
   if (!(filtradas >= 1 && filtradas < totalLinhas)) {
     problemas.push(`/metanalise/dados/: a pesquisa não filtrou as linhas (ficaram ${filtradas})`);
   }
   await db.pagina.fill('#db-search', '');
-  await db.pagina.waitForTimeout(400);
+  await db.pagina.waitForFunction((n) => document.querySelectorAll('#db-body tr').length === n, totalLinhas, { timeout: 10000 }).catch(() => {});
   const deVolta = await db.pagina.evaluate(() => document.querySelectorAll('#db-body tr').length);
   if (deVolta !== totalLinhas) {
     problemas.push(`/metanalise/dados/: limpar a pesquisa não voltou a mostrar todas as linhas (${deVolta})`);
