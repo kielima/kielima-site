@@ -255,7 +255,7 @@ const navegador = await chromium.launch({
    normal como qualquer outra. */
 {
   const meta = await abrir(navegador, '/metanalise/');
-  await conferirIdiomas(meta, { '.kpi-tile': 5, '.cat-chip': 8, '.forest-head': 9 });
+  await conferirIdiomas(meta, { '.kpi-tile': 6, '.cat-chip': 8, '.forest-head': 9 });
 
   const pontos = await meta.pagina.evaluate(() => document.querySelectorAll('.scatter-pt').length);
   if (pontos < 1000) problemas.push(`/metanalise/: só ${pontos} pontos na dispersão, esperado 1000+`);
@@ -299,6 +299,22 @@ const navegador = await chromium.launch({
   await meta.pagina.waitForTimeout(150);
   const aindaAberta = await meta.pagina.evaluate(() => document.querySelectorAll('.forest-item.is-open').length);
   if (aindaAberta !== 0) problemas.push('/metanalise/: clicar de novo na família não recolheu o forest plot');
+
+  // Kiê (2026-10-16): o botão ci / ci_t troca o indicador do forest por família;
+  // no modo ci_t só entram os pares com vida útil declarada.
+  await meta.pagina.click('#forest-radio-cit');
+  await meta.pagina.waitForTimeout(150);
+  const cit = await meta.pagina.evaluate(() => ({
+    titulo: document.getElementById('forest-title').textContent,
+    heads: document.querySelectorAll('.forest-head').length,
+    nCi: Number(document.getElementById('forest-n-ci').textContent),
+    nCit: Number(document.getElementById('forest-n-cit').textContent),
+  }));
+  if (!cit.titulo.includes('ci_t') || cit.heads < 2 || !(cit.nCit > 0 && cit.nCit < cit.nCi)) {
+    problemas.push(`/metanalise/: o botão ci_t não trocou o forest (${JSON.stringify(cit)})`);
+  }
+  await meta.pagina.click('#forest-radio-ci');
+  await meta.pagina.waitForTimeout(150);
 
   // F12: a família do cimento Portland abre em subfamílias (CEM I, CP II-E…),
   // cada uma com um botão (i) que mostra a norma de referência.
