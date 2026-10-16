@@ -300,6 +300,18 @@ const navegador = await chromium.launch({
   const aindaAberta = await meta.pagina.evaluate(() => document.querySelectorAll('.forest-item.is-open').length);
   if (aindaAberta !== 0) problemas.push('/metanalise/: clicar de novo na família não recolheu o forest plot');
 
+  // F28 (Kiê, 2026-10-16): o forest mostra a estimativa do modelo em R (losango + IC 95%)
+  // por família e no total, com a legenda e a nota do método.
+  const modelo = await meta.pagina.evaluate(() => ({
+    losangos: document.querySelectorAll('.forest-head .forest-diamond').length,
+    ics: document.querySelectorAll('.forest-head .forest-ci').length,
+    legenda: !document.getElementById('forest-legend').hidden,
+    nota: document.getElementById('forest-modelo-nota').textContent.length,
+  }));
+  if (modelo.losangos < 3 || modelo.ics < 3 || !modelo.legenda || modelo.nota < 40) {
+    problemas.push(`/metanalise/: o forest não mostra o modelo em R (${JSON.stringify(modelo)})`);
+  }
+
   // Kiê (2026-10-16): o botão ci / ci_t troca o indicador do forest por família;
   // no modo ci_t só entram os pares com vida útil declarada.
   await meta.pagina.click('#forest-radio-cit');
@@ -309,8 +321,9 @@ const navegador = await chromium.launch({
     heads: document.querySelectorAll('.forest-head').length,
     nCi: Number(document.getElementById('forest-n-ci').textContent),
     nCit: Number(document.getElementById('forest-n-cit').textContent),
+    losangos: document.querySelectorAll('.forest-head .forest-diamond').length,
   }));
-  if (!cit.titulo.includes('ci_t') || cit.heads < 2 || !(cit.nCit > 0 && cit.nCit < cit.nCi)) {
+  if (!cit.titulo.includes('ci_t') || cit.heads < 2 || !(cit.nCit > 0 && cit.nCit < cit.nCi) || cit.losangos < 2) {
     problemas.push(`/metanalise/: o botão ci_t não trocou o forest (${JSON.stringify(cit)})`);
   }
   await meta.pagina.click('#forest-radio-ci');

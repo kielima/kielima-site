@@ -498,7 +498,7 @@
    família, mesmo padrão do .funnel-head acima. */
 .forest-head {
   display: grid;
-  grid-template-columns: 190px 1fr 64px;
+  grid-template-columns: 190px 1fr 96px;
   align-items: center;
   gap: 14px;
   width: 100%;
@@ -583,6 +583,144 @@
 
 .forest-value b {
   color: var(--ink);
+}
+
+/* F28 (2026-10-16): estimativa do modelo — losango + IC 95%, mediana como
+   círculo vazio, intervalo de predição tracejado na linha global */
+.forest-diamond {
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  z-index: 2;
+}
+
+.forest-ci,
+.forest-ip {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.forest-ci {
+  height: 2px;
+  background: var(--fc, var(--ink));
+  z-index: 1;
+}
+
+.forest-ci::before,
+.forest-ci::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  width: 1.5px;
+  height: 10px;
+  background: var(--fc, var(--ink));
+}
+
+.forest-ci::before { left: 0; }
+.forest-ci::after { right: 0; }
+.forest-ci.clip-l::before,
+.forest-ci.clip-r::after { display: none; }
+
+.forest-ip {
+  height: 0;
+  border-top: 1.5px dashed var(--ink-40);
+}
+
+.forest-bar-mediana {
+  background: var(--bg) !important;
+  border: 1.5px solid var(--ink);
+  box-sizing: border-box;
+  width: 9px;
+  height: 9px;
+  z-index: 1;
+}
+
+.forest-ic {
+  display: block;
+  font-size: 10.5px;
+  color: var(--ink-40);
+  line-height: 1.35;
+}
+
+.forest-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 2px 0 8px;
+  font-size: 12.5px;
+  color: var(--ink-65);
+}
+
+.forest-legend[hidden] {
+  display: none;
+}
+
+.forest-leg-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.forest-leg-sw {
+  position: relative;
+  display: inline-block;
+  width: 22px;
+  height: 10px;
+  flex: none;
+}
+
+.forest-leg-modelo::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  background: var(--ink-65);
+  transform: translateY(-50%);
+}
+
+.forest-leg-modelo::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  background: var(--ink-65);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.forest-leg-mediana::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid var(--ink-65);
+  border-radius: 50%;
+  box-sizing: border-box;
+  transform: translate(-50%, -50%);
+}
+
+.forest-leg-ip::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 1.5px dashed var(--ink-40);
+}
+
+.forest-modelo-nota {
+  margin-top: 10px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--ink-65);
 }
 
 /* -------------------------------------------------- forest: detalhe (sub-lista) */
@@ -764,7 +902,7 @@
 
 @media (max-width: 620px) {
   .forest-head {
-    grid-template-columns: 108px 1fr 52px;
+    grid-template-columns: 108px 1fr 74px;
     gap: 8px;
   }
 
