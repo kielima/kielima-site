@@ -51,6 +51,7 @@
      um ajuste por combinação de filtros, chave 'estrato|base|co2|indicador'
      (estrato ps/p/s, base todos/portland, co2 sem/com, indicador ci/cit). */
   var MODELO = {"gerado":"2026-10-16","metodo":"rma.mv REML, random = ~1 | estudo/obs_id (metafor)","pares":1505,"cenarios":{"ps|todos|sem|ci":{"k":1456,"estudos":391,"global":{"mu":10.1929,"lb":9.64349,"ub":10.7424,"pi_lb":0.674078,"pi_ub":19.7118,"i2":99.9248},"familias":{"biobase":{"mu":4.608,"lb":-10.3981,"ub":19.6141,"k":1,"estudos":1},"concreto_armado":{"mu":15.5715,"lb":13.7691,"ub":17.3739,"k":91,"estudos":39},"geopolimero":{"mu":5.17179,"lb":4.04426,"ub":6.29932,"k":203,"estudos":57},"ligantes":{"mu":11.2702,"lb":8.40888,"ub":14.1314,"k":22,"estudos":10},"opc":{"mu":10.7446,"lb":10.1096,"ub":11.3795,"k":503,"estudos":247},"reciclado":{"mu":11.2724,"lb":10.4117,"ub":12.1331,"k":183,"estudos":70},"scm":{"mu":9.43439,"lb":8.70488,"ub":10.1639,"k":414,"estudos":110},"uhpc":{"mu":8.22063,"lb":6.37898,"ub":10.0623,"k":39,"estudos":16}}},"p|todos|sem|ci":{"k":1117,"estudos":303,"global":{"mu":10.5352,"lb":9.87532,"ub":11.1951,"pi_lb":0.455234,"pi_ub":20.6151,"i2":99.9467},"familias":{"concreto_armado":{"mu":15.5176,"lb":13.4807,"ub":17.5545,"k":82,"estudos":34},"geopolimero":{"mu":4.72999,"lb":3.4184,"ub":6.04158,"k":166,"estudos":45},"ligantes":{"mu":12.033,"lb":8.72733,"ub":15.3387,"k":17,"estudos":9},"opc":{"mu":11.1409,"lb":10.3814,"ub":11.9004,"k":404,"estudos":198},"reciclado":{"mu":11.5227,"lb":10.4596,"ub":12.5857,"k":132,"estudos":55},"scm":{"mu":9.87109,"lb":9.01708,"ub":10.7251,"k":302,"estudos":85},"uhpc":{"mu":7.48878,"lb":3.77813,"ub":11.1994,"k":14,"estudos":7}}},"s|todos|sem|ci":{"k":339,"estudos":88,"global":{"mu":8.99399,"lb":8.15071,"ub":9.83728,"pi_lb":1.99578,"pi_ub":15.9922,"i2":98.5612},"familias":{"biobase":{"mu":4.608,"lb":-5.96716,"ub":15.1832,"k":1,"estudos":1},"concreto_armado":{"mu":16.1402,"lb":12.1913,"ub":20.0891,"k":9,"estudos":5},"geopolimero":{"mu":6.25904,"lb":4.4102,"ub":8.10788,"k":37,"estudos":12},"ligantes":{"mu":7.50173,"lb":2.36242,"ub":12.641,"k":5,"estudos":1},"opc":{"mu":9.73448,"lb":8.67472,"ub":10.7942,"k":99,"estudos":49},"reciclado":{"mu":10.3989,"lb":9.13412,"ub":11.6637,"k":51,"estudos":15},"scm":{"mu":7.79661,"lb":6.51447,"ub":9.07874,"k":112,"estudos":25},"uhpc":{"mu":7.6677,"lb":5.89048,"ub":9.44493,"k":25,"estudos":9}}},"ps|portland|sem|ci":{"k":1230,"estudos":353,"global":{"mu":10.4698,"lb":9.99267,"ub":10.947,"pi_lb":2.75572,"pi_ub":18.1839,"i2":99.861},"familias":{"concreto_armado":{"mu":15.6779,"lb":14.2252,"ub":17.1306,"k":91,"estudos":39},"opc":{"mu":10.2691,"lb":9.75634,"ub":10.782,"k":503,"estudos":247},"reciclado":{"mu":10.8909,"lb":10.1977,"ub":11.5842,"k":183,"estudos":70},"scm":{"mu":8.83732,"lb":8.24607,"ub":9.42858,"k":414,"estudos":110},"uhpc":{"mu":8.07038,"lb":6.5324,"ub":9.60836,"k":39,"estudos":16}}},"p|portland|sem|ci":{"k":934,"estudos":273,"global":{"mu":10.767,"lb":10.2201,"ub":11.314,"pi_lb":3.04356,"pi_ub":18.4905,"i2":99.8889},"familias":{"concreto_armado":{"mu":15.6269,"lb":14.0532,"ub":17.2006,"k":82,"estudos":34},"opc":{"mu":10.5205,"lb":9.93733,"ub":11.1037,"k":404,"estudos":198},"reciclado":{"mu":10.9873,"lb":10.1761,"ub":11.7985,"k":132,"estudos":55},"scm":{"mu":9.11522,"lb":8.4598,"ub":9.77064,"k":302,"estudos":85},"uhpc":{"mu":7.34807,"lb":4.28944,"ub":10.4067,"k":14,"estudos":7}}},"s|portland|sem|ci":{"k":296,"estudos":80,"global":{"mu":9.44807,"lb":8.52551,"ub":10.3706,"pi_lb":2.18025,"pi_ub":16.7159,"i2":98.7624},"familias":{"concreto_armado":{"mu":16.2053,"lb":12.2292,"ub":20.1813,"k":9,"estudos":5},"opc":{"mu":9.75423,"lb":8.67331,"ub":10.8352,"k":99,"estudos":49},"reciclado":{"mu":10.4227,"lb":9.12488,"ub":11.7206,"k":51,"estudos":15},"scm":{"mu":7.76154,"lb":6.43376,"ub":9.08932,"k":112,"estudos":25},"uhpc":{"mu":7.60247,"lb":5.77297,"ub":9.43196,"k":25,"estudos":9}}},"ps|todos|com|ci":{"k":1505,"estudos":401,"global":{"mu":10.0265,"lb":9.47195,"ub":10.581,"pi_lb":0.296179,"pi_ub":19.7568,"i2":99.9317},"familias":{"biobase":{"mu":-3.776,"lb":-19.4999,"ub":11.9479,"k":1,"estudos":1},"concreto_armado":{"mu":15.5522,"lb":13.8077,"ub":17.2968,"k":104,"estudos":43},"geopolimero":{"mu":4.28077,"lb":3.1201,"ub":5.44143,"k":219,"estudos":58},"ligantes":{"mu":10.883,"lb":7.9344,"ub":13.8316,"k":22,"estudos":10},"opc":{"mu":10.7244,"lb":10.0739,"ub":11.3748,"k":508,"estudos":252},"reciclado":{"mu":10.9675,"lb":10.0902,"ub":11.8447,"k":193,"estudos":75},"scm":{"mu":9.36326,"lb":8.61953,"ub":10.107,"k":419,"estudos":113},"uhpc":{"mu":8.08347,"lb":6.16103,"ub":10.0059,"k":39,"estudos":16}}},"p|todos|com|ci":{"k":1162,"estudos":312,"global":{"mu":10.3836,"lb":9.71753,"ub":11.0497,"pi_lb":0.0271814,"pi_ub":20.74,"i2":99.9519},"familias":{"concreto_armado":{"mu":15.6205,"lb":13.6565,"ub":17.5845,"k":95,"estudos":38},"geopolimero":{"mu":3.5076,"lb":2.15382,"ub":4.86137,"k":182,"estudos":46},"ligantes":{"mu":11.5151,"lb":8.10008,"ub":14.9301,"k":17,"estudos":9},"opc":{"mu":11.1628,"lb":10.3829,"ub":11.9426,"k":409,"estudos":203},"reciclado":{"mu":11.2739,"lb":10.1891,"ub":12.3587,"k":139,"estudos":59},"scm":{"mu":9.81963,"lb":8.94641,"ub":10.6928,"k":306,"estudos":87},"uhpc":{"mu":7.35422,"lb":3.40868,"ub":11.2998,"k":14,"estudos":7}}},"s|todos|com|ci":{"k":343,"estudos":89,"global":{"mu":8.68085,"lb":7.8611,"ub":9.50061,"pi_lb":2.0086,"pi_ub":15.3531,"i2":98.3988},"familias":{"biobase":{"mu":-3.776,"lb":-15.4635,"ub":7.91152,"k":1,"estudos":1},"concreto_armado":{"mu":15.9075,"lb":11.7004,"ub":20.1146,"k":9,"estudos":5},"geopolimero":{"mu":6.20591,"lb":4.37407,"ub":8.03776,"k":37,"estudos":12},"ligantes":{"mu":7.36687,"lb":2.26831,"ub":12.4654,"k":5,"estudos":1},"opc":{"mu":9.46016,"lb":8.38916,"ub":10.5312,"k":99,"estudos":49},"reciclado":{"mu":9.88815,"lb":8.64583,"ub":11.1305,"k":54,"estudos":16},"scm":{"mu":7.75014,"lb":6.48126,"ub":9.01901,"k":113,"estudos":26},"uhpc":{"mu":7.5074,"lb":5.74151,"ub":9.27329,"k":25,"estudos":9}}},"ps|portland|com|ci":{"k":1262,"estudos":362,"global":{"mu":10.3052,"lb":9.8266,"ub":10.7838,"pi_lb":2.5347,"pi_ub":18.0757,"i2":99.8613},"familias":{"concreto_armado":{"mu":15.5679,"lb":14.1689,"ub":16.9669,"k":103,"estudos":42},"opc":{"mu":10.0833,"lb":9.56649,"ub":10.6002,"k":508,"estudos":252},"reciclado":{"mu":10.4839,"lb":9.79256,"ub":11.1753,"k":193,"estudos":75},"scm":{"mu":8.70342,"lb":8.11235,"ub":9.29449,"k":419,"estudos":113},"uhpc":{"mu":7.94283,"lb":6.38785,"ub":9.49781,"k":39,"estudos":16}}},"p|portland|com|ci":{"k":962,"estudos":281,"global":{"mu":10.6313,"lb":10.0799,"ub":11.1828,"pi_lb":2.75634,"pi_ub":18.5063,"i2":99.8914},"familias":{"concreto_armado":{"mu":15.5979,"lb":14.0892,"ub":17.1066,"k":94,"estudos":37},"opc":{"mu":10.3514,"lb":9.76281,"ub":10.94,"k":409,"estudos":203},"reciclado":{"mu":10.6001,"lb":9.78887,"ub":11.4112,"k":139,"estudos":59},"scm":{"mu":8.97725,"lb":8.31996,"ub":9.63454,"k":306,"estudos":87},"uhpc":{"mu":7.32741,"lb":4.20996,"ub":10.4449,"k":14,"estudos":7}}},"s|portland|com|ci":{"k":300,"estudos":81,"global":{"mu":9.15896,"lb":8.26149,"ub":10.0564,"pi_lb":2.22615,"pi_ub":16.0918,"i2":98.6214},"familias":{"concreto_armado":{"mu":15.9972,"lb":11.8358,"ub":20.1586,"k":9,"estudos":5},"opc":{"mu":9.47717,"lb":8.38516,"ub":10.5692,"k":99,"estudos":49},"reciclado":{"mu":9.88831,"lb":8.61262,"ub":11.164,"k":54,"estudos":16},"scm":{"mu":7.72515,"lb":6.41267,"ub":9.03762,"k":113,"estudos":26},"uhpc":{"mu":7.4382,"lb":5.62169,"ub":9.25471,"k":25,"estudos":9}}},"ps|todos|sem|cit":{"k":285,"estudos":96,"global":{"mu":0.165228,"lb":0.144224,"ub":0.186232,"pi_lb":0.0146829,"pi_ub":0.315774,"i2":80.2871},"familias":{"concreto_armado":{"mu":0.199914,"lb":0.154523,"ub":0.245305,"k":61,"estudos":24},"geopolimero":{"mu":0.175766,"lb":0.0713654,"ub":0.280168,"k":4,"estudos":3},"ligantes":{"mu":0.115694,"lb":-0.0223952,"ub":0.253784,"k":1,"estudos":1},"opc":{"mu":0.174662,"lb":0.148821,"ub":0.200502,"k":135,"estudos":63},"reciclado":{"mu":0.139686,"lb":0.0723791,"ub":0.206993,"k":10,"estudos":7},"scm":{"mu":0.121593,"lb":0.0911764,"ub":0.152009,"k":69,"estudos":21},"uhpc":{"mu":0.0969231,"lb":0.00794447,"ub":0.185902,"k":5,"estudos":2}}},"p|todos|sem|cit":{"k":273,"estudos":91,"global":{"mu":0.163413,"lb":0.142866,"ub":0.183959,"pi_lb":0.0211428,"pi_ub":0.305682,"i2":79.3683},"familias":{"concreto_armado":{"mu":0.197279,"lb":0.15288,"ub":0.241678,"k":61,"estudos":24},"geopolimero":{"mu":0.190821,"lb":0.0616631,"ub":0.319978,"k":3,"estudos":2},"ligantes":{"mu":0.120075,"lb":-0.0023119,"ub":0.242462,"k":1,"estudos":1},"opc":{"mu":0.169559,"lb":0.143921,"ub":0.195197,"k":128,"estudos":60},"reciclado":{"mu":0.139661,"lb":0.073847,"ub":0.205474,"k":10,"estudos":7},"scm":{"mu":0.122408,"lb":0.0922538,"ub":0.152561,"k":68,"estudos":20},"uhpc":{"mu":0.139728,"lb":0.0419937,"ub":0.237463,"k":2,"estudos":1}}},"s|todos|sem|cit":{"k":12,"estudos":5,"global":{"mu":0.192513,"lb":0.0648737,"ub":0.320152,"pi_lb":-0.116022,"pi_ub":0.501048,"i2":99.9835},"familias":{"geopolimero":{"mu":0.144409,"lb":-0.0324261,"ub":0.321245,"k":1,"estudos":1},"opc":{"mu":0.303269,"lb":0.190562,"ub":0.415977,"k":7,"estudos":3},"scm":{"mu":0.246717,"lb":0.00357336,"ub":0.489862,"k":1,"estudos":1},"uhpc":{"mu":0.0176681,"lb":-0.131647,"ub":0.166983,"k":3,"estudos":1}}},"ps|portland|sem|cit":{"k":280,"estudos":95,"global":{"mu":0.165381,"lb":0.144667,"ub":0.186095,"pi_lb":0.0174922,"pi_ub":0.31327,"i2":79.9284},"familias":{"concreto_armado":{"mu":0.203884,"lb":0.159726,"ub":0.248043,"k":61,"estudos":24},"opc":{"mu":0.174551,"lb":0.149408,"ub":0.199694,"k":135,"estudos":63},"reciclado":{"mu":0.132107,"lb":0.0645845,"ub":0.199629,"k":10,"estudos":7},"scm":{"mu":0.119976,"lb":0.0900684,"ub":0.149883,"k":69,"estudos":21},"uhpc":{"mu":0.0949739,"lb":0.00705635,"ub":0.182892,"k":5,"estudos":2}}},"p|portland|sem|cit":{"k":269,"estudos":91,"global":{"mu":0.16321,"lb":0.143339,"ub":0.18308,"pi_lb":0.0252906,"pi_ub":0.301129,"i2":78.5789},"familias":{"concreto_armado":{"mu":0.201883,"lb":0.158918,"ub":0.244848,"k":61,"estudos":24},"opc":{"mu":0.169057,"lb":0.144303,"ub":0.193812,"k":128,"estudos":60},"reciclado":{"mu":0.13039,"lb":0.064878,"ub":0.195902,"k":10,"estudos":7},"scm":{"mu":0.120257,"lb":0.090818,"ub":0.149695,"k":68,"estudos":20},"uhpc":{"mu":0.137859,"lb":0.0409176,"ub":0.234801,"k":2,"estudos":1}}},"s|portland|sem|cit":{"k":11,"estudos":4,"global":{"mu":0.205835,"lb":0.0460064,"ub":0.365663,"pi_lb":-0.146551,"pi_ub":0.55822,"i2":99.9879},"familias":{"opc":{"mu":0.303269,"lb":0.190562,"ub":0.415977,"k":7,"estudos":3},"scm":{"mu":0.246717,"lb":0.00357336,"ub":0.489862,"k":1,"estudos":1},"uhpc":{"mu":0.0176681,"lb":-0.131647,"ub":0.166983,"k":3,"estudos":1}}},"ps|todos|com|cit":{"k":296,"estudos":102,"global":{"mu":0.163982,"lb":0.143004,"ub":0.18496,"pi_lb":0.00888923,"pi_ub":0.319074,"i2":81.1957},"familias":{"concreto_armado":{"mu":0.211326,"lb":0.167797,"ub":0.254856,"k":65,"estudos":27},"geopolimero":{"mu":0.178177,"lb":0.0713185,"ub":0.285035,"k":4,"estudos":3},"ligantes":{"mu":0.109838,"lb":-0.0355981,"ub":0.255275,"k":1,"estudos":1},"opc":{"mu":0.168016,"lb":0.142197,"ub":0.193835,"k":140,"estudos":68},"reciclado":{"mu":0.136736,"lb":0.0718921,"ub":0.20158,"k":12,"estudos":8},"scm":{"mu":0.117395,"lb":0.0865594,"ub":0.148232,"k":69,"estudos":21},"uhpc":{"mu":0.0957048,"lb":0.00365542,"ub":0.187754,"k":5,"estudos":2}}},"p|todos|com|cit":{"k":284,"estudos":97,"global":{"mu":0.16239,"lb":0.141669,"ub":0.183111,"pi_lb":0.0137959,"pi_ub":0.310984,"i2":80.6729},"familias":{"concreto_armado":{"mu":0.208421,"lb":0.165608,"ub":0.251233,"k":65,"estudos":27},"geopolimero":{"mu":0.193526,"lb":0.0626411,"ub":0.324411,"k":3,"estudos":2},"ligantes":{"mu":0.11427,"lb":-0.0150405,"ub":0.24358,"k":1,"estudos":1},"opc":{"mu":0.163393,"lb":0.137684,"ub":0.189102,"k":133,"estudos":65},"reciclado":{"mu":0.136845,"lb":0.0733581,"ub":0.200331,"k":12,"estudos":8},"scm":{"mu":0.118133,"lb":0.0874769,"ub":0.148789,"k":68,"estudos":20},"uhpc":{"mu":0.136709,"lb":0.0355014,"ub":0.237916,"k":2,"estudos":1}}},"s|todos|com|cit":{"k":12,"estudos":5,"global":{"mu":0.192513,"lb":0.0648737,"ub":0.320152,"pi_lb":-0.116022,"pi_ub":0.501048,"i2":99.9835},"familias":{"geopolimero":{"mu":0.144409,"lb":-0.0324261,"ub":0.321245,"k":1,"estudos":1},"opc":{"mu":0.303269,"lb":0.190562,"ub":0.415977,"k":7,"estudos":3},"scm":{"mu":0.246717,"lb":0.00357336,"ub":0.489862,"k":1,"estudos":1},"uhpc":{"mu":0.0176681,"lb":-0.131647,"ub":0.166983,"k":3,"estudos":1}}},"ps|portland|com|cit":{"k":290,"estudos":100,"global":{"mu":0.163478,"lb":0.142833,"ub":0.184124,"pi_lb":0.0119616,"pi_ub":0.314995,"i2":80.7154},"familias":{"concreto_armado":{"mu":0.21346,"lb":0.170878,"ub":0.256041,"k":64,"estudos":26},"opc":{"mu":0.168021,"lb":0.142886,"ub":0.193157,"k":140,"estudos":68},"reciclado":{"mu":0.130277,"lb":0.0658881,"ub":0.194666,"k":12,"estudos":8},"scm":{"mu":0.115759,"lb":0.0854184,"ub":0.146101,"k":69,"estudos":21},"uhpc":{"mu":0.0937298,"lb":0.00274966,"ub":0.18471,"k":5,"estudos":2}}},"p|portland|com|cit":{"k":279,"estudos":96,"global":{"mu":0.161446,"lb":0.141449,"ub":0.181442,"pi_lb":0.0183653,"pi_ub":0.304526,"i2":79.7371},"familias":{"concreto_armado":{"mu":0.210807,"lb":0.169133,"ub":0.252482,"k":64,"estudos":26},"opc":{"mu":0.163027,"lb":0.138174,"ub":0.18788,"k":133,"estudos":65},"reciclado":{"mu":0.128827,"lb":0.0662757,"ub":0.191378,"k":12,"estudos":8},"scm":{"mu":0.115958,"lb":0.0859953,"ub":0.14592,"k":68,"estudos":20},"uhpc":{"mu":0.134851,"lb":0.0343649,"ub":0.235337,"k":2,"estudos":1}}},"s|portland|com|cit":{"k":11,"estudos":4,"global":{"mu":0.205835,"lb":0.0460064,"ub":0.365663,"pi_lb":-0.146551,"pi_ub":0.55822,"i2":99.9879},"familias":{"opc":{"mu":0.303269,"lb":0.190562,"ub":0.415977,"k":7,"estudos":3},"scm":{"mu":0.246717,"lb":0.00357336,"ub":0.489862,"k":1,"estudos":1},"uhpc":{"mu":0.0176681,"lb":-0.131647,"ub":0.166983,"k":3,"estudos":1}}}}};
+  var VIDA_FAM = {"_g":{"fam":null,"mod":null,"nor":null}};
   var MODELO_MIN_ESTUDOS = 2;
   var tierVisible = { p: true, s: true };
 
@@ -102,11 +103,24 @@
      esses pares saem do gráfico. ?forest=cit no URL. */
   var FOREST_KEY = 'kl-meta-forest';
   var forestMetric = 'ci';
+  /* F33 (Kiê, 2026-10-17): o ci_t existe em todos os pares. 'cit' usa a vida útil da hierarquia (d[9]; d[10] =
+     fonte: d declarada pelo estudo, c citada, n norma pela aplicação, p norma sem aplicação = 50 anos);
+     'citf', 'citm' e 'citn' são sensibilidades com a vida útil média da família (VIDA_FAM): valores vindos
+     dos estudos, só os de base «modelo» e só os de base «norma». */
+  var METRICS = ['ci', 'cit', 'citf', 'citm', 'citn'];
+  var VIDA_FAM_KEY = { citf: 'fam', citm: 'mod', citn: 'nor' };
   try {
     var qFor = new URLSearchParams(window.location.search).get('forest');
     var sFor = qFor || window.localStorage.getItem(FOREST_KEY);
-    if (sFor === 'ci' || sFor === 'cit') forestMetric = sFor;
+    if (METRICS.indexOf(sFor) >= 0) forestMetric = sFor;
   } catch (e) {}
+
+  /* vida útil de um par no indicador escolhido (null = não se aplica) */
+  function vidaDoPar(d) {
+    if (forestMetric === 'cit') return d[9] || null;
+    var m = VIDA_FAM[d[2]] || VIDA_FAM._g;
+    return (m && m[VIDA_FAM_KEY[forestMetric]]) || null;
+  }
 
   function currentData() {
     return DATA.filter(function (d) {
@@ -235,9 +249,16 @@
       forestP: 'ci = CO₂ ÷ resistência, em kg CO₂-eq por m³·MPa — quanto menor, mais eficiente o material por unidade de resistência entregue. Ponto contra ponto no gráfico acima.',
       forestToggleHint: 'toque numa família para ver os estudos que a compõem',
       forestTitleCit: 'ci_t por família de material',
-      forestPCit: 'ci_t = ci ÷ vida útil de projeto declarada pelo próprio artigo, em kg CO₂-eq por m³·MPa·ano — quanto menor, menos carbono por unidade de resistência e por ano de serviço. Só entram os pares cujo artigo declara a vida útil ({n} de {total} pares neste filtro); nunca se usa uma vida útil convencionada.',
+      forestPCit: 'ci_t = ci ÷ vida útil, em kg CO₂-eq por m³·MPa·ano — quanto menor, menos carbono por unidade de resistência e por ano de serviço. Todos os pares têm ci_t: a vida útil é assumida por nós quando o artigo não a declara ({n} de {total} pares neste filtro).',
+      forestP_cit: 'Vida útil pela hierarquia: declarada pelo estudo, senão citada por ele, senão a de projecto da norma conforme a aplicação (EN 1990, NBR 15575) e, sem aplicação identificável, 50 anos.',
+      forestP_citf: 'Sensibilidade: vida útil média da família (valores vindos dos estudos, um voto por estudo).',
+      forestP_citm: 'Sensibilidade: vida útil média da família só com os valores calculados pelos próprios estudos (modelo ou ensaio de durabilidade).',
+      forestP_citn: 'Sensibilidade: vida útil média da família só com valores de norma (a declarada ou citada por norma e, sem ela, a norma conforme a aplicação).',
       forestMetricCi: 'ci',
-      forestMetricCit: 'ci_t (÷ vida útil)',
+      forestMetricCit: 'ci_t (hierarquia)',
+      forestMetric_citf: 'ci_t · média da família',
+      forestMetric_citm: 'ci_t · família, só modelos',
+      forestMetric_citn: 'ci_t · família, só normas',
       forestAnos: 'anos',
       forestLegModelo: 'estimativa do modelo multinível com IC 95%',
       forestLegMediana: 'mediana dos pares',
@@ -392,9 +413,16 @@
       forestP: 'ci = CO₂ ÷ strength, in kg CO₂-eq per m³·MPa — the lower, the more efficient the material per unit of strength delivered. Point against point in the chart above.',
       forestToggleHint: 'tap a family to see the studies behind it',
       forestTitleCit: 'ci_t by material family',
-      forestPCit: 'ci_t = ci ÷ the design service life declared by the article itself, in kg CO₂-eq per m³·MPa·year — the lower, the less carbon per unit of strength and per year of service. Only pairs whose article declares a service life are included ({n} of {total} pairs in this filter); no conventional service life is ever assumed.',
+      forestPCit: 'ci_t = ci ÷ service life, in kg CO₂-eq per m³·MPa·year — the lower, the less carbon per unit of strength and per year of service. Every pair has a ci_t: the service life is assumed by us when the article does not state it ({n} of {total} pairs in this filter).',
+      forestP_cit: 'Service life by hierarchy: stated by the study, otherwise cited by it, otherwise the design life of the standard for the application (EN 1990, NBR 15575) and, with no identifiable application, 50 years.',
+      forestP_citf: 'Sensitivity: mean service life of the family (values coming from the studies, one vote per study).',
+      forestP_citm: 'Sensitivity: mean service life of the family using only values computed by the studies themselves (durability model or test).',
+      forestP_citn: 'Sensitivity: mean service life of the family using only standard-based values (stated or cited from a standard and, otherwise, the standard for the application).',
       forestMetricCi: 'ci',
-      forestMetricCit: 'ci_t (÷ service life)',
+      forestMetricCit: 'ci_t (hierarchy)',
+      forestMetric_citf: 'ci_t · family mean',
+      forestMetric_citm: 'ci_t · family, models only',
+      forestMetric_citn: 'ci_t · family, standards only',
       forestAnos: 'yr',
       forestLegModelo: 'multilevel model estimate with 95% CI',
       forestLegMediana: 'median of the pairs',
@@ -549,9 +577,16 @@
       forestP: 'ci = CO₂ ÷ 强度，单位为每 m³·MPa 的 kg CO₂ 当量——数值越低，材料每单位强度的效率越高。与上方图表逐点对应。',
       forestToggleHint: '点击某个类别，查看构成该类别的研究',
       forestTitleCit: '各材料类别的ci_t指标',
-      forestPCit: 'ci_t = ci ÷ 文献本身声明的设计使用年限，单位为每 m³·MPa·年的 kg CO₂ 当量——数值越低，每单位强度、每年服役的碳排放越少。仅纳入文献声明了使用年限的数据对（本筛选下 {n} / {total} 对）；从不采用约定的使用年限。',
+      forestPCit: 'ci_t = ci ÷ 使用年限，单位为每 m³·MPa·年的 kg CO₂ 当量——数值越低，每单位强度、每年的碳越少。所有数据对都有 ci_t：文献未声明使用年限时由我们假定（此筛选下 {total} 个数据对中的 {n} 个）。',
+      forestP_cit: '按层级确定使用年限：研究自身声明，其次研究引用，其次按应用场景取标准的设计使用年限（EN 1990、NBR 15575），无法确定应用时取50年。',
+      forestP_citf: '敏感性分析：该类别的平均使用年限（取自各研究，每项研究一票）。',
+      forestP_citm: '敏感性分析：该类别仅用研究自身计算（耐久性模型或试验）得到的平均使用年限。',
+      forestP_citn: '敏感性分析：该类别仅用基于标准的平均使用年限（声明或引用的标准值，否则按应用场景取标准值）。',
       forestMetricCi: 'ci',
-      forestMetricCit: 'ci_t（÷ 使用年限）',
+      forestMetricCit: 'ci_t（层级）',
+      forestMetric_citf: 'ci_t · 类别平均',
+      forestMetric_citm: 'ci_t · 类别，仅模型',
+      forestMetric_citn: 'ci_t · 类别，仅标准',
       forestAnos: '年',
       forestLegModelo: '多层模型估计值及95%置信区间',
       forestLegMediana: '数据对的中位数',
@@ -1165,7 +1200,7 @@
     var list = document.getElementById('forest-list');
     list.textContent = '';
 
-    var cit = forestMetric === 'cit';
+    var cit = forestMetric !== 'ci';
     var byCat = {};
     CATS.forEach(function (c) { byCat[c] = []; });
     var allItems = [];
@@ -1173,7 +1208,7 @@
     var nCit = 0;
     data.forEach(function (d) {
       var cat = CATCODE[d[2]];
-      var fck = d[0], co2 = d[1], vida = d[9] || null;
+      var fck = d[0], co2 = d[1], vida = vidaDoPar(d);
       var ci = fck ? co2 / fck : null;
       if (ci === null || ci <= 0) return;
       if (vida) nCit++;
@@ -1186,10 +1221,19 @@
 
     document.getElementById('forest-title').textContent = cit ? strings.forestTitleCit : strings.forestTitle;
     document.getElementById('forest-desc').textContent = cit
-      ? strings.forestPCit.replace('{n}', nCit).replace('{total}', data.length)
+      ? strings.forestPCit.replace('{n}', nCit).replace('{total}', data.length) + ' ' + strings['forestP_' + forestMetric]
       : strings.forestP;
     document.getElementById('forest-n-ci').textContent = data.length;
-    document.getElementById('forest-n-cit').textContent = nCit;
+    METRICS.slice(1).forEach(function (m) {
+      var el = document.getElementById('forest-n-' + m);
+      if (!el) return;
+      var n = 0;
+      var save = forestMetric;
+      forestMetric = m;
+      data.forEach(function (d) { if (vidaDoPar(d)) n++; });
+      forestMetric = save;
+      el.textContent = n;
+    });
 
     // F28: estimativa do modelo para o subconjunto que está no ecrã
     var mod = modeloCenario();
@@ -1288,7 +1332,7 @@
 
   /* ci com 2 casas; ci_t (~0,01–1 por ano) com 3 */
   function fmtCi(v) {
-    return v.toFixed(forestMetric === 'cit' ? 3 : 2);
+    return v.toFixed(forestMetric === 'ci' ? 2 : 3);
   }
 
   function buildForestItem(key, label, med, color, pos, items, strings, m) {
@@ -2211,7 +2255,7 @@
   });
 
   /* Indicador do forest por família: ci / ci_t (?forest=cit no URL). */
-  ['ci', 'cit'].forEach(function (m) {
+  METRICS.forEach(function (m) {
     var radio = document.getElementById('forest-radio-' + m);
     radio.checked = forestMetric === m;
     radio.addEventListener('change', function () {
