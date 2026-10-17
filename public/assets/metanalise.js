@@ -290,7 +290,7 @@
       mapaVerTodos: "Mostrar os {n} países",
       mapaVerMenos: "Mostrar só os 15 primeiros",
       redeTitle: "Linha temporal e citações entre os artigos",
-      redeP: "Cada ponto é um artigo, colocado no ano de publicação. Cada linha liga um artigo a outro artigo desta mesma revisão que ele cita na sua lista de referências (fonte: Crossref). Passe o cursor sobre um ponto para destacar quem ele cita e quem o cita.",
+      redeP: "Cada ponto é um artigo, colocado no ano de publicação. Cada linha liga um artigo a outro artigo desta mesma revisão que ele cita na sua lista de referências (fonte: Crossref). Passe o cursor sobre um ponto para destacar quem ele cita e quem o cita; clique para fixar o cartão (pode fixar vários e desfixá-los no ×).",
       redeAria: "Linha temporal dos artigos incluídos com as ligações de citação entre eles",
       redeTipCita: "cita {n} desta revisão",
       redeTipCitado: "citado por {n}",
@@ -299,6 +299,7 @@
       redeLegMeta: "com par no painel",
       redeLegOutro: "sem par no painel",
       redeLegLig: "cita",
+      redePinFechar: "Desfixar",
       unitChartTitle: 'Unidades de CO₂ relatadas',
       unitChartP: 'Como cada estudo reporta a pegada de carbono — nem sempre em kg CO₂-eq por m³. "Nativo" é o valor já publicado assim pelo autor; "convertido por nós" é calculado a partir de outra grandeza que o próprio artigo imprime (ex. um total dividido pelo volume do elemento). As barras cinzentas são unidades que não se deixam converter em kg CO₂-eq/m³ sem assumir um dado que o artigo não imprime (massa volúmica, volume, traço); foram relidas na íntegra e ficam fora da metanálise. A barra tracejada reúne os valores já em kg/m³ que foram excluídos — clique nela para ver cada linha e o motivo.',
       unitChartKindNativo: 'kg CO₂-eq/m³ — nativo (publicado assim)',
@@ -443,7 +444,7 @@
       mapaVerTodos: "Show all {n} countries",
       mapaVerMenos: "Show only the top 15",
       redeTitle: "Timeline and citations between the articles",
-      redeP: "Each dot is an article, placed in its publication year. Each line links an article to another article of this same review that it cites in its reference list (source: Crossref). Hover over a dot to highlight what it cites and who cites it.",
+      redeP: "Each dot is an article, placed in its publication year. Each line links an article to another article of this same review that it cites in its reference list (source: Crossref). Hover over a dot to highlight what it cites and who cites it; click to pin its card (you can pin several and unpin them with ×).",
       redeAria: "Timeline of the included articles with the citation links between them",
       redeTipCita: "cites {n} in this review",
       redeTipCitado: "cited by {n}",
@@ -452,6 +453,7 @@
       redeLegMeta: "with a pair in the panel",
       redeLegOutro: "without a pair in the panel",
       redeLegLig: "cites",
+      redePinFechar: "Unpin",
       unitChartTitle: 'Reported CO₂ units',
       unitChartP: "How each study reports its carbon footprint — not always in kg CO₂-eq per m³. \"Native\" is the value as the author already published it; \"converted by us\" is computed from a different quantity the article itself prints (e.g. a total divided by the element's volume). The grey bars are units that cannot be turned into kg CO₂-eq/m³ without assuming a figure the article does not print (density, volume, mix design); they were reread in full and stay outside the meta-analysis. The hatched bar gathers values already in kg/m³ that were excluded — click it to see each row and the reason.",
       unitChartKindNativo: 'kg CO₂-eq/m³ — native (published as such)',
@@ -596,7 +598,7 @@
       mapaVerTodos: "显示全部{n}个国家",
       mapaVerMenos: "仅显示前15个",
       redeTitle: "时间线与文献间的引用关系",
-      redeP: "每个点代表一篇文献，按发表年份排列。每条线连接一篇文献与其参考文献中引用的本综述内另一篇文献（来源：Crossref）。将鼠标悬停在点上可突出显示其引用和被引用关系。",
+      redeP: "每个点代表一篇文献，按发表年份排列。每条线连接一篇文献与其参考文献中引用的本综述内另一篇文献（来源：Crossref）。将鼠标悬停在点上可突出显示其引用和被引用关系；点击可固定卡片（可同时固定多张，点击 × 取消固定）。",
       redeAria: "纳入文献的时间线及其相互引用关系",
       redeTipCita: "引用本综述中{n}篇",
       redeTipCitado: "被引用{n}次",
@@ -605,6 +607,7 @@
       redeLegMeta: "面板中有数据对",
       redeLegOutro: "面板中无数据对",
       redeLegLig: "引用",
+      redePinFechar: "取消固定",
       unitChartTitle: '报告的CO₂单位',
       unitChartP: '每项研究报告碳足迹的方式并不总是每立方米kg CO₂当量。"原始"指作者本身就是这样公布的数值；"我们换算的"是根据文章本身给出的另一个量计算得出（例如总量除以构件体积）。灰色各栏是不假设文章未给出的数据（密度、体积、配合比）就无法换算为每立方米kg CO₂当量的单位；均已全文重读，不纳入荟萃分析。斜纹栏汇总了已为kg/m³但被排除的数值——点击即可查看每一条记录及原因。',
       unitChartKindNativo: 'kg CO₂-eq/m³ —— 原始（本就这样公布）',
@@ -1638,6 +1641,12 @@
   } catch (e) {}
   var MAPA = { mundo: null, dados: null, pedido: null, erro: false };
   var paisListaAberta = false;
+  /* cartões fixados na rede de citações (ids dos artigos, pela ordem em que
+     foram fixados) */
+  var redePins = [];
+  var redePinEls = {};
+  var redePosicionar = function () {};
+  var redeOuvintes = false;
 
   function carregarMapa(onReady) {
     if (MAPA.mundo && MAPA.dados) { onReady(); return; }
@@ -1877,39 +1886,170 @@
       var wrap = document.getElementById('rede-wrap');
       var tooltip = document.getElementById('rede-tooltip');
       var gNos = svgEl('g', {});
+      var nos = {};
+
+      function linhasArtigo(a) {
+        var cita = a.cita.filter(function (b) { return porId[b]; }).length;
+        var linhas = [
+          { b: a.rot, t: '· ' + nomePais(a.iso2, lang, a.iso3 || '') },
+          { t: a.titulo },
+          { t: strings.redeTipCita.replace('{n}', fmtInt(cita, lang)) + ' · ' +
+               strings.redeTipCitado.replace('{n}', fmtInt(citadoPor[a.id] || 0, lang)) }
+        ];
+        if (!a.refs) linhas.push({ t: strings.redeTipSemRefs });
+        return linhas;
+      }
+
+      /* Destaque das ligações: as dos cartões fixados e, por cima, a do ponto
+         sob o cursor. */
+      function aplicarFoco(extra) {
+        var ids = redePins.slice();
+        if (extra && ids.indexOf(extra) < 0) ids.push(extra);
+        svg.classList.toggle('is-foco', ids.length > 0);
+        ligs.forEach(function (l) {
+          l.el.classList.toggle('cita', ids.indexOf(l.de) >= 0);
+          l.el.classList.toggle('citado', ids.indexOf(l.para) >= 0);
+        });
+        arts.forEach(function (a) {
+          nos[a.id].c.classList.toggle('foco', ids.indexOf(a.id) >= 0);
+        });
+      }
+
+      /* Cartões fixados (Kiê, 2026-10-17): clicar num ponto deixa o cartão
+         aberto junto do ponto, com um botão para o desfixar; podem ficar
+         vários abertos. Cada cartão procura, perto do seu ponto, um lugar
+         dentro do quadro que não tape os já fixados (abaixo ou acima, à
+         direita ou à esquerda); sem lugar livre, desce até deixar de tocar. */
+      function posicionarPins() {
+        var espaco = wrap.querySelector('.rede-pin-espaco');
+        if (!espaco) {
+          espaco = document.createElement('div');
+          espaco.className = 'rede-pin-espaco';
+          wrap.appendChild(espaco);
+        }
+        var box = wrap.getBoundingClientRect();
+        var altura = box.height - espaco.offsetHeight;
+        var ocupados = [];
+        function toca(l, t, w, h) {
+          return ocupados.some(function (o) {
+            return l < o.l + o.w + 4 && l + w + 4 > o.l && t < o.t + o.h + 4 && t + h + 4 > o.t;
+          });
+        }
+        redePins.forEach(function (id) {
+          var pin = redePinEls[id];
+          if (!pin || !nos[id]) return;
+          var r = nos[id].c.getBoundingClientRect();
+          var relX = r.left + r.width / 2 - box.left;
+          var relY = r.top + r.height / 2 - box.top;
+          var tw = pin.offsetWidth, th = pin.offsetHeight;
+          var lefts = [relX + 12, relX - tw - 12].map(function (l) {
+            return Math.min(Math.max(0, l), Math.max(0, box.width - tw));
+          });
+          var tops = [relY + 10, relY - th - 10];
+          ocupados.forEach(function (o) { tops.push(o.t + o.h + 6, o.t - th - 6); });
+          tops.sort(function (a, b) { return Math.abs(a - relY) - Math.abs(b - relY); });
+          var achou = null;
+          tops.some(function (t) {
+            if (t < 0 || t + th > altura) return false;
+            return lefts.some(function (l) {
+              if (toca(l, t, tw, th)) return false;
+              achou = { l: l, t: t };
+              return true;
+            });
+          });
+          if (!achou) {
+            var fundo = relY + 10;
+            if (toca(lefts[0], fundo, tw, th)) {
+              ocupados.forEach(function (o) { fundo = Math.max(fundo, o.t + o.h + 6); });
+            }
+            achou = { l: lefts[0], t: fundo };
+          }
+          pin.style.left = achou.l + 'px';
+          pin.style.top = achou.t + 'px';
+          ocupados.push({ l: achou.l, t: achou.t, w: tw, h: th });
+        });
+        /* cartões que não cabem no quadro alargam-no para baixo, em vez de
+           taparem a secção seguinte */
+        var fundo = 0;
+        ocupados.forEach(function (o) { fundo = Math.max(fundo, o.t + o.h); });
+        espaco.style.height = Math.max(0, fundo + 12 - altura) + 'px';
+      }
+
+      function desfixar(id) {
+        var i = redePins.indexOf(id);
+        if (i >= 0) redePins.splice(i, 1);
+        if (redePinEls[id]) redePinEls[id].remove();
+        delete redePinEls[id];
+        aplicarFoco(null);
+        posicionarPins();
+      }
+
+      function criarPin(id) {
+        var a = porId[id];
+        var pin = document.createElement('div');
+        pin.className = 'scatter-tooltip is-visible rede-pin';
+        pin.setAttribute('data-id', id);
+        var txt = document.createElement('div');
+        tooltipLinhas(txt, linhasArtigo(a));
+        var x = document.createElement('button');
+        x.type = 'button';
+        x.className = 'rede-pin-x';
+        x.textContent = '×';
+        x.setAttribute('aria-label', strings.redePinFechar + ': ' + a.rot);
+        x.setAttribute('title', strings.redePinFechar);
+        x.addEventListener('click', function () { desfixar(id); });
+        pin.appendChild(x);
+        pin.appendChild(txt);
+        wrap.appendChild(pin);
+        redePinEls[id] = pin;
+      }
+
+      function alternarPin(id) {
+        if (redePins.indexOf(id) >= 0) { desfixar(id); return; }
+        redePins.push(id);
+        criarPin(id);
+        tooltip.classList.remove('is-visible');
+        aplicarFoco(null);
+        posicionarPins();
+      }
+
       arts.forEach(function (a) {
         var p = pos[a.id];
         var c = svgEl('circle', { cx: p.x, cy: p.y, r: 3.6, 'class': 'rede-no' + (a.meta ? ' meta' : '') + (a.refs ? '' : ' sem-refs') });
         var hit = svgEl('circle', { cx: p.x, cy: p.y, r: 6, 'class': 'rede-hit' });
+        nos[a.id] = { c: c };
         hit.addEventListener('mousemove', function (ev) {
-          svg.classList.add('is-foco');
-          ligs.forEach(function (l) {
-            l.el.classList.toggle('cita', l.de === a.id);
-            l.el.classList.toggle('citado', l.para === a.id);
-          });
-          c.classList.add('foco');
-          var cita = a.cita.filter(function (b) { return porId[b]; }).length;
-          var linhas = [
-            { b: a.rot, t: '· ' + nomePais(a.iso2, lang, a.iso3 || '') },
-            { t: a.titulo },
-            { t: strings.redeTipCita.replace('{n}', fmtInt(cita, lang)) + ' · ' +
-                 strings.redeTipCitado.replace('{n}', fmtInt(citadoPor[a.id] || 0, lang)) }
-          ];
-          if (!a.refs) linhas.push({ t: strings.redeTipSemRefs });
-          tooltipLinhas(tooltip, linhas);
+          aplicarFoco(a.id);
+          if (redePins.indexOf(a.id) >= 0) { tooltip.classList.remove('is-visible'); return; }
+          tooltipLinhas(tooltip, linhasArtigo(a));
           tooltip.classList.add('is-visible');
           positionTooltip(tooltip, wrap, ev);
         });
         hit.addEventListener('mouseleave', function () {
-          svg.classList.remove('is-foco');
-          ligs.forEach(function (l) { l.el.classList.remove('cita'); l.el.classList.remove('citado'); });
-          c.classList.remove('foco');
+          aplicarFoco(null);
           tooltip.classList.remove('is-visible');
         });
+        hit.addEventListener('click', function () { alternarPin(a.id); });
         gNos.appendChild(c);
         gNos.appendChild(hit);
       });
       svg.appendChild(gNos);
+
+      /* Ao redesenhar (língua, universo) os cartões são refeitos: ficam os dos
+         artigos que continuam no universo. */
+      wrap.querySelectorAll('.rede-pin').forEach(function (el) { el.remove(); });
+      redePinEls = {};
+      redePins = redePins.filter(function (id) { return porId[id]; });
+      redePins.forEach(criarPin);
+      aplicarFoco(null);
+      posicionarPins();
+      redePosicionar = posicionarPins;
+      if (!redeOuvintes) {
+        redeOuvintes = true;
+        window.addEventListener('resize', function () { redePosicionar(); });
+        var sc = wrap.querySelector('.rede-scroll');
+        if (sc) sc.addEventListener('scroll', function () { redePosicionar(); });
+      }
 
       var nSem = arts.filter(function (a) { return !a.refs; }).length;
       document.getElementById('rede-resumo').textContent = strings.redeResumo

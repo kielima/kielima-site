@@ -370,6 +370,25 @@ const navegador = await chromium.launch({
   await meta.pagina.hover('#mapa-svg path.tem');
   const tipMapa = await meta.pagina.evaluate(() => document.getElementById('mapa-tooltip').textContent);
   if (!/\d/.test(tipMapa)) problemas.push('/metanalise/: o tooltip do mapa não mostrou o número de artigos');
+  // Kiê (2026-10-17): clicar num ponto fixa o cartão; vários ao mesmo tempo; × desfixa.
+  const hits = meta.pagina.locator('#rede-svg .rede-hit');
+  await hits.first().click();
+  await hits.last().click();
+  const pins1 = await meta.pagina.evaluate(() => ({
+    n: document.querySelectorAll('#rede-wrap .rede-pin').length,
+    texto: [...document.querySelectorAll('#rede-wrap .rede-pin')].every((el) => /\d{4}/.test(el.textContent)),
+    foco: document.getElementById('rede-svg').classList.contains('is-foco'),
+  }));
+  if (pins1.n !== 2 || !pins1.texto) problemas.push(`/metanalise/: clicar em dois pontos da rede deixou ${pins1.n} cartões fixados`);
+  if (!pins1.foco) problemas.push('/metanalise/: com cartões fixados a rede não destacou as ligações');
+  await meta.pagina.click('#rede-wrap .rede-pin .rede-pin-x');
+  await hits.last().click();
+  const pins2 = await meta.pagina.evaluate(() => ({
+    n: document.querySelectorAll('#rede-wrap .rede-pin').length,
+    foco: document.getElementById('rede-svg').classList.contains('is-foco'),
+  }));
+  if (pins2.n !== 0) problemas.push(`/metanalise/: o × e o segundo clique não desfixaram os cartões (${pins2.n} abertos)`);
+  if (pins2.foco) problemas.push('/metanalise/: sem cartões fixados a rede continuou com o destaque');
   await meta.pagina.click('#univ-rede-meta');
   await meta.pagina.waitForTimeout(150);
   const meta2 = await meta.pagina.evaluate(() => ({
