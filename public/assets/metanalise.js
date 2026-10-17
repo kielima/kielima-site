@@ -242,10 +242,13 @@
       forestLegModelo: 'estimativa do modelo multinível com IC 95%',
       forestLegMediana: 'mediana dos pares',
       forestLegIP: 'intervalo de predição 95% (todos os materiais)',
-      forestModeloNota: 'O losango é a média ponderada do modelo multinível (rma.mv, REML, pacote metafor do R; estudos e traços como efeitos aleatórios), recalculada para os filtros escolhidos; a barra é o seu intervalo de confiança de 95%. O círculo vazio é a mediana simples dos pares. Modelo de {data}.',
+      forestModeloNota: 'O losango é a média ponderada do modelo multinível (rma.mv, REML, pacote metafor do R; estudos e traços como efeitos aleatórios), recalculada para os filtros escolhidos; a barra é o seu intervalo de confiança de 95%. O círculo vazio é a mediana dos pares e o quadrado vazio a média simples (sem pesos); ligam-se e desligam-se na legenda. Modelo de {data}.',
       forestSemModelo: 'sem estimativa do modelo para esta família neste filtro (poucos estudos)',
       forestTipMediana: 'mediana',
       forestTipIP: 'intervalo de predição 95%',
+      forestLegMedia: 'média simples dos pares',
+      forestTipMedia: 'média simples',
+      forestMarcasAria: 'Marcas a mostrar no forest',
       forestOverall: 'TODOS OS MATERIAIS',
       forestSemLabel: 'estudo sem citação disponível',
       subfamLang: 'pt',
@@ -396,10 +399,13 @@
       forestLegModelo: 'multilevel model estimate with 95% CI',
       forestLegMediana: 'median of the pairs',
       forestLegIP: '95% prediction interval (all materials)',
-      forestModeloNota: 'The diamond is the weighted mean of the multilevel model (rma.mv, REML, R package metafor; studies and mixes as random effects), refitted for the chosen filters; the bar is its 95% confidence interval. The open circle is the plain median of the pairs. Model of {data}.',
+      forestModeloNota: 'The diamond is the weighted mean of the multilevel model (rma.mv, REML, R package metafor; studies and mixes as random effects), refitted for the chosen filters; the bar is its 95% confidence interval. The open circle is the median of the pairs and the open square their simple (unweighted) mean; switch them on and off in the legend. Model of {data}.',
       forestSemModelo: 'no model estimate for this family under this filter (too few studies)',
       forestTipMediana: 'median',
       forestTipIP: '95% prediction interval',
+      forestLegMedia: 'simple mean of the pairs',
+      forestTipMedia: 'simple mean',
+      forestMarcasAria: 'Markers shown in the forest plot',
       forestOverall: 'ALL MATERIALS',
       forestSemLabel: 'study with no citation available',
       subfamLang: 'en',
@@ -550,10 +556,13 @@
       forestLegModelo: '多层模型估计值及95%置信区间',
       forestLegMediana: '数据对的中位数',
       forestLegIP: '95%预测区间（所有材料）',
-      forestModeloNota: '菱形为多层模型的加权均值（rma.mv，REML，R语言metafor包；研究和配合比作为随机效应），按所选筛选条件重新拟合；横线为其95%置信区间。空心圆为数据对的简单中位数。模型日期：{data}。',
+      forestModeloNota: '菱形为多层模型的加权均值（rma.mv，REML，R语言metafor包；研究和配合比作为随机效应），按所选筛选条件重新拟合；横线为其95%置信区间。空心圆为数据对的中位数，空心方块为其简单（不加权）平均值；可在图例中开启或关闭。模型日期：{data}。',
       forestSemModelo: '此筛选下该类别无模型估计值（研究太少）',
       forestTipMediana: '中位数',
       forestTipIP: '95%预测区间',
+      forestLegMedia: '数据对的简单平均值',
+      forestTipMedia: '简单平均值',
+      forestMarcasAria: '森林图中显示的标记',
       forestOverall: '所有材料',
       forestSemLabel: '无引用信息的研究',
       subfamLang: 'zh',
@@ -641,6 +650,27 @@
     var mid = Math.floor(n / 2);
     return n % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
   }
+
+  function mean(arr) {
+    if (!arr.length) return null;
+    var t = 0;
+    arr.forEach(function (v) { t += v; });
+    return t / arr.length;
+  }
+
+  /* Marcas do forest que se podem ligar e desligar na legenda (Kiê,
+     2026-10-17): a mediana dos pares (ligada por omissão) e a média simples
+     dos pares (desligada). Só escondem a marca secundária: numa linha sem
+     estimativa do modelo a mediana é a própria estimativa e fica sempre. */
+  var MARCAS_KEY = 'kl-meta-forest-marcas';
+  var forestMarcas = { mediana: true, media: false };
+  try {
+    var savedM = JSON.parse(window.localStorage.getItem(MARCAS_KEY) || 'null');
+    if (savedM && typeof savedM === 'object') {
+      if (typeof savedM.mediana === 'boolean') forestMarcas.mediana = savedM.mediana;
+      if (typeof savedM.media === 'boolean') forestMarcas.media = savedM.media;
+    }
+  } catch (e) {}
 
   function svgEl(tag, attrs) {
     var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
@@ -1216,10 +1246,24 @@
     box.textContent = '';
     if (!MODELO) { box.hidden = true; return; }
     box.hidden = false;
-    [['forest-leg-modelo', strings.forestLegModelo], ['forest-leg-mediana', strings.forestLegMediana],
+    box.setAttribute('aria-label', strings.forestMarcasAria);
+    [['forest-leg-modelo', strings.forestLegModelo], ['forest-leg-mediana', strings.forestLegMediana, 'mediana'],
+     ['forest-leg-media', strings.forestLegMedia, 'media'],
      ['forest-leg-ip', strings.forestLegIP]].forEach(function (l) {
-      var it = document.createElement('span');
-      it.className = 'forest-leg-item';
+      var it = document.createElement(l[2] ? 'label' : 'span');
+      it.className = 'forest-leg-item' + (l[2] ? ' forest-leg-toggle' : '');
+      if (l[2]) {
+        var cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.id = 'forest-marca-' + l[2];
+        cb.checked = forestMarcas[l[2]];
+        cb.addEventListener('change', function () {
+          forestMarcas[l[2]] = cb.checked;
+          try { window.localStorage.setItem(MARCAS_KEY, JSON.stringify(forestMarcas)); } catch (e) {}
+          renderForest(strings);
+        });
+        it.appendChild(cb);
+      }
       var sw = document.createElement('span');
       sw.className = 'forest-leg-sw ' + l[0];
       sw.setAttribute('aria-hidden', 'true');
@@ -1284,15 +1328,25 @@
     bg.className = 'forest-bar-bg';
     track.appendChild(bg);
     var maxCi = pos.max;
+    var media = mean(items.map(function (it) { return it.ci; }));
+    if (forestMarcas.media && media !== null) {
+      var mean0 = document.createElement('div');
+      mean0.className = 'forest-bar forest-bar-media';
+      mean0.style.left = pos(media) + '%';
+      mean0.style.borderColor = color;
+      track.appendChild(mean0);
+    }
     if (m) {
       // F28: modelo (losango + IC 95%) e a mediana como círculo vazio
       if (key === 'overall') forestIntervalo(track, m.pi_lb, m.pi_ub, pos, 'forest-ip', color, maxCi);
       forestIntervalo(track, m.lb, m.ub, pos, 'forest-ci', color, maxCi);
-      var med0 = document.createElement('div');
-      med0.className = 'forest-bar forest-bar-mediana';
-      med0.style.left = pos(med) + '%';
-      med0.style.borderColor = color;
-      track.appendChild(med0);
+      if (forestMarcas.mediana) {
+        var med0 = document.createElement('div');
+        med0.className = 'forest-bar forest-bar-mediana';
+        med0.style.left = pos(med) + '%';
+        med0.style.borderColor = color;
+        track.appendChild(med0);
+      }
       var dia = document.createElement('div');
       dia.className = 'forest-diamond';
       dia.style.left = pos(m.mu) + '%';
@@ -1313,7 +1367,8 @@
       val.innerHTML = '<b>' + fmtCi(m.mu) + '</b>' +
         '<span class="forest-ic">[' + fmtCi(m.lb) + '–' + fmtCi(m.ub) + ']</span>' +
         '<span class="forest-ic">n=' + items.length + '</span>';
-      var tip = strings.forestTipMediana + ' ' + fmtCi(med);
+      var tip = strings.forestTipMediana + ' ' + fmtCi(med) +
+        (media !== null ? ' · ' + strings.forestTipMedia + ' ' + fmtCi(media) : '');
       if (key === 'overall' && m.pi_lb !== null && m.pi_lb !== undefined) {
         tip += ' · ' + strings.forestTipIP + ' ' + fmtCi(m.pi_lb) + '–' + fmtCi(m.pi_ub) +
           (m.i2 !== null && m.i2 !== undefined ? ' · I² ' + m.i2.toFixed(1) + '%' : '');
@@ -1322,6 +1377,7 @@
     } else {
       val.innerHTML = '<b>' + fmtCi(med) + '</b> · n=' + items.length;
       if (MODELO && key !== 'overall') head.title = strings.forestSemModelo;
+      if (media !== null) head.title = (head.title ? head.title + ' · ' : '') + strings.forestTipMedia + ' ' + fmtCi(media);
     }
     head.appendChild(val);
 
@@ -1437,6 +1493,14 @@
     bar.style.left = pos(r.med) + '%';
     bar.style.background = color;
     track.appendChild(bar);
+    var mediaSub = mean(r.items.map(function (it) { return it.ci; }));
+    if (forestMarcas.media && mediaSub !== null) {
+      var meanSub = document.createElement('div');
+      meanSub.className = 'forest-bar forest-bar-media';
+      meanSub.style.left = pos(mediaSub) + '%';
+      meanSub.style.borderColor = color;
+      track.appendChild(meanSub);
+    }
     head.appendChild(track);
 
     var val = document.createElement('div');

@@ -312,6 +312,23 @@ const navegador = await chromium.launch({
     problemas.push(`/metanalise/: o forest não mostra o modelo em R (${JSON.stringify(modelo)})`);
   }
 
+  // Kiê (2026-10-17): a legenda do forest liga e desliga a mediana e a média simples.
+  const marcas0 = await meta.pagina.evaluate(() => ({
+    mediana: document.querySelectorAll('.forest-head .forest-bar-mediana').length,
+    media: document.querySelectorAll('.forest-head .forest-bar-media').length,
+  }));
+  await meta.pagina.click('label:has(#forest-marca-mediana)');
+  await meta.pagina.click('label:has(#forest-marca-media)');
+  const marcas1 = await meta.pagina.evaluate(() => ({
+    mediana: document.querySelectorAll('.forest-head .forest-bar-mediana').length,
+    media: document.querySelectorAll('.forest-head .forest-bar-media').length,
+  }));
+  if (!(marcas0.mediana >= 3 && marcas0.media === 0 && marcas1.mediana === 0 && marcas1.media >= 3)) {
+    problemas.push(`/metanalise/: os botões da mediana e da média simples no forest não funcionaram (${JSON.stringify([marcas0, marcas1])})`);
+  }
+  await meta.pagina.click('label:has(#forest-marca-mediana)');
+  await meta.pagina.click('label:has(#forest-marca-media)');
+
   // Kiê (2026-10-16): o botão ci / ci_t troca o indicador do forest por família;
   // no modo ci_t só entram os pares com vida útil declarada.
   await meta.pagina.click('#forest-radio-cit');
