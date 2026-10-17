@@ -193,7 +193,7 @@
       kpiQualidadeLabel: 'dos quais de melhor qualidade (≥ 4,0)',
       kpiParesLabel: 'pares resistência × CO₂ extraídos',
       kpiVidaLabel: 'com vida útil de projeto declarada',
-      kpiReleituraLabel: 'lotes da releitura integral concluídos',
+      kpiReleituraLabel: 'estudos com par na metanálise',
       kpiCompletoLabel: 'dos artigos aceitos com resistência e CO₂ já extraídos',
       funnelLabel: 'TRIAGEM',
       funnelTitle: 'O funil da triagem: de 5.093 registos a 468 artigos',
@@ -357,7 +357,7 @@
       kpiQualidadeLabel: 'of which higher quality (≥ 4.0)',
       kpiParesLabel: 'strength × CO₂ pairs extracted',
       kpiVidaLabel: 'with declared design service life',
-      kpiReleituraLabel: 'batches of the full re-read completed',
+      kpiReleituraLabel: 'studies with a pair in the meta-analysis',
       kpiCompletoLabel: 'of accepted articles with strength and CO₂ already extracted',
       funnelLabel: 'SCREENING',
       funnelTitle: 'The screening funnel: from 5,093 records to 468 articles',
@@ -521,7 +521,7 @@
       kpiQualidadeLabel: '其中质量较高（≥ 4.0）',
       kpiParesLabel: '已提取的强度×CO₂数据对',
       kpiVidaLabel: '已注明设计使用寿命',
-      kpiReleituraLabel: '完整复读批次已完成',
+      kpiReleituraLabel: '纳入元分析的有数据对研究',
       kpiCompletoLabel: '已入选文献中强度与CO₂均已提取的比例',
       funnelLabel: '筛选',
       funnelTitle: '筛选漏斗：从5,093条记录到468篇文献',
@@ -744,7 +744,11 @@
   var KPI_VALUES = {
     funil: 468,
     vida: 118,
-    releitura: '64/68',
+    /* Kiê (2026-10-17): o quadrado «64/68 lotes da releitura» (valor à mão de 08/09, nunca actualizado)
+       passa a mostrar os estudos com pelo menos um par no painel: 401 em 2026-10-17 (estudos distintos
+       em dados_metanalise.csv).
+       Snapshot: actualizar com os pares do painel. */
+    releitura: 401,
     /* % de artigos Elegível com pelo menos um par fck+CO2 completo em
        dados_fck, sobre o total de artigos Elegível que ainda podem vir a
        ter um (exclui os que, por desenho, nunca terão par próprio -- as
@@ -801,7 +805,7 @@
     document.getElementById('kpi-qualidade').textContent = fmtInt(FUNNEL[FUNNEL.length - 1].principal, lang);
     document.getElementById('kpi-pares').textContent = fmtInt(currentData().length, lang);
     document.getElementById('kpi-vida').textContent = fmtInt(KPI_VALUES.vida, lang);
-    document.getElementById('kpi-releitura').textContent = KPI_VALUES.releitura;
+    document.getElementById('kpi-releitura').textContent = fmtInt(KPI_VALUES.releitura, lang);
     document.getElementById('kpi-completo').textContent = KPI_VALUES.completo + '%';
   }
 
