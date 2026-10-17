@@ -340,8 +340,22 @@ const navegador = await chromium.launch({
     nCit: Number(document.getElementById('forest-n-cit').textContent),
     losangos: document.querySelectorAll('.forest-head .forest-diamond').length,
   }));
-  if (!cit.titulo.includes('ci_t') || cit.heads < 2 || !(cit.nCit > 0 && cit.nCit < cit.nCi) || cit.losangos < 2) {
+  if (!cit.titulo.includes('ci_t') || cit.heads < 2 || cit.nCit !== cit.nCi || cit.losangos < 2) {
     problemas.push(`/metanalise/: o botão ci_t não trocou o forest (${JSON.stringify(cit)})`);
+  }
+  // F33 (Kiê, 2026-10-17): as três sensibilidades do ci_t (vida média da família) também cobrem todos os pares
+  const globais = {};
+  for (const m of ['citf', 'citm', 'citn']) {
+    await meta.pagina.click(`#forest-radio-${m}`);
+    await meta.pagina.waitForTimeout(150);
+    globais[m] = await meta.pagina.evaluate(() => ({
+      heads: document.querySelectorAll('.forest-head').length,
+      n: Number(document.getElementById('forest-n-ci').textContent) - Number(document.querySelector('#forest-radio-' + document.querySelector('input[name=forest-metric]:checked').value.replace('ci', 'ci') ).closest('label').querySelector('.tier-n').textContent),
+      valor: document.querySelector('.forest-item-overall .forest-value b')?.textContent,
+    }));
+  }
+  if (new Set(Object.values(globais).map((g) => g.valor)).size < 2 || Object.values(globais).some((g) => g.heads < 2 || g.n !== 0)) {
+    problemas.push(`/metanalise/: as sensibilidades do ci_t (média da família) não deram valores próprios (${JSON.stringify(globais)})`);
   }
   await meta.pagina.click('#forest-radio-ci');
   await meta.pagina.waitForTimeout(150);
