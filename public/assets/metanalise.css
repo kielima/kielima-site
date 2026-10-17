@@ -2176,3 +2176,44 @@ html.ficha-medir .ficha-sec {
   color: var(--ink);
   border-color: var(--ink-40);
 }
+
+/* Marcas que se ligam e desligam na legenda do forest (Kiê, 2026-10-17):
+   mediana dos pares (círculo vazio) e média simples dos pares (quadrado vazio). */
+.forest-bar-media {
+  background: var(--bg) !important;
+  border: 1.5px solid var(--ink);
+  border-radius: 1px;
+  box-sizing: border-box;
+  width: 9px;
+  height: 9px;
+  z-index: 1;
+}
+
+.forest-leg-media::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid var(--ink-65);
+  border-radius: 1px;
+  box-sizing: border-box;
+  transform: translate(-50%, -50%);
+}
+
+.forest-leg-toggle {
+  cursor: pointer;
+  padding: 3px 8px 3px 6px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.forest-leg-toggle input {
+  margin: 0;
+  accent-color: var(--green);
+}
+
+.forest-leg-toggle:has(input:not(:checked)) {
+  color: var(--ink-40);
+}
