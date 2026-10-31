@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CiclApp — Treino</title>
+<meta name="robots" content="noindex" />
+<link rel="stylesheet" href="../estilo.css" />
+<style>
+  .ficha-topo { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+  .editor label { display: block; font-size: 13px; opacity: .8; margin: 10px 0 4px; }
+  .editor input[type=text], .editor textarea { width: 100%; }
+  .editor textarea { min-height: 60px; }
+  .editor td input { width: 100%; min-width: 60px; }
+  .editor td.num input { width: 70px; min-width: 0; }
+  .resultados { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; max-height: 260px; overflow-y: auto; }
+  .resultados button { text-align: left; }
+  .grafico { width: 100%; height: auto; display: block; margin: 8px 0 4px; }
+  .grafico text { fill: currentColor; font-size: 11px; opacity: .7; }
+  .grafico .eixo { stroke: currentColor; opacity: .2; }
+  .grafico .linha { fill: none; stroke: var(--realce); stroke-width: 2.5; }
+  .grafico .ponto { fill: var(--realce); }
+  .grafico .barra { fill: var(--realce); opacity: .85; }
+  .barra-h { display: grid; grid-template-columns: minmax(90px, 160px) 1fr 40px; gap: 8px; align-items: center; font-size: 14px; margin: 4px 0; }
+  .barra-h div.trilho { background: rgba(128, 128, 128, .15); border-radius: 4px; height: 10px; }
+  .barra-h div.trilho span { display: block; height: 100%; background: var(--realce); border-radius: 4px; }
+  details summary { cursor: pointer; }
+</style>
+</head>
+<body>
+
+<div id="login-screen" class="center-screen hidden">
+  <h2>CiclApp — Treino</h2>
+  <p class="muted">Entre com a mesma conta Google usada no app.</p>
+  <button class="primary" id="login-btn">Entrar com Google</button>
+  <p id="login-error" class="erro"></p>
+</div>
+
+<div id="app-screen" class="hidden">
+  <header>
+    <h1><a href="../" style="text-decoration:none">CiclApp</a></h1>
+    <nav class="secoes">
+      <a href="../estudos/">Estudos</a>
+      <a href="./" aria-current="page">Treino</a>
+    </nav>
+    <div class="conta">
+      <span id="user-email" class="muted"></span>
+      <button id="logout-btn">Sair</button>
+    </div>
+  </header>
+  <div class="container">
+    <nav id="abas" class="lateral">
+      <button data-aba="fichas">Fichas</button>
+      <button data-aba="historico">Histórico</button>
+      <button data-aba="evolucao">Evolução</button>
+    </nav>
+    <main id="content"></main>
+  </div>
+</div>
+
+<datalist id="tipos">
+  <option value="Musculação"></option>
+  <option value="Cardio"></option>
+  <option value="HIIT"></option>
+  <option value="Yoga"></option>
+  <option value="Pilates"></option>
+  <option value="Funcional"></option>
+  <option value="Mobilidade"></option>
+  <option value="Outro"></option>
+</datalist>
+
+<script type="module" src="treino.js"></script>
+</body>
+</html>
