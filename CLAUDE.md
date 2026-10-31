@@ -83,6 +83,22 @@ sem i18n, fora do `npm run navegador` (não porque carregue algo externo — nã
 carrega — mas por ser uso pessoal, não conteúdo de portfólio, mesma lógica do
 `/foguinho/`) e fora da navegação (home/tree) de propósito.
 
+`public/ciclapp/` é a mesma categoria de exceção que `/dec/`: cópia automática
+das páginas web do CiclApp (app Android pessoal de rotina). **A fonte de verdade
+é a pasta `web/` do repositório `KittyMouth/ciclapp`**; o workflow
+`.github/workflows/sync-to-site.yml` de lá copia `web/` para cá a cada mudança e
+abre um PR neste repositório, que passa pelo `npm run testar` normal e é
+auto-mesclado. **Nunca editar `public/ciclapp/` diretamente aqui**: a próxima
+sincronização sobrescreve. São três páginas: entrada (`/ciclapp/`), estudos
+(`/ciclapp/estudos/`, revisões geradas pela IA via Edge Function do Supabase) e
+treino (`/ciclapp/treino/`, fichas editáveis, histórico e evolução das cargas,
+lidos e gravados no Firestore do projeto `ciclapp-1180a`). Login com Google pelo
+Firebase Auth: `kielima.com` precisa estar nos "Authorized domains" do projeto
+Firebase. Carregam o SDK do Firebase de `gstatic.com`, só português, sem i18n,
+fora do `npm run navegador` (código externo, mesma lógica do `/dec/`) e fora da
+navegação (home/tree) de propósito: é uso pessoal. Em paralelo continuam no
+Firebase Hosting (`ciclapp-1180a.web.app`) até a Kiê confirmar a migração.
+
 **Ícone do app (`public/foguinho/icons/`): monograma "KL".** Especificação
 completa em `vault-carreira/02_BRANDING PESSOAL/logotipo.md` (repositório
 separado, fora deste). Resumo: Newsreader peso 300, K reto + L itálico

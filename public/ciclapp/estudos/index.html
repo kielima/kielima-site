@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CiclApp — Estudos</title>
+<link rel="stylesheet" href="../estilo.css" />
+<style>
+  details.q summary { cursor:pointer; }
+  #tag-input { font-size:13px; width:100px; padding:3px 6px; }
+</style>
+</head>
+<body>
+
+<div id="login-screen" class="center-screen hidden">
+  <h2>CiclApp — Estudos</h2>
+  <p class="muted">Entre com a mesma conta Google usada no app.</p>
+  <button class="primary" id="login-btn">Entrar com Google</button>
+  <p id="login-error" class="erro"></p>
+</div>
+
+<div id="app-screen" class="hidden">
+  <header>
+    <h1><a href="../" style="text-decoration:none">CiclApp</a></h1>
+    <nav class="secoes">
+      <a href="./" aria-current="page">Estudos</a>
+      <a href="../treino/">Treino</a>
+    </nav>
+    <div class="conta">
+      <span id="user-email" class="muted"></span>
+      <button id="logout-btn">Sair</button>
+    </div>
+  </header>
+  <div class="container">
+    <nav id="tag-nav" class="lateral"></nav>
+    <main id="content"></main>
+  </div>
+</div>
+
+<script type="module">
+  import { auth, $, escapeHtml, iniciarLogin, SUPABASE_URL, SUPABASE_ANON_KEY } from "../comum.js";
+
+  const FUNCTION_URL = SUPABASE_URL + "/functions/v1/generate-review";
+
+  let allRecords = [];
+  let selectedTag = null;
+
+  iniciarLogin({ aoEntrar: () => loadRecords() });
+
+  async function authedFetch(method, body) {
+    const token = await auth.currentUser.getIdToken();
+    const res = await fetch(FUNCTION_URL, {
+      method,
+      headers: { "Content-Type": "application/json", apikey: SUPABASE_ANON_KEY, Authorization: "Bearer " + token },
+      body: body ? JSON.stringify(body) : undefined,
+    });
+    const responseJson = await res.json();
+    if (!res.ok || !responseJson.success) throw new Error(responseJson.error || "Erro " + res.status);
+    return responseJson;
+  }
+
+  async function loadRecords() {
+    $("content").innerHTML = "<p class='muted'>Carregando…</p>";
+    try {
+      const { data } = await authedFetch("GET");
+      allRecords = data || [];
+      renderTagNav();
+      renderContent();
+    } catch (e) {
+      $("content").innerHTML = "<p class='erro'>" + escapeHtml(e.message) + "</p>";
+    }
+  }
+
+  function renderTagNav() {
+    const tagCounts = new Map();
+    allRecords.forEach((r) => (r.tags || []).forEach((t) => tagCounts.set(t, (tagCounts.get(t) || 0) + 1)));
+    const nav = $("tag-nav");
+    nav.innerHTML = "";
+
+    const allBtn = document.createElement("button");
+    allBtn.textContent = `Todas (${allRecords.length})`;
+    allBtn.className = selectedTag === null ? "active" : "";
+    allBtn.onclick = () => { selectedTag = null; renderTagNav(); renderContent(); };
+    nav.appendChild(allBtn);
+
+    [...tagCounts.entries()].sort((a, b) => b[1] - a[1]).forEach(([tag, count]) => {
+      const btn = document.createElement("button");
+      btn.textContent = `${tag} (${count})`;
+      btn.className = selectedTag === tag ? "active" : "";
+      btn.onclick = () => { selectedTag = tag; renderTagNav(); renderContent(); };
+      nav.appendChild(btn);
+    });
+  }
+
+  /** Extrai o primeiro bloco {...} balanceado (resposta do Claude pode vir com texto em volta). */
+  function extractJsonBlock(raw) {
+    if (!raw) return null;
+    const start = raw.indexOf("{");
+    if (start === -1) return null;
+    let depth = 0, inString = false, escaped = false;
+    for (let i = start; i < raw.length; i++) {
+      const c = raw[i];
+      if (inString) {
+        if (escaped) escaped = false;
+        else if (c === "\\") escaped = true;
+        else if (c === '"') inString = false;
+        continue;
+      }
+      if (c === '"') inString = true;
+      else if (c === "{") depth++;
+      else if (c === "}") { depth--; if (depth === 0) return raw.slice(start, i + 1); }
+    }
+    return null;
+  }
+
+  function renderContent() {
+    const main = $("content");
+    const list = selectedTag ? allRecords.filter((r) => (r.tags || []).includes(selectedTag)) : allRecords;
+    if (list.length === 0) {
+      main.innerHTML = "<p class='muted'>Nenhum conteúdo gerado ainda.</p>";
+      return;
+    }
+    main.innerHTML = "";
+    list.forEach((record) => main.appendChild(renderCard(record)));
+  }
+
+  function renderCard(record) {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    let parsed = null;
+    try {
+      const block = extractJsonBlock(record.response_json);
+      parsed = JSON.parse(block || record.response_json);
+    } catch { /* mostra só tema/data/tags se o JSON vier inesperado */ }
+
+    const title = document.createElement("h3");
+    title.textContent = record.tema || "(sem tema)";
+    card.appendChild(title);
+
+    const date = document.createElement("div");
+    date.className = "muted";
+    date.textContent = new Date(record.created_at).toLocaleString("pt-BR");
+    card.appendChild(date);
+
+    if (parsed?.resumo) {
+      const p = document.createElement("p");
+      p.textContent = parsed.resumo;
+      card.appendChild(p);
+    }
+
+    if (parsed?.conceitos?.length) {
+      const strong = document.createElement("strong");
+      strong.textContent = "Conceitos";
+      card.appendChild(strong);
+      const ul = document.createElement("ul");
+      parsed.conceitos.forEach((c) => {
+        const li = document.createElement("li");
+        li.textContent = `${c.nome}: ${c.explicacao}`;
+        ul.appendChild(li);
+      });
+      card.appendChild(ul);
+    }
+
+    if (parsed?.perguntas?.length) {
+      const details = document.createElement("details");
+      details.className = "q";
+      const summary = document.createElement("summary");
+      summary.textContent = `${parsed.perguntas.length} pergunta(s) de revisão`;
+      details.appendChild(summary);
+      const ul = document.createElement("ul");
+      parsed.perguntas.forEach((q) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<strong>${escapeHtml(q.pergunta)}</strong><br/><span class="muted">${escapeHtml(q.resposta_esperada)}</span>`;
+        ul.appendChild(li);
+      });
+      details.appendChild(ul);
+      card.appendChild(details);
+    }
+
+    const tagsWrap = document.createElement("div");
+    tagsWrap.style.marginTop = "10px";
+    const renderTags = () => {
+      tagsWrap.innerHTML = "";
+      (record.tags || []).forEach((tag) => {
+        const chip = document.createElement("span");
+        chip.className = "chip";
+        chip.textContent = tag;
+        const rm = document.createElement("button");
+        rm.textContent = "×";
+        rm.title = "Remover tag";
+        rm.onclick = async () => {
+          record.tags = (record.tags || []).filter((t) => t !== tag);
+          renderTags();
+          await saveTags(record);
+        };
+        chip.appendChild(rm);
+        tagsWrap.appendChild(chip);
+      });
+      const addInput = document.createElement("input");
+      addInput.id = "tag-input";
+      addInput.placeholder = "nova tag";
+      addInput.onkeydown = async (e) => {
+        if (e.key === "Enter" && addInput.value.trim()) {
+          const t = addInput.value.trim();
+          if (!(record.tags || []).includes(t)) record.tags = [...(record.tags || []), t];
+          addInput.value = "";
+          renderTags();
+          await saveTags(record);
+        }
+      };
+      tagsWrap.appendChild(addInput);
+    };
+    renderTags();
+    card.appendChild(tagsWrap);
+
+    return card;
+  }
+
+  async function saveTags(record) {
+    try {
+      await authedFetch("POST", { action: "update_tags", id: record.id, tags: record.tags });
+      renderTagNav();
+    } catch (e) {
+      alert("Não consegui salvar as tags: " + e.message);
+    }
+  }
+</script>
+</body>
+</html>
