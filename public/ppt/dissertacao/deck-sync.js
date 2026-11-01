@@ -246,8 +246,10 @@
 
       // Auto-conexão se a página foi aberta via QR (?room=CODE).
       const params = new URLSearchParams(location.search);
+      // Só um código de sala com a forma que roomCode() gera (5 caracteres
+      // base36): o valor vem da URL e entra no painel.
       const r = params.get('room');
-      if (r) this.start(r);
+      if (r && /^[a-z0-9]{5}$/i.test(r)) this.start(r.toLowerCase());
     },
 
     publish(obj) {
@@ -602,10 +604,12 @@
         '<div class="ds-status"><span class="s-dot"></span>' +
           '<span class="ds-status-text"></span></div>' +
         '<div class="ds-qr"></div>' +
-        '<div class="ds-code">' + (sync.room || '').toUpperCase() + '</div>' +
+        '<div class="ds-code"></div>' +
         '<div class="ds-code-label">Escaneie o QR code ou abra a sala neste código</div>' +
         '<button class="ds-btn ghost" data-act="stop">Encerrar sincronização</button>';
       renderedView = 'active';
+      // O código da sala entra como texto, nunca como HTML.
+      panel.querySelector('.ds-code').textContent = (sync.room || '').toUpperCase();
       statusEl = panel.querySelector('.ds-status-text');
       renderQR(sync.joinUrl());
     }

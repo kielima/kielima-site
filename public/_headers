@@ -1,0 +1,13 @@
+# Cabeçalhos de segurança do site (01/11/2026). Lido pelos Workers Static
+# Assets da Cloudflare, que servem a pasta public/. Só os que não quebram
+# nada: nenhuma página do site precisa ser enquadrada por outro site, nenhum
+# asset depende de o navegador adivinhar o tipo, e nenhum link de saída
+# precisa levar o endereço completo da página no Referer. Uma
+# Content-Security-Policy fica para depois, porque as apresentações em /ppt
+# carregam bibliotecas de CDNs e teriam de ter regras próprias.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
