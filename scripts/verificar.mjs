@@ -150,6 +150,24 @@ if (existsSync(ci)) {
   }
 }
 
+/* 9 — Os cabeçalhos de segurança continuam no lugar ------------------------
+   public/_headers é o único ponto onde o site diz ao navegador para não
+   adivinhar tipo de arquivo, não se deixar enquadrar por outro site e não
+   mandar o endereço completo no Referer. Ele já foi apagado uma vez (22/08/
+   2026, quando só servia ao Content-Type dos .vcf) e ninguém notou, porque
+   a falta de um cabeçalho não aparece em tela nenhuma. */
+{
+  const cabecalhos = join(PUBLICO, '_headers');
+  if (!existsSync(cabecalhos)) {
+    erros.push('public/_headers: não existe — os cabeçalhos de segurança do site moram nele');
+  } else {
+    const conteudo = readFileSync(cabecalhos, 'utf8');
+    for (const linha of ['X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Referrer-Policy: ']) {
+      if (!conteudo.includes(linha)) erros.push(`public/_headers: falta "${linha.trim()}"`);
+    }
+  }
+}
+
 if (erros.length) {
   console.error(`\n✗ ${erros.length} problema(s):\n`);
   for (const e of erros) console.error(`  · ${e}`);

@@ -12,6 +12,10 @@ on:
   # workflow_dispatch depois de mesclar na main.
   workflow_dispatch:
 
+# Só leitura: este workflow ensaia, não escreve em lugar nenhum.
+permissions:
+  contents: read
+
 jobs:
   verificar:
     name: Ensaios
