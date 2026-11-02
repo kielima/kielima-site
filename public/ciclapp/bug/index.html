@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CiclApp — Reportar bug</title>
+<meta name="robots" content="noindex" />
+<link rel="stylesheet" href="../estilo.css" />
+<style>
+  .formulario { max-width: 640px; margin: 0 auto; padding: 20px; }
+  .formulario label { display: block; font-size: 13px; opacity: .8; margin: 14px 0 4px; }
+  .formulario input, .formulario textarea { width: 100%; }
+  .formulario textarea { min-height: 180px; resize: vertical; }
+  .formulario .linha-acoes { margin-top: 16px; }
+  .ok { color: var(--realce); }
+</style>
+</head>
+<body>
+
+<div id="login-screen" class="center-screen hidden">
+  <h2>CiclApp — Reportar bug</h2>
+  <p class="muted">Entre com a mesma conta Google usada no app.</p>
+  <button class="primary" id="login-btn">Entrar com Google</button>
+  <p id="login-error" class="erro"></p>
+</div>
+
+<div id="app-screen" class="hidden">
+  <header>
+    <h1><a href="../" style="text-decoration:none">CiclApp</a></h1>
+    <nav class="secoes">
+      <a href="../estudos/">Estudos</a>
+      <a href="../treino/">Treino</a>
+      <a href="./" aria-current="page">Reportar bug</a>
+    </nav>
+    <div class="conta">
+      <span id="user-email" class="muted"></span>
+      <button id="logout-btn">Sair</button>
+    </div>
+  </header>
+  <form id="bug-form" class="formulario" novalidate>
+    <h2>Reportar bug</h2>
+    <p class="muted">Conte o que aconteceu, onde (app ou site, qual tela) e o que você esperava.
+      O relato vira uma tarefa no projeto CiclApp.</p>
+    <label for="bug-titulo">Título curto</label>
+    <input id="bug-titulo" type="text" maxlength="160" required placeholder="Ex.: Treino não salva a carga" />
+    <label for="bug-descricao">O que aconteceu</label>
+    <textarea id="bug-descricao" maxlength="8000" required
+      placeholder="Passos para repetir, o que apareceu na tela, aparelho/navegador…"></textarea>
+    <div class="linha-acoes">
+      <button class="primary" id="bug-enviar" type="submit">Enviar</button>
+      <span id="bug-status" class="muted" role="status" aria-live="polite"></span>
+    </div>
+  </form>
+</div>
+
+<script type="module" src="bug.js"></script>
+</body>
+</html>
