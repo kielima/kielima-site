@@ -719,6 +719,10 @@
   /* Posiciona um tooltip perto do cursor sem deixá-lo sair da caixa do
      gráfico — os marcos de correção ficam sempre no fim da linha do tempo,
      então sem isto o card abria cortado na borda direita. */
+  function escHtml(t) {
+    return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
   function positionTooltip(tooltip, wrap, ev) {
     var box = wrap.getBoundingClientRect();
     var relX = ev.clientX - box.left;
@@ -1134,7 +1138,7 @@
         'data-cat': cat
       });
       c.addEventListener('mousemove', function (ev) {
-        tooltip.innerHTML = '<b>' + strings.cats[cat] + '</b><br>' +
+        tooltip.innerHTML = (d[4] ? '<b>' + escHtml(d[4]) + '</b><br>' : '') + strings.cats[cat] + '<br>' +
           strings.scatterXLabel.replace(/\s*\(.*/, '') + ': ' + d[0] + ' MPa<br>' +
           'CO₂: ' + d[1] + ' kg/m³<br>' +
           strings.tooltipCi + ': ' + (d[0] ? (d[1] / d[0]).toFixed(2) : '—');
