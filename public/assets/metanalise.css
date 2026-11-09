@@ -2217,3 +2217,13 @@ html.ficha-medir .ficha-sec {
 .forest-leg-toggle:has(input:not(:checked)) {
   color: var(--ink-40);
 }
+
+/* Funil em trapézios (#1484) */
+.funnel-trap {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  margin: 0 auto;
+  font-family: var(--sans);
+}
