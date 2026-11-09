@@ -859,6 +859,50 @@
      estado da dispersão. */
   var funnelOpen = {};
 
+  /* Funil clássico em trapézios (#1484, formato escolhido pela Kiê em
+     2026-11-02): topo de cada faixa proporcional ao n da etapa, base ao n da
+     seguinte; a última etapa termina em retângulo. Largura mínima de 24 px
+     para o 466 não sumir. Rótulos à direita, fora da forma. */
+  function renderFunnelTrap(strings, lang) {
+    var svg = document.getElementById('funnel-trap');
+    if (!svg) return;
+    var NS = 'http://www.w3.org/2000/svg';
+    svg.textContent = '';
+    var t = document.createElementNS(NS, 'title');
+    t.id = 'funnel-trap-title';
+    t.textContent = strings.funnelTitle;
+    svg.appendChild(t);
+    var cx = 180, maxW = 340, minW = 24, bandH = 50, gap = 6, labelX = 380;
+    var max = FUNNEL[0].n;
+    function w(n) { return Math.max(minW, maxW * n / max); }
+    FUNNEL.forEach(function (st, i) {
+      var y = i * (bandH + gap) + 4;
+      var w1 = w(st.n);
+      var w2 = i < FUNNEL.length - 1 ? w(FUNNEL[i + 1].n) : w1;
+      var poly = document.createElementNS(NS, 'polygon');
+      poly.setAttribute('points', [
+        (cx - w1 / 2) + ',' + y, (cx + w1 / 2) + ',' + y,
+        (cx + w2 / 2) + ',' + (y + bandH), (cx - w2 / 2) + ',' + (y + bandH)
+      ].join(' '));
+      poly.setAttribute('fill', 'var(--green)');
+      poly.setAttribute('fill-opacity', String(0.95 - i * 0.15));
+      svg.appendChild(poly);
+      var num = document.createElementNS(NS, 'text');
+      num.setAttribute('x', labelX); num.setAttribute('y', y + 22);
+      num.setAttribute('fill', 'var(--ink)');
+      num.setAttribute('font-size', '20');
+      num.setAttribute('font-weight', '600');
+      num.textContent = fmtInt(st.n, lang);
+      svg.appendChild(num);
+      var lab = document.createElementNS(NS, 'text');
+      lab.setAttribute('x', labelX); lab.setAttribute('y', y + 42);
+      lab.setAttribute('fill', 'var(--ink-65)');
+      lab.setAttribute('font-size', '13');
+      lab.textContent = String(strings.funnelStages[st.key]).split(/ — | \(/)[0];
+      svg.appendChild(lab);
+    });
+  }
+
   function renderFunnel(strings, lang) {
     var list = document.getElementById('funnel-list');
     list.textContent = '';
@@ -2203,6 +2247,7 @@
     renderBaseCounts(lang);
     renderTierCounts(lang);
     renderScatterDesc(strings, lang);
+    renderFunnelTrap(strings, lang);
     renderFunnel(strings, lang);
     renderScatter(strings);
     renderLegend(strings);
