@@ -2227,3 +2227,62 @@ html.ficha-medir .ficha-sec {
   margin: 0 auto;
   font-family: var(--sans);
 }
+
+/* ------------------------------------------------ fluxograma PRISMA (2026-11-10) */
+
+.prisma { display: flex; flex-direction: column; gap: 14px; }
+
+.prisma-phase {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+  font-weight: 400;
+  margin: 18px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.prisma-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 760px) {
+  .prisma-row { grid-template-columns: 1.15fr 1fr; align-items: stretch; }
+  .prisma-row .prisma-main:only-child { grid-column: 1 / 2; }
+}
+
+.prisma-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: 1px solid var(--ink-16);
+  border-radius: 12px;
+  padding: 16px 18px;
+  background: var(--bg);
+}
+
+.prisma-main { border-color: var(--green); }
+.prisma-out { border-style: dashed; }
+
+.prisma-n {
+  font-family: var(--serif);
+  font-size: clamp(26px, 3vw, 34px);
+  line-height: 1;
+  color: var(--green);
+}
+
+.prisma-t { font-size: 15px; line-height: 1.4; color: var(--ink); }
+
+.prisma-d {
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.55;
+  letter-spacing: 0.02em;
+  color: var(--ink-50);
+}
+
+.prisma-note { font-size: 14px; }
