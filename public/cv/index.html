@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiê Lima — Currículo</title>
+<meta name="description" content="Currículo completo de Kiê Lima: engenharia civil, mestrado em Sistemas de Infraestrutura Urbana, pesquisa em Avaliação de Ciclo de Vida de concretos sustentáveis, publicações, experiência e habilidades.">
+<meta name="theme-color" content="#f8f8f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d110e" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://kielima.com/cv">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Kiê Lima — Currículo">
+<meta property="og:description" content="Formação, pesquisa, publicações, experiência e habilidades.">
+<meta property="og:url" content="https://kielima.com/cv">
+<meta name="twitter:card" content="summary">
+
+<!-- Mesmo tema escolhido nas outras páginas, aplicado antes da primeira pintura -->
+<script>
+  try {
+    var t = localStorage.getItem('kl-theme');
+    if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;1,400;1,500&family=Geist:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/base.css">
+<link rel="stylesheet" href="/assets/cv.css">
+</head>
+<body>
+
+<div class="shell cv-shell">
+
+  <header class="cv-topbar">
+    <a class="back-link" href="/">← <span data-i18n="back"></span></a>
+    <div class="cv-actions">
+      <button type="button" class="theme-toggle" id="theme-toggle">
+        <svg class="icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><line x1="12" y1="2.6" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="21.4"></line><line x1="2.6" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="21.4" y2="12"></line><line x1="5.6" y1="5.6" x2="7.3" y2="7.3"></line><line x1="16.7" y1="16.7" x2="18.4" y2="18.4"></line><line x1="5.6" y1="18.4" x2="7.3" y2="16.7"></line><line x1="16.7" y1="7.3" x2="18.4" y2="5.6"></line></svg>
+        <svg class="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.2 14.6A8.6 8.6 0 0 1 9.4 3.8a8.6 8.6 0 1 0 10.8 10.8z"></path></svg>
+      </button>
+      <select class="lang-select" id="lang-select" aria-label="Idioma / Language / 语言">
+        <option value="PT">PT</option>
+        <option value="EN">EN</option>
+        <option value="ZH">中文</option>
+      </select>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="cv-intro">
+      <span class="kicker" data-i18n="kicker"></span>
+      <h1 id="hero-name">Kiê Lima</h1>
+      <p class="cv-role" data-i18n="role"></p>
+      <p class="lead" data-i18n="lead"></p>
+      <span class="cv-updated" data-i18n="updated"></span>
+    </section>
+
+    <div class="rule rule--cv"></div>
+
+    <!-- A frente acadêmica vem primeiro, de propósito: é o eixo da trajetória. -->
+    <section class="cv-section" id="pesquisa">
+      <span class="section-label" data-i18n="researchLabel"></span>
+      <h2 data-i18n="researchTitle"></h2>
+      <p data-i18n="researchP1"></p>
+      <p data-i18n="researchP2"></p>
+      <ul class="cv-list" id="cv-research"></ul>
+    </section>
+
+    <section class="cv-section" id="publicacoes">
+      <span class="section-label" data-i18n="pubsLabel"></span>
+      <ul class="cv-pubs" id="cv-pubs"></ul>
+    </section>
+
+    <section class="cv-section" id="apresentacoes">
+      <span class="section-label" data-i18n="talksLabel"></span>
+      <ul class="cv-list" id="cv-talks"></ul>
+    </section>
+
+    <div class="rule rule--cv"></div>
+
+    <section class="cv-section" id="formacao">
+      <span class="section-label" data-i18n="educationLabel"></span>
+      <ul class="cv-list" id="cv-education"></ul>
+    </section>
+
+    <section class="cv-section" id="experiencia">
+      <span class="section-label" data-i18n="experienceLabel"></span>
+      <ul class="cv-list" id="cv-experience"></ul>
+    </section>
+
+    <section class="cv-section" id="voluntariado">
+      <span class="section-label" data-i18n="volunteerLabel"></span>
+      <ul class="cv-list" id="cv-volunteer"></ul>
+    </section>
+
+    <div class="rule rule--cv"></div>
+
+    <section class="cv-section cv-section--grid" id="complementar">
+      <div>
+        <span class="section-label" data-i18n="coursesLabel"></span>
+        <ul class="cv-tags" id="cv-courses"></ul>
+      </div>
+      <div>
+        <span class="section-label" data-i18n="skillsLabel"></span>
+        <ul class="cv-tags" id="cv-skills"></ul>
+      </div>
+      <div>
+        <span class="section-label" data-i18n="languagesLabel"></span>
+        <ul class="cv-langs" id="cv-languages"></ul>
+      </div>
+    </section>
+
+    <div class="rule rule--cv"></div>
+
+    <section class="cv-section" id="contato">
+      <span class="section-label" data-i18n="contactLabel"></span>
+      <p data-i18n="contactP"></p>
+      <ul class="cv-contact">
+        <li><a href="mailto:kie@kielima.com">kie@kielima.com</a></li>
+        <li><a href="https://www.linkedin.com/in/kielima/" target="_blank" rel="noopener">linkedin.com/in/kielima</a></li>
+        <li><a href="http://lattes.cnpq.br/8777364542894550" target="_blank" rel="noopener">lattes.cnpq.br/8777364542894550</a></li>
+        <li><a href="https://orcid.org/0000-0003-0294-5676" target="_blank" rel="noopener">orcid.org/0000-0003-0294-5676</a></li>
+        <li><a href="https://github.com/kielima" target="_blank" rel="noopener">github.com/kielima</a></li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="cv-footer">
+    <span>kielima.com/cv</span>
+    <span>© 2026 Kiê Lima</span>
+  </footer>
+
+</div>
+
+<script src="/assets/i18n.js"></script>
+<script src="/assets/theme.js"></script>
+<script src="/assets/cv.js"></script>
+</body>
+</html>

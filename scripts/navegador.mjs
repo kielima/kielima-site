@@ -544,6 +544,27 @@ const navegador = await chromium.launch({
   await abrir(navegador, '/metanalise/dados/', { viewport: { width: 390, height: 844 } }).then((r) => r.ctx.close());
 }
 
+/* ---- Currículo ----------------------------------------------------------- */
+{
+  const cv = await abrir(navegador, '/cv/');
+  await conferirIdiomas(cv, {
+    '#cv-research li': 4,
+    '#cv-pubs li': 2,
+    '#cv-education li': 3,
+    '#cv-experience li': 3,
+    '#cv-languages li': 3,
+    '.cv-contact a': 5,
+  });
+
+  // O nome em duas partes precisa do realce no sobrenome, como na home.
+  const realce = await cv.pagina.evaluate(() => !!document.querySelector('#hero-name .accent'));
+  if (!realce) problemas.push('/cv/: o sobrenome ficou sem o realce do wordmark');
+
+  await cv.ctx.close();
+  await abrir(navegador, '/cv/', { tema: 'dark' }).then((r) => r.ctx.close());
+  await abrir(navegador, '/cv/', { viewport: { width: 390, height: 844 } }).then((r) => r.ctx.close());
+}
+
 /* ---- Navegação entre páginas --------------------------------------------- */
 {
   const { pagina, ctx } = await abrir(navegador, '/cartao/');

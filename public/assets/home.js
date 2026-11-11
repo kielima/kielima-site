@@ -15,6 +15,7 @@
       navResearch: 'Pesquisa',
       navPpt: 'Apresentações',
       navMetanalise: 'Metanálise',
+      navCv: 'Currículo',
       navContact: 'Contato',
 
       heroKicker: 'ENGENHARIA CIVIL · PESQUISA · SUSTENTABILIDADE',
@@ -68,6 +69,7 @@
       navResearch: 'Research',
       navPpt: 'Presentations',
       navMetanalise: 'Meta-analysis',
+      navCv: 'CV',
       navContact: 'Contact',
 
       heroKicker: 'CIVIL ENGINEERING · RESEARCH · SUSTAINABILITY',
@@ -121,6 +123,7 @@
       navResearch: '研究',
       navPpt: '演示文稿',
       navMetanalise: '荟萃分析',
+      navCv: '简历',
       navContact: '联系',
 
       heroKicker: '土木工程 · 科研 · 可持续发展',
