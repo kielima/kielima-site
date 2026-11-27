@@ -147,7 +147,8 @@
   overflow: hidden;
 }
 
-.kpi-tile {
+.kpi-tile,
+.a4-tile {
   background: var(--bg);
   padding: 22px 20px;
   display: flex;
@@ -2286,3 +2287,76 @@ html.ficha-medir .ficha-sec {
 }
 
 .prisma-note { font-size: 14px; }
+
+/* ---------------------------------------------- transporte até à obra (A4)
+   F63 (Kiê, 2026-11-27): controlo distância × modo × factor do A4. */
+.a4-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 28px;
+  align-items: flex-end;
+  margin-bottom: 20px;
+}
+.a4-dist {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 220px;
+  flex: 1 1 220px;
+}
+.a4-dist input[type='range'] {
+  width: 100%;
+  accent-color: var(--green);
+}
+.a4-dist output {
+  font-family: var(--serif);
+  font-size: 22px;
+  color: var(--green);
+}
+.a4-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.a4-filter .tier-chip {
+  padding: 8px 12px;
+}
+.a4-kpis {
+  margin-bottom: 20px;
+}
+.a4-chart {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.a4-chart text {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  fill: var(--ink-50);
+}
+.a4-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-50);
+}
+.a4-legend span::before {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 2px;
+  margin-right: 6px;
+  vertical-align: middle;
+  background: currentColor;
+}
+
+.a4-ic {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink-50);
+}
