@@ -225,6 +225,54 @@
       <p class="forest-modelo-nota" id="forest-modelo-nota"></p>
     </section>
 
+    <section class="meta-section" id="a4-section">
+      <span class="section-label" data-i18n="a4Label"></span>
+      <h2 data-i18n="a4Title"></h2>
+      <p data-i18n="a4P"></p>
+      <div class="meta-card a4-card">
+        <div class="a4-controls">
+          <label class="a4-dist">
+            <span class="section-label" data-i18n="a4DistLabel"></span>
+            <input type="range" id="a4-km" min="0" max="300" step="10" value="100">
+            <output id="a4-km-out" for="a4-km">100 km</output>
+          </label>
+          <div class="a4-group">
+            <span class="section-label" data-i18n="a4ModoLabel"></span>
+            <div class="tier-filter a4-filter" role="radiogroup" id="a4-modo">
+              <label class="tier-chip"><input type="radio" name="a4-modo" value="betoneira" checked><span data-i18n="a4Modo_betoneira"></span></label>
+              <label class="tier-chip"><input type="radio" name="a4-modo" value="truck_3e"><span data-i18n="a4Modo_truck_3e"></span></label>
+              <label class="tier-chip"><input type="radio" name="a4-modo" value="carreta_4e"><span data-i18n="a4Modo_carreta_4e"></span></label>
+              <label class="tier-chip"><input type="radio" name="a4-modo" value="carreta_5e"><span data-i18n="a4Modo_carreta_5e"></span></label>
+            </div>
+          </div>
+          <div class="a4-group">
+            <span class="section-label" data-i18n="a4FacLabel"></span>
+            <div class="tier-filter a4-filter" role="radiogroup" id="a4-fac">
+              <label class="tier-chip"><input type="radio" name="a4-fac" value="1" checked><span>×1</span></label>
+              <label class="tier-chip"><input type="radio" name="a4-fac" value="1.5"><span>×1,5</span></label>
+              <label class="tier-chip"><input type="radio" name="a4-fac" value="2.5"><span>×2,5</span></label>
+            </div>
+          </div>
+          <div class="a4-group">
+            <div class="tier-filter a4-filter">
+              <label class="tier-chip"><input type="checkbox" id="a4-prov"><span data-i18n="a4Prov"></span></label>
+            </div>
+          </div>
+        </div>
+        <div class="kpi-grid a4-kpis">
+          <div class="a4-tile"><span class="kpi-value" id="a4-kpi-pares">—</span><span class="kpi-label" data-i18n="a4KpiPares"></span></div>
+          <div class="a4-tile"><span class="kpi-value" id="a4-kpi-a4">—</span><span class="kpi-label" data-i18n="a4KpiA4"></span></div>
+          <div class="a4-tile"><span class="kpi-value" id="a4-kpi-ci0">—</span><span class="kpi-label" data-i18n="a4KpiCi0"></span></div>
+          <div class="a4-tile"><span class="kpi-value" id="a4-kpi-ci1">—</span><span class="kpi-label" data-i18n="a4KpiCi1"></span></div>
+          <div class="a4-tile"><span class="kpi-value" id="a4-kpi-mu">—</span><span class="kpi-label" data-i18n="a4KpiMu"></span></div>
+          <div class="a4-tile"><span class="kpi-value" id="a4-kpi-dif">—</span><span class="kpi-label" data-i18n="a4KpiDif"></span></div>
+        </div>
+        <svg class="a4-chart" id="a4-chart" role="img" viewBox="0 0 640 280" preserveAspectRatio="xMidYMid meet"></svg>
+        <div class="a4-legend" id="a4-legend"></div>
+      </div>
+      <p class="forest-modelo-nota" id="a4-nota"></p>
+    </section>
+
     <section class="meta-section">
       <h2 data-i18n="unitChartTitle"></h2>
       <p data-i18n="unitChartP"></p>
